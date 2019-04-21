@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>HomematicIp</PackageId>
+    <Authors>Lars Beckmann</Authors>
+    <Product>HomematicIp</Product>
+    <Company />
+    <Description>This package allows to query the HomematicIp REST and WebSocket endpoint.</Description>
+    <Copyright>Lars Beckmann</Copyright>
+    <PackageLicenseFile></PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/larsbeck/HomematicIp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/larsbeck/HomematicIp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Homematic HomematicIP home automation</PackageTags>
+    <NeutralLanguage>en</NeutralLanguage>
+    <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/e/ed/Skycoin_Cloud_Logo_Blue.png</PackageIconUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Version>1.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="System.Net.WebSockets.Client" Version="4.3.2" />
+    <PackageReference Include="System.Reactive" Version="4.1.5" />
+  </ItemGroup>
+
+</Project>

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HomematicIp.Services\HomematicIp.Services.csproj" />
+    <ProjectReference Include="..\HomematicIp\HomematicIp.csproj" />
   </ItemGroup>
 
 </Project>
