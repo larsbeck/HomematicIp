@@ -1,0 +1,38 @@
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+
+namespace HomematicIp.Data.Enums
+{
+    [JsonConverter(typeof(StringEnumConverter))]
+    public enum GroupType
+    {
+        GROUP,
+        EXTENDED_LINKED_SHUTTER,
+        SHUTTER_WIND_PROTECTION_RULE,
+        LOCK_OUT_PROTECTION_RULE,
+        SMOKE_ALARM_DETECTION_RULE,
+        OVER_HEAT_PROTECTION_RULE,
+        SWITCHING_PROFILE,
+        HEATING_COOLING_DEMAND,
+        HEATING_COOLING_DEMAND_PUMP,
+        HEATING_COOLING_DEMAND_BOILER,
+        HEATING_DEHUMIDIFIER,
+        HEATING_EXTERNAL_CLOCK,
+        HEATING_FAILURE_ALERT_RULE_GROUP,
+        HEATING,
+        HUMIDITY_WARNING_RULE_GROUP,
+        SECURITY_ZONE,
+        INBOX,
+        HEATING_CHANGEOVER,
+        HEATING_TEMPERATURE_LIMITER,
+        HEATING_HUMIDITY_LIMITER,
+        ALARM_SWITCHING,
+        LINKED_SWITCHING,
+        EXTENDED_LINKED_SWITCHING,
+        SWITCHING,
+        SECURITY,
+        ENVIRONMENT,
+        SECURITY_BACKUP_ALARM_SWITCHING,
+        META,
+    }
+}

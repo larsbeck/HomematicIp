@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomematicIp.Console", "HomematicIp.Console\HomematicIp.Console.csproj", "{4988F46B-3485-4F3F-9A5F-42BEF6673186}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HomematicIp.Services", "HomematicIp.Services\HomematicIp.Services.csproj", "{FCB2CB0C-2D89-4AA7-92D7-5AD95BFCA637}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HomematicIp.Data", "HomematicIp.Data\HomematicIp.Data.csproj", "{0DD9B18F-4D4D-49C6-867E-674E205D8D2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4988F46B-3485-4F3F-9A5F-42BEF6673186}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4988F46B-3485-4F3F-9A5F-42BEF6673186}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4988F46B-3485-4F3F-9A5F-42BEF6673186}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4988F46B-3485-4F3F-9A5F-42BEF6673186}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCB2CB0C-2D89-4AA7-92D7-5AD95BFCA637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCB2CB0C-2D89-4AA7-92D7-5AD95BFCA637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCB2CB0C-2D89-4AA7-92D7-5AD95BFCA637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCB2CB0C-2D89-4AA7-92D7-5AD95BFCA637}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DD9B18F-4D4D-49C6-867E-674E205D8D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DD9B18F-4D4D-49C6-867E-674E205D8D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DD9B18F-4D4D-49C6-867E-674E205D8D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DD9B18F-4D4D-49C6-867E-674E205D8D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3EFF1074-BC0A-411C-A76A-146FA2CB7012}
+	EndGlobalSection
+EndGlobal
