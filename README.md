@@ -40,3 +40,5 @@ await events.LastOrDefaultAsync();
 Since there are a lot of Homematic devices, you might be presented with a message like this. In that case please open an issue, we will add the device asap:
 
 The HomematicIp Endpoint sent a message about an unknown HomematicIp Object (most likely a yet unsupported device). Please open an issue at https://github.com/larsbeck/HomematicIp to have this device added to the library. We will need the following: {...}
+
+### A big thank you for laying the groundwork goes to the creators of this Python library https://github.com/coreGreenberet/homematicip-rest-api
