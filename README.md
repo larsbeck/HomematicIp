@@ -78,7 +78,7 @@ The following code should be self-explanatory. If it is not, there are explanato
     }
 ```
 ## Yet unsupported devices
-Since there are a lot of Homematic devices, you might be presented with a message like the one below. In that case please open an issue, we will add the device asap:
+Since there are a lot of Homematic devices, you might be presented with a message like the one below. In that case please open an issue, we will add the device asap. Since the message in curly braces will most likely contain an Id that is unique to your device, you might want to edit that out before posting the message:
 
 `The HomematicIp Endpoint sent a message about an unknown HomematicIp Object (most likely a yet unsupported device). Please open an issue at https://github.com/larsbeck/HomematicIp to have this device added to the library. We will need the following: {...}`
 
