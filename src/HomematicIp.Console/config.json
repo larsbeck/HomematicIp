@@ -1,0 +1,8 @@
+{
+  "HomematicConfiguration": {
+    "AccessPointId": "YOUR_ACCESS_POINT_ID", //SGTIN
+    "Pin": "YOUR_PIN",
+    "ApplicationName": "MyAwesomeApp",
+    "AuthToken": "YOUR_AUTH_TOKEN" //you get this from this request: var authToken = await homematicAuthService.RequestAuthToken();
+  } 
+}

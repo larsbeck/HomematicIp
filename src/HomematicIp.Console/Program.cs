@@ -5,22 +5,48 @@ using System.Net.WebSockets;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using HomematicIp.Data;
 using HomematicIp.Data.HomematicIpObjects.Devices;
 using HomematicIp.Services;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace HomematicIp.Console
 {
     class Program
     {
+        private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        {
+            // Register the IOptions object
+            services.Configure<HomematicConfiguration>(configuration.GetSection(nameof(HomematicConfiguration)));
+            // Explicitly register the settings object by delegating to the IOptions object
+            services.AddSingleton(resolver =>
+                resolver.GetRequiredService<IOptions<HomematicConfiguration>>().Value);
+            services.AddLogging(configure => configure.AddConsole())
+                .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug)
+                .AddTransient<HomematicService>()
+                .AddTransient<HomematicAuthService>()
+                .AddTransient<ClientWebSocket>()
+                .AddTransient<Func<HttpClient>>(provider => () => new HttpClient());
+        }
         static async Task Main(string[] args)
         {
+            #region 0. Configuration and DependencyInjection
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Environment.CurrentDirectory)
+                .AddJsonFile("config.json", false, true)
+                .Build();
+            var serviceCollection = new ServiceCollection();
+            ConfigureServices(serviceCollection, configuration);
+            var serviceProvider = serviceCollection.BuildServiceProvider();
+            #endregion
+
             #region 1. Authorization
             //This region shows how to create an access token. You only need to do this once (until you revoke it)
-            HttpClient HttpClientFactory() => new HttpClient();
-            //also called SGTIN on the back of your access point
-            var accessPointId = "YOUR_ACCESS_POINT_ID";
-            //the pin is optional, pass null if you haven't secured your access point
-            var homematicAuthService = new HomematicAuthService(HttpClientFactory, accessPointId, "YOUR_PIN", "MyHomematicApp");
+            var homematicAuthService = serviceProvider.GetService<HomematicAuthService>();
             await homematicAuthService.ConnectionRequest();
             System.Console.WriteLine("Please press the blue button on the access point.");
             while (!await homematicAuthService.IsRequestAcknowledged())
@@ -28,12 +54,14 @@ namespace HomematicIp.Console
                 await Task.Delay(TimeSpan.FromSeconds(1));
             }
             var authToken = await homematicAuthService.RequestAuthToken();
-            await File.WriteAllTextAsync("config.txt", authToken);
+            System.Console.WriteLine($"The AuthToken is {authToken}. Put it in you config to use it for further requests.");
+            var homematicConfiguration = serviceProvider.GetService<HomematicConfiguration>();
+            homematicConfiguration.AuthToken = authToken;
+            System.Console.ReadLine();
             #endregion
 
             #region 2a. QueryRestEndpoint
-            //We are reusing the authToken that was received in the authorization process. Since you are only running that part once, you may consider reading the authToken from the config file: var authToken = await File.ReadAllTextAsync("config.txt");
-            var homematicService = new HomematicService(HttpClientFactory, accessPointId, authToken, new ClientWebSocket());
+            var homematicService = serviceProvider.GetService<HomematicService>();
             //if you ever want to cancel a request, use a CancellationToken
             var cts = new CancellationTokenSource();
             await homematicService.ConnectAsync(cts.Token);
@@ -42,7 +70,7 @@ namespace HomematicIp.Console
             System.Console.WriteLine($"This Homematic Installation has {homematicIpEnvironment.Clients.Count} connected Clients.");
             #endregion
 
-            #region 2b.QueryWebSocketEndpoint
+            #region 2b. QueryWebSocketEndpoint
             var events = homematicService.ReceiveEvents(cts.Token);
             //filter events by using Where and Subscribe. Here we only want to see events about ShutterContactDevices
             events.Where(notification => notification.HomematicIpObjectBase is ShutterContactDevice)

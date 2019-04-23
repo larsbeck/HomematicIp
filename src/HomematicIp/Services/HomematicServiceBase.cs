@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Globalization;
+using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using HomematicIp.Data;
 using HomematicIp.Data.Enums;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
@@ -15,23 +18,23 @@ namespace HomematicIp.Services
     public abstract class HomematicServiceBase
     {
         protected readonly Func<HttpClient> HttpClientFactory;
-        protected string AccessPointId;
+        protected readonly HomematicConfiguration HomematicConfiguration;
         protected string _clientAuthToken;
         protected HttpClient HttpClient;
         protected string UrlWebSocket;
         protected StringContent ClientCharacteristicsStringContent;
         protected const string CLIENTAUTH= "CLIENTAUTH";
 
-        protected HomematicServiceBase(Func<HttpClient> httpClientFactory, string accessPointId)
+        protected HomematicServiceBase(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration)
         {
             HttpClientFactory = httpClientFactory;
-            AccessPointId = accessPointId;
+            HomematicConfiguration = homematicConfiguration;
             HttpClient = httpClientFactory();
         }
         protected virtual async Task Initialize(ClientCharacteristicsRequestObject clientCharacteristicsRequestObject = null, CancellationToken cancellationToken = default)
         {
             if (clientCharacteristicsRequestObject == null)
-                clientCharacteristicsRequestObject = new ClientCharacteristicsRequestObject(AccessPointId);
+                clientCharacteristicsRequestObject = new ClientCharacteristicsRequestObject(HomematicConfiguration.AccessPointId);
             ClientCharacteristicsStringContent = GetStringContent(clientCharacteristicsRequestObject);
             var httpResponseMessage = await HttpClient.PostAsync("https://lookup.homematic.com:48335/getHost", ClientCharacteristicsStringContent, cancellationToken);
             RestAndWebSocketUrls restAndWebSocketUrls;
@@ -42,6 +45,10 @@ namespace HomematicIp.Services
             }
             else
             {
+                if ((int) httpResponseMessage.StatusCode == 418) //I'm a teapot message
+                {
+                    throw new ArgumentException($"It is highly likely that you accidentally mistyped your access point id.");
+                }
                 restAndWebSocketUrls = new RestAndWebSocketUrls { UrlREST = "https://ps1.homematic.com:6969/", UrlWebSocket = "wss://ps1.homematic.com:8888/" };
             }
             HttpClient = HttpClientFactory();
@@ -79,7 +86,7 @@ namespace HomematicIp.Services
             public string DeviceManufacturer { get; set; } = "none";
             public ClientDeviceType DeviceType { get; set; } = ClientDeviceType.Computer;
             public string Language => CultureInfo.CurrentCulture.Name;
-            public string OsType => Environment.OSVersion.Platform.ToString();
+            public string OsType =>  Environment.OSVersion.Platform.ToString();
             public string OsVersion => Environment.OSVersion.Version.ToString();
         }
         private string GetAccessPointIdWithoutDashes(string accessPointId)
@@ -96,10 +103,10 @@ namespace HomematicIp.Services
             {
                 if (_clientAuthToken == null)
                 {
-                    AccessPointId = GetAccessPointIdWithoutDashes(AccessPointId);
+                    HomematicConfiguration.AccessPointId = GetAccessPointIdWithoutDashes(HomematicConfiguration.AccessPointId);
                     using (SHA512 shaM = new SHA512Managed())
                     {
-                        var data = Encoding.UTF8.GetBytes($"{AccessPointId}jiLpVitHvWnIGD1yo7MA");
+                        var data = Encoding.UTF8.GetBytes($"{HomematicConfiguration.AccessPointId}jiLpVitHvWnIGD1yo7MA");
                         var hash = shaM.ComputeHash(data);
                         _clientAuthToken = BitConverter.ToString(hash).Replace("-", "").ToUpper();
                     }

@@ -13,6 +13,7 @@ using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects;
 using HomematicIp.Data.HomematicIpObjects.Groups;
 using HomematicIp.Data.HomematicIpObjects.Home;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,21 +21,21 @@ namespace HomematicIp.Services
 {
     public class HomematicService : HomematicServiceBase
     {
-        private readonly string _authToken;
         private readonly ClientWebSocket _clientWebSocket;
+        private readonly ILogger<HomematicService> _logger;
         protected const string AUTHTOKEN = "AUTHTOKEN";
-        public HomematicService(Func<HttpClient> httpClientFactory, string accessPointId, string authToken, ClientWebSocket clientWebSocket) : base(httpClientFactory, accessPointId)
+        public HomematicService(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration, ClientWebSocket clientWebSocket, ILogger<HomematicService> logger) : base(httpClientFactory, homematicConfiguration)
         {
-            _authToken = authToken;
             _clientWebSocket = clientWebSocket;
+            _logger = logger;
         }
 
         protected override async Task Initialize(
             ClientCharacteristicsRequestObject clientCharacteristicsRequestObject = null, CancellationToken cancellationToken = default)
         {
             await base.Initialize(clientCharacteristicsRequestObject, cancellationToken);
-            HttpClient.DefaultRequestHeaders.Add(AUTHTOKEN, _authToken);
-            _clientWebSocket.Options.SetRequestHeader(AUTHTOKEN, _authToken);
+            HttpClient.DefaultRequestHeaders.Add(AUTHTOKEN, HomematicConfiguration.AuthToken);
+            _clientWebSocket.Options.SetRequestHeader(AUTHTOKEN, HomematicConfiguration.AuthToken);
             _clientWebSocket.Options.SetRequestHeader(CLIENTAUTH, ClientAuthToken);
         }
 
@@ -82,6 +83,7 @@ namespace HomematicIp.Services
                                 if (result.EndOfMessage)
                                 {
                                     var msgString = Encoding.UTF8.GetString(list.ToArray());
+                                    _logger?.LogDebug($"Message received: {msgString}");
                                     var msg = JsonConvert.DeserializeObject<JObject>(msgString);
                                     foreach (var hEvent in msg["events"].Values())
                                     {
