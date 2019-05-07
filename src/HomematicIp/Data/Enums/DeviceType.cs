@@ -52,6 +52,7 @@ namespace HomematicIp.Data.Enums
         WATER_SENSOR,
         WEATHER_SENSOR,
         WEATHER_SENSOR_PLUS,
-        WEATHER_SENSOR_PRO
+        WEATHER_SENSOR_PRO,
+        HEATING
     }
 }

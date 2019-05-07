@@ -17,7 +17,7 @@
     <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/e/ed/Skycoin_Cloud_Logo_Blue.png</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
