@@ -15,7 +15,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
 
         public List<string> IgnorableDevices { get; set; }=new List<string>();
         public string ZoneAssignmentIndex { get; set; }
-        public bool ConfigPending { get; set; }
+        public bool? ConfigPending { get; set; }
 
     }
 }

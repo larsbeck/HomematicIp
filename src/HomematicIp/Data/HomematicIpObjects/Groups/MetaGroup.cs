@@ -11,7 +11,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public override GroupType GroupType { get; set; }
         public List<string> Groups { get; set; }
         public bool? Sabotage { get; set; }
-        public bool ConfigPending { get; set; }
+        public bool? ConfigPending { get; set; }
         public bool? IncorrectPositioned { get; set; }
 
     }
