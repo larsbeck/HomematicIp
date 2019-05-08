@@ -17,8 +17,9 @@
     <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/e/ed/Skycoin_Cloud_Logo_Blue.png</PackageIconUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.7</Version>
-    <PackageReleaseNotes>Adding ExtendedLinkedSwitchingGroup</PackageReleaseNotes>
+    <Version>1.0.8</Version>
+    <PackageReleaseNotes>Adding support for PushButton
+Making more properties nullable</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
