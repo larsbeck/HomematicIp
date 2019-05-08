@@ -1,19 +1,14 @@
 ﻿using System.Collections.Generic;
 using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects.Channels;
+using HomematicIp.Data.HomematicIpObjects.Groups;
 using Newtonsoft.Json;
 
 namespace HomematicIp.Data.HomematicIpObjects.Devices
 {
-    [EnumMap(DeviceType.HEATING)]
-    public class HeatingDevice : Device
+    [EnumMap(GroupType.HEATING)]
+    public class HeatingGroup : Group
     {
-        public bool? DutyCycle { get; set; }
-        [JsonProperty(PropertyName = "lowBat")]
-        public bool? HasLowBattery { get; set; }
-        [JsonProperty(PropertyName = "unreach")]
-        public bool? IsUnreachable { get; set; }
-        public List<Channel> Channels { get; set; } = new List<Channel>();
         public double? WindowOpenTemperature { get; set; }
         public double? SetPointTemperature { get; set; }
         public double? MinTemperature { get; set; }
@@ -22,7 +17,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Devices
         public dynamic Cooling { get; set; }
         public bool PartMode { get; set; }
         public ClimateControlMode ControlMode { get; set; }
-
         public dynamic Profiles { get; set; }
         public string ActiveProfile { get; set; }
         public bool BoostMode { get; set; }
