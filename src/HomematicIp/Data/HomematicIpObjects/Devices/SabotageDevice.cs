@@ -6,19 +6,19 @@ namespace HomematicIp.Data.HomematicIpObjects.Devices
 {
     public class SabotageDevice : Device
     {
-        private DeviceSabotageChannel DeviceSabotageChannel =>
-            FunctionalChannels?.OfType<DeviceSabotageChannel>().FirstOrDefault();
-        public bool? IsUnreachable => DeviceSabotageChannel?.IsUnreachable;
-        public bool? IsLowBattery => DeviceSabotageChannel?.HasLowBattery;
-        public bool? RouterModuleEnabled => DeviceSabotageChannel?.RouterModuleEnabled;
-        public bool? RouterModuleSupported => DeviceSabotageChannel?.RouterModuleSupported;
-        public int? RssiDeviceValue => DeviceSabotageChannel?.RssiDeviceValue;
-        public int? RssiPeerValue => DeviceSabotageChannel?.RssiPeerValue;
-        public bool? ConfigPending => DeviceSabotageChannel?.ConfigPending;
-        public bool? IsDutyCycle => DeviceSabotageChannel?.DutyCycle;
-        public bool? Sabotage => DeviceSabotageChannel?.Sabotage;
-        public int? SabotageGroupIndex => DeviceSabotageChannel?.GroupIndex;
-        public int? SabotageIndex => DeviceSabotageChannel?.Index;
-        public List<string> SabotageGroups => DeviceSabotageChannel?.Groups;
+        private AbstractDeviceSabotageChannel AbstractDeviceSabotageChannel =>
+            FunctionalChannels?.OfType<AbstractDeviceSabotageChannel>().FirstOrDefault();
+        public bool? IsUnreachable => AbstractDeviceSabotageChannel?.IsUnreachable;
+        public bool? IsLowBattery => AbstractDeviceSabotageChannel?.HasLowBattery;
+        public bool? RouterModuleEnabled => AbstractDeviceSabotageChannel?.RouterModuleEnabled;
+        public bool? RouterModuleSupported => AbstractDeviceSabotageChannel?.RouterModuleSupported;
+        public int? RssiDeviceValue => AbstractDeviceSabotageChannel?.RssiDeviceValue;
+        public int? RssiPeerValue => AbstractDeviceSabotageChannel?.RssiPeerValue;
+        public bool? ConfigPending => AbstractDeviceSabotageChannel?.ConfigPending;
+        public bool? IsDutyCycle => AbstractDeviceSabotageChannel?.DutyCycle;
+        public bool? Sabotage => AbstractDeviceSabotageChannel?.Sabotage;
+        public int? SabotageGroupIndex => AbstractDeviceSabotageChannel?.GroupIndex;
+        public int? SabotageIndex => AbstractDeviceSabotageChannel?.Index;
+        public List<string> SabotageGroups => AbstractDeviceSabotageChannel?.Groups;
     }
 }
