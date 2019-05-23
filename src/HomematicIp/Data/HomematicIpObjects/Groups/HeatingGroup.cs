@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using HomematicIp.Data.Enums;
-using HomematicIp.Data.HomematicIpObjects.Channels;
-using HomematicIp.Data.HomematicIpObjects.Groups;
-using Newtonsoft.Json;
+﻿using HomematicIp.Data.Enums;
 
-namespace HomematicIp.Data.HomematicIpObjects.Devices
+namespace HomematicIp.Data.HomematicIpObjects.Groups
 {
     [EnumMap(GroupType.HEATING)]
     public class HeatingGroup : Group
