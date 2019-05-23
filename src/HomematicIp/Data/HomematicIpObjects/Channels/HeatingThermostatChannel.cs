@@ -8,6 +8,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public dynamic ValvePosition { get; set; }
         public double? SetPointTemperature { get; set; }
         public double? ValveActualTemperature { get; set; }
-        public ValveState ValveState { get; set; }
+        public ValveState? ValveState { get; set; }
     }
 }
