@@ -16,8 +16,11 @@ namespace HomematicIp.Data
             Map.TryGetValue(o, out var type);
             if (type == null)
             {
+                #if !DEBUG
                 return typeof(ExpandoObject);
-                //throw new UnknownHomematicObjectException($"The HomematicIp Endpoint sent a message about an unknown HomematicIp Object (most likely a yet unsupported device). Please open an issue at https://github.com/larsbeck/HomematicIp to have this device added to the library. We will need the following: {raw}");
+#else
+                throw new UnknownHomematicObjectException($"The HomematicIp Endpoint sent a message about an unknown HomematicIp Object (most likely a yet unsupported device). Please open an issue at https://github.com/larsbeck/HomematicIp to have this device added to the library. We will need the following: {raw}");
+#endif
             }
             return type;
         }
