@@ -1,4 +1,5 @@
 ﻿using HomematicIp.Data.Enums;
+using HomematicIp.Data.HomematicIpObjects.Devices;
 
 namespace HomematicIp.Data.HomematicIpObjects.Channels
 {
