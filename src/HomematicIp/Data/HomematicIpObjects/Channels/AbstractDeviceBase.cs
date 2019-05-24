@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace HomematicIp.Data.HomematicIpObjects.Channels
 {
-    public abstract class AbstractDeviceBase : DeviceSabotageChannelBase
+    public abstract class AbstractDeviceBaseChannel : DeviceSabotageChannelBase
     {
         public int? RssiDeviceValue { get; set; }
         public int? RssiPeerValue { get; set; }
