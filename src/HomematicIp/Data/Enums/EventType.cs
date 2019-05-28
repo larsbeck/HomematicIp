@@ -16,6 +16,7 @@ namespace HomematicIp.Data.Enums
         CLIENT_CHANGED,
         CLIENT_ADDED,
         HOME_CHANGED,
-        GROUP_CHANGED
+        GROUP_CHANGED,
+        INCLUSION_REQUESTED
     }
 }

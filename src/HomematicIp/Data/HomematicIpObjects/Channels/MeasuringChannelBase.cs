@@ -1,5 +1,4 @@
-﻿using HomematicIp.Data.HomematicIpObjects.Devices;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace HomematicIp.Data.HomematicIpObjects.Channels
 {

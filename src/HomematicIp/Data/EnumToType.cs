@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 
@@ -16,8 +14,8 @@ namespace HomematicIp.Data
             Map.TryGetValue(o, out var type);
             if (type == null)
             {
-                #if !DEBUG
-                return typeof(ExpandoObject);
+#if !DEBUG
+                return typeof(System.Dynamic.ExpandoObject);
 #else
                 throw new UnknownHomematicObjectException($"The HomematicIp Endpoint sent a message about an unknown HomematicIp Object (most likely a yet unsupported device). Please open an issue at https://github.com/larsbeck/HomematicIp to have this device added to the library. We will need the following: {raw}");
 #endif
