@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Net;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,9 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using HomematicIp.Data;
 using HomematicIp.Data.Enums;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace HomematicIp.Services
@@ -76,6 +73,26 @@ namespace HomematicIp.Services
 
             public ClientCharacteristics ClientCharacteristics { get; set; } = new ClientCharacteristics();
             public string Id { get; set; }
+        }
+
+        protected class StartInclusionModeForDeviceRequestObject
+        {
+            public StartInclusionModeForDeviceRequestObject(string deviceId)
+            {
+                DeviceId = deviceId;
+            }
+            public string DeviceId { get; set; }
+        }
+
+        protected class SetDeviceLabelRequestObject
+        {
+            public SetDeviceLabelRequestObject(string deviceId, string label)
+            {
+                DeviceId = deviceId;
+                Label = label;
+            }
+            public string DeviceId { get; set; }
+            public string Label { get; set; }
         }
 
         protected class ClientCharacteristics

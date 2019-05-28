@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.WebSockets;
@@ -11,7 +10,6 @@ using System.Threading.Tasks;
 using HomematicIp.Data;
 using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects;
-using HomematicIp.Data.HomematicIpObjects.Groups;
 using HomematicIp.Data.HomematicIpObjects.Home;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -56,6 +54,47 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task<bool> StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
+        {
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)            
+                return true;
+            
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> StartInclusionModeForDevice(string deviceId, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new StartInclusionModeForDeviceRequestObject(deviceId);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startInclusionModeForDevice", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+                
+        public async Task<bool> SetDeviceLabel(string deviceId, string label, CancellationToken cancellationToken = default)
+        {
+            // the label is the name of the device
+            var requestObject = new SetDeviceLabelRequestObject(deviceId, label);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/setDeviceLabel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        TaskCompletionSource<string> InclusionRequestedEventCompletion;
+        public TaskCompletionSource<string> RequestInclusionRequestedCompletion()
+        {
+            InclusionRequestedEventCompletion = new TaskCompletionSource<string>();
+            return InclusionRequestedEventCompletion;
+        }
+
         public IObservable<EventNotification> ReceiveEvents(CancellationToken cancellationToken = default)
         {
             var subject = new Subject<EventNotification>();
@@ -89,6 +128,7 @@ namespace HomematicIp.Services
                                     {
                                         Enum.TryParse(hEvent["pushEventType"].Value<string>(), out EventType eventType);
                                         HomematicIpObjectBase homematicIpObjectBase = null;
+
                                         switch (eventType)
                                         {
                                             case EventType.SECURITY_JOURNAL_CHANGED:
@@ -123,6 +163,13 @@ namespace HomematicIp.Services
                                                 var rawHome = hEvent["home"].ToString();
                                                 homematicIpObjectBase = JsonConvert.DeserializeObject<Home>(rawHome);
                                                 homematicIpObjectBase.RawJson = rawHome;
+                                                break;
+                                            case EventType.INCLUSION_REQUESTED:
+                                                Enum.TryParse(hEvent["deviceType"].Value<string>(), out DeviceType deviceTypeRequested);
+                                                Enum.TryParse(hEvent["errorReason"].Value<string>(), out ErrorReasonType errorReasonType);
+                                                var deviceId = hEvent["deviceId"].Value<string>();
+                                                InclusionRequestedEventCompletion?.TrySetResult(deviceId);
+                                                //{ "events":{ "0":{ "pushEventType":"INCLUSION_REQUESTED","deviceType":"PLUGABLE_SWITCH","deviceId":"3014F711A000021709AEC9B4","errorReason":"NO_ERROR"} },"origin":{ "originType":"DEVICE","id":"3014F711A000021709AEC9B4"} }
                                                 break;
                                             default:
                                                 throw new ArgumentOutOfRangeException();
