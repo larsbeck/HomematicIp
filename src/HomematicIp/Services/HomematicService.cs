@@ -19,6 +19,8 @@ namespace HomematicIp.Services
 {
     public class HomematicService : HomematicServiceBase
     {
+        public WebSocketState WebSocketState => _clientWebSocket == null ? _clientWebSocket.State : WebSocketState.None;
+
         private readonly ClientWebSocket _clientWebSocket;
         private readonly ILogger<HomematicService> _logger;
         protected const string AUTHTOKEN = "AUTHTOKEN";
