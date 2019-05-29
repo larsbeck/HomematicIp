@@ -57,22 +57,26 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
-        public async Task<bool> StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
+        /// <summary>
+        /// Starts the inclusion process for a new device
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>The device that was included. Note that the device object only has its Id and DeviceType set at this point</returns>
+        public async Task<Device> StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
         {
             var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
-                var tcs=new TaskCompletionSource<string>();
+                var tcs=new TaskCompletionSource<Device>();
                 var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType== EventType.INCLUSION_REQUESTED);
                 IDisposable disposeWhenFirstDeviceIsPaired=null;
                 disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
                 {
                     await StartInclusionModeForDevice(notification.HomematicIpObjectBase.Id, cancellationToken);
                     disposeWhenFirstDeviceIsPaired.Dispose(); //compiler warning can be ignored. disposeWhenFirstDeviceIsPaired is never null and cannot be disposed due to the awaited TaskCompletionSource.Task
-                    tcs.TrySetResult(null);
+                    tcs.TrySetResult(notification.HomematicIpObjectBase as Device);
                 });
-                await tcs.Task;
-                return true;
+                return await tcs.Task;
             }
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
