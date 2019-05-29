@@ -64,16 +64,16 @@ namespace HomematicIp.Services
             {
                 var tcs=new TaskCompletionSource<string>();
                 var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType== EventType.INCLUSION_REQUESTED);
-                var disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
+                IDisposable disposeWhenFirstDeviceIsPaired=null;
+                disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
                 {
                     await StartInclusionModeForDevice(notification.HomematicIpObjectBase.Id, cancellationToken);
+                    disposeWhenFirstDeviceIsPaired.Dispose(); //compiler warning can be ignored. disposeWhenFirstDeviceIsPaired is never null and cannot be disposed due to the awaited TaskCompletionSource.Task
                     tcs.TrySetResult(null);
                 });
                 await tcs.Task;
-                disposeWhenFirstDeviceIsPaired?.Dispose();
                 return true;
             }
-
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
