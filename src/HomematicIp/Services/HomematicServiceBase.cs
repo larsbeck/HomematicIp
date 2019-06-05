@@ -131,5 +131,7 @@ namespace HomematicIp.Services
                 return _clientAuthToken;
             }
         }
+
+        public string CurrentAuthToken => HomematicConfiguration.AuthToken;
     }
 }
