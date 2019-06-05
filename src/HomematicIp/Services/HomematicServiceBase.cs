@@ -20,7 +20,7 @@ namespace HomematicIp.Services
         protected HttpClient HttpClient;
         protected string UrlWebSocket;
         protected StringContent ClientCharacteristicsStringContent;
-        protected const string CLIENTAUTH= "CLIENTAUTH";
+        protected const string CLIENTAUTH = "CLIENTAUTH";
 
         protected HomematicServiceBase(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration)
         {
@@ -42,13 +42,20 @@ namespace HomematicIp.Services
             }
             else
             {
-                if ((int) httpResponseMessage.StatusCode == 418) //I'm a teapot message
+                if ((int)httpResponseMessage.StatusCode == 418) //I'm a teapot message
                 {
                     throw new ArgumentException($"It is highly likely that you accidentally mistyped your access point id.");
                 }
                 restAndWebSocketUrls = new RestAndWebSocketUrls { UrlREST = "https://ps1.homematic.com:6969/", UrlWebSocket = "wss://ps1.homematic.com:8888/" };
             }
             HttpClient = HttpClientFactory();
+
+            if (HttpClient.DefaultRequestHeaders.Contains("VERSION"))
+                HttpClient.DefaultRequestHeaders.Remove("VERSION");
+
+            if (HttpClient.DefaultRequestHeaders.Contains(CLIENTAUTH))
+                HttpClient.DefaultRequestHeaders.Remove(CLIENTAUTH);
+
             HttpClient.BaseAddress = new Uri($"{restAndWebSocketUrls.UrlREST}/");
             HttpClient.DefaultRequestHeaders.Add("VERSION", "12");
             HttpClient.DefaultRequestHeaders.Add(CLIENTAUTH, ClientAuthToken);
@@ -103,7 +110,7 @@ namespace HomematicIp.Services
             public string DeviceManufacturer { get; set; } = "none";
             public ClientDeviceType DeviceType { get; set; } = ClientDeviceType.Computer;
             public string Language => CultureInfo.CurrentCulture.Name;
-            public string OsType =>  Environment.OSVersion.Platform.ToString();
+            public string OsType => Environment.OSVersion.Platform.ToString();
             public string OsVersion => Environment.OSVersion.Version.ToString();
         }
         private string GetAccessPointIdWithoutDashes(string accessPointId)
