@@ -109,6 +109,19 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task<bool> SetSwitchState(int channelIndex, string deviceId, bool state, CancellationToken cancellationToken = default)
+        {
+            // the label is the name of the device
+            var requestObject = new SetSwitchStateRequestObject(channelIndex, deviceId, state);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSwitchState", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

@@ -102,6 +102,19 @@ namespace HomematicIp.Services
             public string Label { get; set; }
         }
 
+        protected class SetSwitchStateRequestObject
+        {
+            public SetSwitchStateRequestObject(int channelIndex, string deviceId, bool state)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                On = state;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            public bool On { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
