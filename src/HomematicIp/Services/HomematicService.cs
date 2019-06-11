@@ -61,6 +61,17 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task SetPin(string pin, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetPinRequestObject(pin);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/setPin", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode) return;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         public async Task StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
         {
             var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);

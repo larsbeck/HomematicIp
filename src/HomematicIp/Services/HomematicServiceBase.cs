@@ -159,7 +159,16 @@ namespace HomematicIp.Services
             /// </summary>
             public double SlatsLevel { get; set; }
         }
-        
+
+        protected class SetPinRequestObject
+        {
+            public SetPinRequestObject(string pin)
+            {
+                Pin = pin;
+            }
+            public string Pin { get; set; }
+        }
+
         protected class ListAssignableMetaGroupsRequestObject
         {
             public ListAssignableMetaGroupsRequestObject(string deviceId)
