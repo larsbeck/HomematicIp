@@ -61,28 +61,31 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
+        {
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode) return;
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
         /// <summary>
         /// Starts the inclusion process for a new device
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>The device that was included. Note that the device object only has its Id and DeviceType set at this point</returns>
-        public async Task<Device> StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
+        public async Task<Device> StartDeviceInclusionProcessAndWaitForPairingResponse(CancellationToken cancellationToken = default)
         {
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
+            await StartDeviceInclusionProcess();
+           
+            var tcs = new TaskCompletionSource<Device>();
+            var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType == EventType.INCLUSION_REQUESTED);
+            IDisposable disposeWhenFirstDeviceIsPaired = null;
+            disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
             {
-                var tcs = new TaskCompletionSource<Device>();
-                var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType == EventType.INCLUSION_REQUESTED);
-                IDisposable disposeWhenFirstDeviceIsPaired = null;
-                disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
-                {
-                    await StartInclusionModeForDevice(notification.HomematicIpObjectBase.Id, cancellationToken);
-                    disposeWhenFirstDeviceIsPaired.Dispose(); //compiler warning can be ignored. disposeWhenFirstDeviceIsPaired is never null and cannot be disposed due to the awaited TaskCompletionSource.Task
-                    tcs.TrySetResult(notification.HomematicIpObjectBase as Device);
-                });
-                return await tcs.Task;
-            }
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+                await StartInclusionModeForDevice(notification.HomematicIpObjectBase.Id, cancellationToken);
+                disposeWhenFirstDeviceIsPaired.Dispose(); //compiler warning can be ignored. disposeWhenFirstDeviceIsPaired is never null and cannot be disposed due to the awaited TaskCompletionSource.Task
+                tcs.TrySetResult(notification.HomematicIpObjectBase as Device);
+            });
+            return await tcs.Task;
         }
 
         private async Task StartInclusionModeForDevice(string deviceId, CancellationToken cancellationToken = default)
