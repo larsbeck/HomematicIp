@@ -50,15 +50,11 @@ namespace HomematicIp.Services
             }
             HttpClient = HttpClientFactory();
 
-            if (HttpClient.DefaultRequestHeaders.Contains("VERSION"))
-                HttpClient.DefaultRequestHeaders.Remove("VERSION");
-
-            if (HttpClient.DefaultRequestHeaders.Contains(CLIENTAUTH))
-                HttpClient.DefaultRequestHeaders.Remove(CLIENTAUTH);
-
             HttpClient.BaseAddress = new Uri($"{restAndWebSocketUrls.UrlREST}/");
-            HttpClient.DefaultRequestHeaders.Add("VERSION", "12");
-            HttpClient.DefaultRequestHeaders.Add(CLIENTAUTH, ClientAuthToken);
+            if (!HttpClient.DefaultRequestHeaders.Contains("VERSION"))
+                HttpClient.DefaultRequestHeaders.Add("VERSION", "12");
+            if (!HttpClient.DefaultRequestHeaders.Contains(CLIENTAUTH))
+                HttpClient.DefaultRequestHeaders.Add(CLIENTAUTH, ClientAuthToken);
             UrlWebSocket = restAndWebSocketUrls.UrlWebSocket;
         }
 
