@@ -23,7 +23,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Home
         public DeviceUpdateStrategy DeviceUpdateStrategy { get; set; }
         public double LastReadyForUpdateTimestamp { get; set; }
         [JsonConverter(typeof(FunctionalHomesConverter), "solution")]
-        public List<FunctionalHome> FunctionalHomes { get; set; }=new List<FunctionalHome>();
+        public List<FunctionalHome> FunctionalHomes { get; set; } = new List<FunctionalHome>();
         public string InboxGroup { get; set; }
         public string ApExchangeClientId { get; set; }
         public ApExchangeState ApExchangeState { get; set; }
