@@ -36,7 +36,11 @@ namespace HomematicIp.Services
             ClientCharacteristicsRequestObject clientCharacteristicsRequestObject = null, CancellationToken cancellationToken = default)
         {
             await base.Initialize(clientCharacteristicsRequestObject, cancellationToken);
+            if (HttpClient.DefaultRequestHeaders.Contains(AUTHTOKEN))
+                HttpClient.DefaultRequestHeaders.Remove(AUTHTOKEN);
+
             HttpClient.DefaultRequestHeaders.Add(AUTHTOKEN, HomematicConfiguration.AuthToken);
+            
             _clientWebSocket.Options.SetRequestHeader(AUTHTOKEN, HomematicConfiguration.AuthToken);
             _clientWebSocket.Options.SetRequestHeader(CLIENTAUTH, ClientAuthToken);
         }
@@ -67,9 +71,9 @@ namespace HomematicIp.Services
             var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
             {
-                var tcs=new TaskCompletionSource<Device>();
-                var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType== EventType.INCLUSION_REQUESTED);
-                IDisposable disposeWhenFirstDeviceIsPaired=null;
+                var tcs = new TaskCompletionSource<Device>();
+                var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType == EventType.INCLUSION_REQUESTED);
+                IDisposable disposeWhenFirstDeviceIsPaired = null;
                 disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
                 {
                     await StartInclusionModeForDevice(notification.HomematicIpObjectBase.Id, cancellationToken);
@@ -99,6 +103,19 @@ namespace HomematicIp.Services
             var stringContent = GetStringContent(requestObject);
 
             var httpResponseMessage = await HttpClient.PostAsync("hmip/device/setDeviceLabel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> SetSwitchState(int channelIndex, string deviceId, bool state, CancellationToken cancellationToken = default)
+        {
+            // the label is the name of the device
+            var requestObject = new SetSwitchStateRequestObject(channelIndex, deviceId, state);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSwitchState", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
@@ -184,7 +201,7 @@ namespace HomematicIp.Services
                                                     Enum.TryParse(hEvent["deviceType"].Value<string>(), out DeviceType deviceTypeRequested);
                                                     Enum.TryParse(hEvent["errorReason"].Value<string>(), out ErrorReasonType errorReasonType);
                                                     var deviceId = hEvent["deviceId"].Value<string>();
-                                                    homematicIpObjectBase = new Device { Id = deviceId, DeviceType = deviceTypeRequested};
+                                                    homematicIpObjectBase = new Device { Id = deviceId, DeviceType = deviceTypeRequested };
                                                     break;
                                                 default:
                                                     throw new ArgumentOutOfRangeException();
