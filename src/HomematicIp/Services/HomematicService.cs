@@ -99,8 +99,8 @@ namespace HomematicIp.Services
         /// <returns>The device that was included. Note that the device object only has its Id and DeviceType set at this point</returns>
         public async Task<Device> StartDeviceInclusionProcessAndWaitForPairingResponse(CancellationToken cancellationToken = default)
         {
-            await StartDeviceInclusionProcess();
-            return await WaitForPairingResponse();
+            await StartDeviceInclusionProcess(cancellationToken);
+            return await WaitForPairingResponse(cancellationToken);
         }
 
         private async Task StartInclusionModeForDevice(string deviceId, CancellationToken cancellationToken = default)
