@@ -40,7 +40,7 @@ namespace HomematicIp.Services
                 HttpClient.DefaultRequestHeaders.Remove(AUTHTOKEN);
 
             HttpClient.DefaultRequestHeaders.Add(AUTHTOKEN, HomematicConfiguration.AuthToken);
-            
+
             _clientWebSocket.Options.SetRequestHeader(AUTHTOKEN, HomematicConfiguration.AuthToken);
             _clientWebSocket.Options.SetRequestHeader(CLIENTAUTH, ClientAuthToken);
         }
@@ -67,15 +67,9 @@ namespace HomematicIp.Services
             if (httpResponseMessage.IsSuccessStatusCode) return;
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
-        /// <summary>
-        /// Starts the inclusion process for a new device
-        /// </summary>
-        /// <param name="cancellationToken"></param>
-        /// <returns>The device that was included. Note that the device object only has its Id and DeviceType set at this point</returns>
-        public async Task<Device> StartDeviceInclusionProcessAndWaitForPairingResponse(CancellationToken cancellationToken = default)
+
+        public async Task<Device> WaitForPairingResponse(CancellationToken cancellationToken = default)
         {
-            await StartDeviceInclusionProcess();
-           
             var tcs = new TaskCompletionSource<Device>();
             var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType == EventType.INCLUSION_REQUESTED);
             IDisposable disposeWhenFirstDeviceIsPaired = null;
@@ -86,6 +80,16 @@ namespace HomematicIp.Services
                 tcs.TrySetResult(notification.HomematicIpObjectBase as Device);
             });
             return await tcs.Task;
+        }
+        /// <summary>
+        /// Starts the inclusion process for a new device
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>The device that was included. Note that the device object only has its Id and DeviceType set at this point</returns>
+        public async Task<Device> StartDeviceInclusionProcessAndWaitForPairingResponse(CancellationToken cancellationToken = default)
+        {
+            await StartDeviceInclusionProcess();
+            return await WaitForPairingResponse();
         }
 
         private async Task StartInclusionModeForDevice(string deviceId, CancellationToken cancellationToken = default)
@@ -114,11 +118,22 @@ namespace HomematicIp.Services
 
         public async Task<bool> SetSwitchState(int channelIndex, string deviceId, bool state, CancellationToken cancellationToken = default)
         {
-            // the label is the name of the device
             var requestObject = new SetSwitchStateRequestObject(channelIndex, deviceId, state);
             var stringContent = GetStringContent(requestObject);
 
             var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSwitchState", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> SetDimLevel(int channelIndex, string deviceId, double dimLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetDimLevelRequestObject(channelIndex, deviceId, dimLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setDimLevel", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
