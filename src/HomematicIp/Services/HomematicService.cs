@@ -36,11 +36,8 @@ namespace HomematicIp.Services
             ClientCharacteristicsRequestObject clientCharacteristicsRequestObject = null, CancellationToken cancellationToken = default)
         {
             await base.Initialize(clientCharacteristicsRequestObject, cancellationToken);
-            if (HttpClient.DefaultRequestHeaders.Contains(AUTHTOKEN))
-                HttpClient.DefaultRequestHeaders.Remove(AUTHTOKEN);
-
-            HttpClient.DefaultRequestHeaders.Add(AUTHTOKEN, HomematicConfiguration.AuthToken);
-
+            if (!HttpClient.DefaultRequestHeaders.Contains(AUTHTOKEN))
+                HttpClient.DefaultRequestHeaders.Add(AUTHTOKEN, HomematicConfiguration.AuthToken);
             _clientWebSocket.Options.SetRequestHeader(AUTHTOKEN, HomematicConfiguration.AuthToken);
             _clientWebSocket.Options.SetRequestHeader(CLIENTAUTH, ClientAuthToken);
         }
