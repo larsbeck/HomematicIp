@@ -58,28 +58,46 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task SetPin(string pin, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetPinRequestObject(pin);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/setPin", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode) return;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
+        {
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode) return;
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<Device> WaitForPairingResponse(CancellationToken cancellationToken = default)
+        {
+            var tcs = new TaskCompletionSource<Device>();
+            var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType == EventType.INCLUSION_REQUESTED);
+            IDisposable disposeWhenFirstDeviceIsPaired = null;
+            disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
+            {
+                await StartInclusionModeForDevice(notification.HomematicIpObjectBase.Id, cancellationToken);
+                disposeWhenFirstDeviceIsPaired.Dispose(); //compiler warning can be ignored. disposeWhenFirstDeviceIsPaired is never null and cannot be disposed due to the awaited TaskCompletionSource.Task
+                tcs.TrySetResult(notification.HomematicIpObjectBase as Device);
+            });
+            return await tcs.Task;
+        }
         /// <summary>
         /// Starts the inclusion process for a new device
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns>The device that was included. Note that the device object only has its Id and DeviceType set at this point</returns>
-        public async Task<Device> StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
+        public async Task<Device> StartDeviceInclusionProcessAndWaitForPairingResponse(CancellationToken cancellationToken = default)
         {
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-            {
-                var tcs = new TaskCompletionSource<Device>();
-                var inclusionRequestedObservable = ReceiveEvents().Where(notification => notification.EventType == EventType.INCLUSION_REQUESTED);
-                IDisposable disposeWhenFirstDeviceIsPaired = null;
-                disposeWhenFirstDeviceIsPaired = inclusionRequestedObservable.Subscribe(async notification =>
-                {
-                    await StartInclusionModeForDevice(notification.HomematicIpObjectBase.Id, cancellationToken);
-                    disposeWhenFirstDeviceIsPaired.Dispose(); //compiler warning can be ignored. disposeWhenFirstDeviceIsPaired is never null and cannot be disposed due to the awaited TaskCompletionSource.Task
-                    tcs.TrySetResult(notification.HomematicIpObjectBase as Device);
-                });
-                return await tcs.Task;
-            }
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            await StartDeviceInclusionProcess(cancellationToken);
+            return await WaitForPairingResponse(cancellationToken);
         }
 
         private async Task StartInclusionModeForDevice(string deviceId, CancellationToken cancellationToken = default)
@@ -108,7 +126,6 @@ namespace HomematicIp.Services
 
         public async Task<bool> SetSwitchState(int channelIndex, string deviceId, bool state, CancellationToken cancellationToken = default)
         {
-            // the label is the name of the device
             var requestObject = new SetSwitchStateRequestObject(channelIndex, deviceId, state);
             var stringContent = GetStringContent(requestObject);
 
@@ -119,6 +136,30 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task<bool> SetDimLevel(int channelIndex, string deviceId, double dimLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetDimLevelRequestObject(channelIndex, deviceId, dimLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setDimLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> SetSlatsLevel(int channelIndex, string deviceId, double shutterLevel, double slatsLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetSlatsLevelRequestObject(channelIndex, deviceId, shutterLevel, slatsLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSlatsLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+        
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

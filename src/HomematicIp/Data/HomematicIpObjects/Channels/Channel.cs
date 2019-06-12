@@ -1,4 +1,6 @@
-﻿namespace HomematicIp.Data.HomematicIpObjects.Channels
+﻿using System.Collections.Generic;
+
+namespace HomematicIp.Data.HomematicIpObjects.Channels
 {
     public class Channel : IHaveARawJsonProperty
     {
@@ -7,5 +9,6 @@
         public int GroupIndex { get; set; }
         public int ChannelIndex { get; set; }
         public string RawJson { get; set; }
+        public List<string> Groups { get; set; } = new List<string>();
     }
 }

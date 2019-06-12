@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects.Channels;
 using Newtonsoft.Json;
@@ -17,6 +16,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public bool? IsUnreachable { get; set; }
         [JsonProperty(PropertyName = "dutyCycle")]
         public bool? IsDutyCycle { get; set; }
-        public List<Channel> Channels { get; set; }=new List<Channel>();
+        public List<Channel> Channels { get; set; } = new List<Channel>();
     }
 }

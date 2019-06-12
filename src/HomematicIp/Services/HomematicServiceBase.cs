@@ -111,6 +111,69 @@ namespace HomematicIp.Services
             public bool On { get; set; }
         }
 
+        protected class SetDimLevelRequestObject
+        {
+            public SetDimLevelRequestObject(int channelIndex, string deviceId, double dimLevel)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                DimLevel = dimLevel;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = off
+            /// 0.50 = 50%
+            /// 1 = on
+            /// </summary>
+            public double DimLevel { get; set; }
+        }
+        protected class SetSlatsLevelRequestObject
+        {
+            public SetSlatsLevelRequestObject(int channelIndex, string deviceId, double shutterLevel, double slatsLevel)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                ShutterLevel = shutterLevel;
+                SlatsLevel = slatsLevel;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double ShutterLevel { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double SlatsLevel { get; set; }
+        }
+
+        protected class SetPinRequestObject
+        {
+            public SetPinRequestObject(string pin)
+            {
+                Pin = pin;
+            }
+            public string Pin { get; set; }
+        }
+
+        protected class ListAssignableMetaGroupsRequestObject
+        {
+            public ListAssignableMetaGroupsRequestObject(string deviceId)
+            {
+                DeviceId = deviceId;
+            }
+            public string DeviceId { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
