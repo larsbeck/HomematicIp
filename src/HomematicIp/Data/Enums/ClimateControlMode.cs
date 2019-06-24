@@ -7,6 +7,7 @@ namespace HomematicIp.Data.Enums
     public enum ClimateControlMode
     {
         AUTOMATIC,
-        MANUAL
+        MANUAL,
+        ECO
     }
 }
