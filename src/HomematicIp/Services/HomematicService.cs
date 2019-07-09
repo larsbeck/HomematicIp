@@ -159,7 +159,19 @@ namespace HomematicIp.Services
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
-        
+
+        public async Task<bool> EnableSimpleRule(bool enabled, string ruleId, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new EnableSimpleRuleRequestObject(enabled, ruleId);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/rule/enableSimpleRule", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

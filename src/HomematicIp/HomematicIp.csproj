@@ -35,4 +35,7 @@ Making more properties nullable</PackageReleaseNotes>
     <PackageReference Include="System.Reactive" Version="4.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\HomematicIpObjects\Rules\" />
+  </ItemGroup>
 </Project>

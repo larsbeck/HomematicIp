@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using HomematicIp.Data.Enums;
+using HomematicIp.Data.HomematicIpObjects.Rules;
 using HomematicIp.Data.JsonConverters;
 using Newtonsoft.Json;
 
@@ -29,10 +30,8 @@ namespace HomematicIp.Data.HomematicIpObjects.Home
         public ApExchangeState ApExchangeState { get; set; }
         public VoiceControlSettings VoiceControlSettings { get; set; }
         public List<string> RuleGroups { get; set; }
-        /// <summary>
-        /// We haven't seen content for this element yet, so this is just a dynamic placeholder until we see what this is made of
-        /// </summary>
-        public dynamic RuleMetaDatas { get; set; }
+        [JsonConverter(typeof(RuleMetaDatasConverter), "type")]
+        public List<RuleMetaData> RuleMetaDatas { get; set; } = new List<RuleMetaData>();
         public LiveOUTAUStatus LiveOutauStatus { get; set; }
         public bool LiveUpdateSupported { get; set; }
     }
