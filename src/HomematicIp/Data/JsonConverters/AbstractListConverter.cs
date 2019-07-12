@@ -38,9 +38,6 @@ namespace HomematicIp.Data.JsonConverters
                 }
                 catch (Exception ex)
                 {
-                    if(!Services.HomematicService.UnsupportedTypes.ContainsKey(typedEnum.ToString()))
-                        Services.HomematicService.UnsupportedTypes.Add(typedEnum.ToString(), raw);
-
                     System.Diagnostics.Debug.WriteLine($"Error parsing following type {typedEnum.ToString()}, json: {raw}");
                     throw ex;
                 }

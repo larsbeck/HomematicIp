@@ -14,6 +14,9 @@ namespace HomematicIp.Data
             Map.TryGetValue(o, out var type);
             if (type == null)
             {
+                if (!Services.HomematicService.UnsupportedTypes.ContainsKey(o.ToString()))
+                    Services.HomematicService.UnsupportedTypes.Add(o.ToString(), raw);
+
 #if !DEBUG
                 return typeof(System.Dynamic.ExpandoObject);
 #else
