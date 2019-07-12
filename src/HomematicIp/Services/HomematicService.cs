@@ -21,6 +21,8 @@ namespace HomematicIp.Services
 {
     public class HomematicService : HomematicServiceBase
     {
+        public static IDictionary<string, string> UnsupportedTypes { get; set; } = new Dictionary<string, string>();
+
         public WebSocketState WebSocketState => _clientWebSocket?.State ?? WebSocketState.None;
 
         private readonly ClientWebSocket _clientWebSocket;
@@ -36,8 +38,10 @@ namespace HomematicIp.Services
             ClientCharacteristicsRequestObject clientCharacteristicsRequestObject = null, CancellationToken cancellationToken = default)
         {
             await base.Initialize(clientCharacteristicsRequestObject, cancellationToken);
+
             if (!HttpClient.DefaultRequestHeaders.Contains(AUTHTOKEN))
                 HttpClient.DefaultRequestHeaders.Add(AUTHTOKEN, HomematicConfiguration.AuthToken);
+
             _clientWebSocket.Options.SetRequestHeader(AUTHTOKEN, HomematicConfiguration.AuthToken);
             _clientWebSocket.Options.SetRequestHeader(CLIENTAUTH, ClientAuthToken);
         }
