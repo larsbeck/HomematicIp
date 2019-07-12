@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace HomematicIp.Data.JsonConverters
 {
-    public class AbstractListConverter<T1, T2> : JsonConverter<List<T1>> where T2: struct, Enum where T1:IHaveARawJsonProperty
+    public class AbstractListConverter<T1, T2> : JsonConverter<List<T1>> where T2 : struct, Enum where T1 : IHaveARawJsonProperty
     {
         private readonly string _typeDefiningProperty;
 
@@ -27,11 +27,19 @@ namespace HomematicIp.Data.JsonConverters
             {
                 Enum.TryParse(jToken[_typeDefiningProperty].Value<string>(), out T2 typedEnum);
                 var raw = jToken.ToString();
-                var type = EnumToType.GetType(typedEnum, raw);
-                if (JsonConvert.DeserializeObject(raw, type) is T1 typedItem)
+                try
                 {
-                    typedItem.RawJson = raw;
-                    list.Add(typedItem);
+                    var type = EnumToType.GetType(typedEnum, raw);
+                    if (JsonConvert.DeserializeObject(raw, type) is T1 typedItem)
+                    {
+                        typedItem.RawJson = raw;
+                        list.Add(typedItem);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error parsing following type {typedEnum.ToString()}, json: {raw}");
+                    throw ex;
                 }
             }
             return list;

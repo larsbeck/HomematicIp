@@ -174,6 +174,17 @@ namespace HomematicIp.Services
             public string DeviceId { get; set; }
         }
 
+        protected class EnableSimpleRuleRequestObject
+        {
+            public EnableSimpleRuleRequestObject(bool enabled, string ruleId)
+            {
+                Enabled = enabled;
+                RuleId = ruleId;
+            }
+            public bool Enabled { get; set; }
+            public string RuleId { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";

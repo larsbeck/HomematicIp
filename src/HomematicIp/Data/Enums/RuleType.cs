@@ -4,10 +4,8 @@ using Newtonsoft.Json.Converters;
 namespace HomematicIp.Data.Enums
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum ClimateControlMode
+    public enum RuleType
     {
-        AUTOMATIC,
-        MANUAL,
-        ECO
+        SIMPLE
     }
 }
