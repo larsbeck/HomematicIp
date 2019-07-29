@@ -185,6 +185,15 @@ namespace HomematicIp.Services
             public string RuleId { get; set; }
         }
 
+        protected class RegisterFCMRequestObject
+        {
+            public RegisterFCMRequestObject(string token)
+            {
+                Token = token;
+            }
+            public string Token { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
