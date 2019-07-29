@@ -1,29 +1,21 @@
-﻿using System;
-using HomematicIp.Data.Enums;
-using HomematicIp.Data.JsonConverters;
+﻿using HomematicIp.Data.Enums;
+using HomematicIp.Data.HomematicIpObjects.Devices;
 using Newtonsoft.Json;
 
 namespace HomematicIp.Data.HomematicIpObjects.Groups
 {
     [EnumMap(GroupType.HUMIDITY_WARNING_RULE_GROUP)]
-    public class HumidityWarningRuleGroup : Group
+    public class HumidityWarningRuleGroup : RuleGroup
     {
-        [JsonProperty(PropertyName = "triggered")]
-        public bool? IsTriggered { get; set; }
-        [JsonProperty(PropertyName = "enabled")]
-        public bool? IsEnabled { get; set; }
-
         public double? HumidityUpperThreshold { get; set; }
         public double? HumidityLowerThreshold { get; set; }
 
         [JsonProperty(PropertyName = "humidityValidationResult")]
         public virtual HumidityValidationType? HumidityValidationResult { get; set; }
 
-        [JsonProperty(PropertyName = "validationRecommended")]
-        public bool? IsValidationRecommended { get; set; }
+        [JsonProperty(PropertyName = "ventilationRecommended")]
+        public bool? IsVentilationecommended { get; set; }
 
-        public dynamic OutdoorClimateSensor { get; set; }
-        [JsonConverter(typeof(TimespanConverter))]
-        public TimeSpan? LastExecutionTimestamp { get; set; }
+        public OutdoorClimateSensor OutdoorClimateSensor { get; set; }
     }
 }
