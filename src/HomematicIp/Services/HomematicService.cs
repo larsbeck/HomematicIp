@@ -164,6 +164,30 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task<bool> SetShutterLevel(int channelIndex, string deviceId, double shutterLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetShutterLevelRequestObject(channelIndex, deviceId, shutterLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setShutterLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> Stop(int channelIndex, string deviceId, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new StopRequestObject(channelIndex, deviceId);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/stop", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         public async Task<bool> EnableSimpleRule(bool enabled, string ruleId, CancellationToken cancellationToken = default)
         {
             var requestObject = new EnableSimpleRuleRequestObject(enabled, ruleId);
@@ -179,13 +203,16 @@ namespace HomematicIp.Services
         public async Task<bool> RegisterFCM(string token, CancellationToken cancellationToken = default)
         {
             var requestObject = new RegisterFCMRequestObject(token);
-            var stringContent = GetStringContent(requestObject);
+            using (var stringContent = GetStringContent(requestObject))
+            {
+                using (var httpResponseMessage = await HttpClient.PostAsync("hmip/client/registerFCM", stringContent, cancellationToken))
+                {
+                    if (httpResponseMessage.IsSuccessStatusCode)
+                        return true;
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/client/registerFCM", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+                    throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+                }
+            }
         }
 
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();

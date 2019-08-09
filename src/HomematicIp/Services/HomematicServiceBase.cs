@@ -155,6 +155,35 @@ namespace HomematicIp.Services
             /// </summary>
             public double SlatsLevel { get; set; }
         }
+        protected class SetShutterLevelRequestObject
+        {
+            public SetShutterLevelRequestObject(int channelIndex, string deviceId, double shutterLevel)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                ShutterLevel = shutterLevel;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double ShutterLevel { get; set; }
+        }
+
+        protected class StopRequestObject
+        {
+            public StopRequestObject(int channelIndex, string deviceId)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+        }
 
         protected class SetPinRequestObject
         {
