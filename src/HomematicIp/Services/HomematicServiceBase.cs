@@ -223,6 +223,17 @@ namespace HomematicIp.Services
             public string Token { get; set; }
         }
 
+        protected class SetPointTemperatureRequestObject
+        {
+            public SetPointTemperatureRequestObject(string groupId, double setPointTemperature)
+            {
+                GroupId = groupId;
+                SetPointTemperature = setPointTemperature;
+            }
+            public string GroupId { get; set; }
+            public double SetPointTemperature { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";

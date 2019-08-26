@@ -200,6 +200,20 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        //https://srv04.homematic.com:6969/hmip/group/heating/setSetPointTemperature
+        //{"groupId":"772882ff-4026-4de1-9de8-c4fe673d8a7b","setPointTemperature":21.5}
+        public async Task<bool> SetSetPointTemperature(string groupId, double setPointTemperature, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetPointTemperatureRequestObject(groupId, setPointTemperature);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/setSetPointTemperature", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         public async Task<bool> RegisterFCM(string token, CancellationToken cancellationToken = default)
         {
             var requestObject = new RegisterFCMRequestObject(token);
