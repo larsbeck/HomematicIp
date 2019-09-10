@@ -214,6 +214,20 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        //https://srv04.homematic.com:6969/hmip/home/heating/setEcoTemperature
+        //{"ecoTemperature":16.0}
+        public async Task<bool> SetEcoTemperature(double ecoTemperature, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetEcoTemperatureRequestObject(ecoTemperature);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/setEcoTemperature", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         public async Task<bool> RegisterFCM(string token, CancellationToken cancellationToken = default)
         {
             var requestObject = new RegisterFCMRequestObject(token);

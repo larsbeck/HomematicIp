@@ -234,6 +234,15 @@ namespace HomematicIp.Services
             public double SetPointTemperature { get; set; }
         }
 
+        protected class SetEcoTemperatureRequestObject
+        {
+            public SetEcoTemperatureRequestObject(double ecoTemperature)
+            {
+                EcoTemperature = ecoTemperature;
+            }
+            public double EcoTemperature { get; set; }
+        }
+        
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
