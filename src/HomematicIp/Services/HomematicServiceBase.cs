@@ -43,10 +43,9 @@ namespace HomematicIp.Services
             else
             {
                 if ((int)httpResponseMessage.StatusCode == 418) //I'm a teapot message
-                {
                     throw new ArgumentException($"It is highly likely that you accidentally mistyped your access point id.");
-                }
-                restAndWebSocketUrls = new RestAndWebSocketUrls { UrlREST = "https://ps1.homematic.com:6969/", UrlWebSocket = "wss://ps1.homematic.com:8888/" };
+                
+                throw new Exception($"Error looking up the host: {httpResponseMessage.StatusCode}, {httpResponseMessage.ReasonPhrase}");
             }
             HttpClient = HttpClientFactory();
 
@@ -59,8 +58,11 @@ namespace HomematicIp.Services
         }
 
         private JsonSerializerSettings JsonSerializerSettings { get; } = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        protected StringContent GetStringContent(object obj) =>
-            new StringContent(JsonConvert.SerializeObject(obj, JsonSerializerSettings));
+        protected StringContent GetStringContent(object obj)
+        {
+            var json = JsonConvert.SerializeObject(obj, JsonSerializerSettings);
+            return new StringContent(json);
+        }
 
         protected class RestAndWebSocketUrls
         {
@@ -76,6 +78,8 @@ namespace HomematicIp.Services
 
             public ClientCharacteristics ClientCharacteristics { get; set; } = new ClientCharacteristics();
             public string Id { get; set; }
+
+            public override string ToString() => $"Access Point Id: {Id} with client characteristics: {ClientCharacteristics.ToString()}";
         }
 
         protected class StartInclusionModeForDeviceRequestObject
@@ -253,6 +257,8 @@ namespace HomematicIp.Services
             public string Language => CultureInfo.CurrentCulture.Name;
             public string OsType => Environment.OSVersion.Platform.ToString();
             public string OsVersion => Environment.OSVersion.Version.ToString();
+
+            public override string ToString() => $"API: {ApiVersion} / OS Type: {OsType} / OS Version: {OsVersion} / Language: {Language} / Device Type: {DeviceType}";
         }
         private string GetAccessPointIdWithoutDashes(string accessPointId)
         {
