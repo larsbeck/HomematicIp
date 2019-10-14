@@ -54,5 +54,7 @@ namespace HomematicIp.Data.Enums
         WEATHER_SENSOR,
         WEATHER_SENSOR_PLUS,
         WEATHER_SENSOR_PRO,
+        ACCELERATION_SENSOR,
+        REMOTE_CONTROL_8_MODULE
     }
 }

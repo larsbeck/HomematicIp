@@ -43,10 +43,9 @@ namespace HomematicIp.Services
             else
             {
                 if ((int)httpResponseMessage.StatusCode == 418) //I'm a teapot message
-                {
                     throw new ArgumentException($"It is highly likely that you accidentally mistyped your access point id.");
-                }
-                restAndWebSocketUrls = new RestAndWebSocketUrls { UrlREST = "https://ps1.homematic.com:6969/", UrlWebSocket = "wss://ps1.homematic.com:8888/" };
+                
+                throw new Exception($"Error looking up the host: {httpResponseMessage.StatusCode}, {httpResponseMessage.ReasonPhrase}");
             }
             HttpClient = HttpClientFactory();
 
@@ -59,8 +58,11 @@ namespace HomematicIp.Services
         }
 
         private JsonSerializerSettings JsonSerializerSettings { get; } = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        protected StringContent GetStringContent(object obj) =>
-            new StringContent(JsonConvert.SerializeObject(obj, JsonSerializerSettings));
+        protected StringContent GetStringContent(object obj)
+        {
+            var json = JsonConvert.SerializeObject(obj, JsonSerializerSettings);
+            return new StringContent(json);
+        }
 
         protected class RestAndWebSocketUrls
         {
@@ -76,6 +78,8 @@ namespace HomematicIp.Services
 
             public ClientCharacteristics ClientCharacteristics { get; set; } = new ClientCharacteristics();
             public string Id { get; set; }
+
+            public override string ToString() => $"Access Point Id: {Id} with client characteristics: {ClientCharacteristics.ToString()}";
         }
 
         protected class StartInclusionModeForDeviceRequestObject
@@ -155,6 +159,35 @@ namespace HomematicIp.Services
             /// </summary>
             public double SlatsLevel { get; set; }
         }
+        protected class SetShutterLevelRequestObject
+        {
+            public SetShutterLevelRequestObject(int channelIndex, string deviceId, double shutterLevel)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                ShutterLevel = shutterLevel;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double ShutterLevel { get; set; }
+        }
+
+        protected class StopRequestObject
+        {
+            public StopRequestObject(int channelIndex, string deviceId)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+        }
 
         protected class SetPinRequestObject
         {
@@ -185,6 +218,35 @@ namespace HomematicIp.Services
             public string RuleId { get; set; }
         }
 
+        protected class RegisterFCMRequestObject
+        {
+            public RegisterFCMRequestObject(string token)
+            {
+                Token = token;
+            }
+            public string Token { get; set; }
+        }
+
+        protected class SetPointTemperatureRequestObject
+        {
+            public SetPointTemperatureRequestObject(string groupId, double setPointTemperature)
+            {
+                GroupId = groupId;
+                SetPointTemperature = setPointTemperature;
+            }
+            public string GroupId { get; set; }
+            public double SetPointTemperature { get; set; }
+        }
+
+        protected class SetEcoTemperatureRequestObject
+        {
+            public SetEcoTemperatureRequestObject(double ecoTemperature)
+            {
+                EcoTemperature = ecoTemperature;
+            }
+            public double EcoTemperature { get; set; }
+        }
+        
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
@@ -195,6 +257,8 @@ namespace HomematicIp.Services
             public string Language => CultureInfo.CurrentCulture.Name;
             public string OsType => Environment.OSVersion.Platform.ToString();
             public string OsVersion => Environment.OSVersion.Version.ToString();
+
+            public override string ToString() => $"API: {ApiVersion} / OS Type: {OsType} / OS Version: {OsVersion} / Language: {Language} / Device Type: {DeviceType}";
         }
         private string GetAccessPointIdWithoutDashes(string accessPointId)
         {

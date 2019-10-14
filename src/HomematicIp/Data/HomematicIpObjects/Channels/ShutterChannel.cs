@@ -2,13 +2,13 @@
 
 namespace HomematicIp.Data.HomematicIpObjects.Channels
 {
-    [EnumMap(Enums.FunctionalChannelType.BLIND_CHANNEL)]
-    public class BlindChannel : Channel
+    [EnumMap(Enums.FunctionalChannelType.SHUTTER_CHANNEL)]
+    public class ShutterChannel : Channel
     {
-        public dynamic ShutterLevel { get; set; }
-        public dynamic PreviousShutterLevel { get; set; }
-        public dynamic SlatsLevel { get; set; }
-        public dynamic PreviousSlatsLevel { get; set; }
+        public double? ShutterLevel { get; set; }
+        public double? PreviousShutterLevel { get; set; }
+        public double? SlatsLevel { get; set; }
+        public double? PreviousSlatsLevel { get; set; }
         [JsonProperty(PropertyName = "processing")]
         public bool IsProcessing { get; set; }
         [JsonProperty(PropertyName = "selfCalibrationInProgress")]
@@ -25,9 +25,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public double? DelayCompensationValue { get; set; }
         [JsonProperty(PropertyName = "supportingDelayCompensation")]
         public bool? DoesSupportDelayCompensation { get; set; }
-        public double? SlatsReferenceTime { get; set; }
-        [JsonProperty(PropertyName = "blindModeActive")]
-        public bool? IsBlindModeActive { get; set; }
         public string ProfileMode { get; set; }
     }
 }

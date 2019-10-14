@@ -12,7 +12,10 @@ namespace HomematicIp.Data.JsonConverters
 
         public override TimeSpan ReadJson(JsonReader reader, Type objectType, TimeSpan existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            return TimeSpan.FromTicks((long) reader.Value);
+            if (reader.Value == null)
+                return TimeSpan.FromTicks(-1);            
+            
+            return TimeSpan.FromTicks((long)reader.Value);
         }
     }
 }
