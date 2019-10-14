@@ -21,7 +21,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         //AVERAGE_VALUE
         public string WindValueType { get; set; }
         [JsonProperty(PropertyName = "raining")]
-        public bool IsRaining { get; set; }
+        public bool? IsRaining { get; set; }
         public double TotalRainCounter { get; set; }
         public double TodayRainCounter { get; set; }
         public double YesterdayRainCounter { get; set; }

@@ -10,6 +10,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public double? Illumination { get; set; }
         public double? WindSpeed { get; set; }
         [JsonProperty(PropertyName = "raining")]
-        public bool IsRaining { get; set; }
+        public bool? IsRaining { get; set; }
     }
 }
