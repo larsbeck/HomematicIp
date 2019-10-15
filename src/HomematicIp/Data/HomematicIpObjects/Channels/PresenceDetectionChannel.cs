@@ -2,7 +2,7 @@
 
 namespace HomematicIp.Data.HomematicIpObjects.Channels
 {
-    [EnumMap(FunctionalChannelType.MOTION_DETECTION_CHANNEL)]
+    [EnumMap(FunctionalChannelType.PRESENCE_DETECTION_CHANNEL)]
     public class PresenceDetectionChannel : DeviceSabotageChannelBase
     {
         public bool? PresenceDetected { get; set; }
