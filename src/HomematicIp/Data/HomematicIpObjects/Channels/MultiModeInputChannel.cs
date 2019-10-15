@@ -4,7 +4,7 @@ using HomematicIp.Data.HomematicIpObjects.Channels;
 
 namespace HomematicIp.Data.HomematicIpObjects.Devices
 {
-    [EnumMap(DeviceType.FULL_FLUSH_CONTACT_INTERFACE)]
+    //[EnumMap(DeviceType.FULL_FLUSH_CONTACT_INTERFACE)]
     public class MultiModeInputChannel : SabotageDevice
     {
         private ShutterContactChannel ShutterContactChannel =>
