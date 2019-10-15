@@ -20,6 +20,7 @@ namespace HomematicIp.Data.Enums
         HEATING_EXTERNAL_CLOCK,
         HEATING_FAILURE_ALERT_RULE_GROUP,
         HEATING,
+        HOT_WATER,
         HUMIDITY_WARNING_RULE_GROUP,
         SECURITY_ZONE,
         INBOX,
