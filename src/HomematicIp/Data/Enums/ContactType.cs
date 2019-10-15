@@ -4,10 +4,10 @@ using Newtonsoft.Json.Converters;
 namespace HomematicIp.Data.Enums
 {
     [JsonConverter(typeof(StringEnumConverter))]
-    public enum ShadingStateType
+    public enum ContactType
     {
-        POSITION_USED,
-        NOT_EXISTENT,
-        TILT_USED
+        NORMALLY_CLOSE,
+        NORMALLY_OPEN,
+        WINDOW_DOOR_CONTACT
     }
 }

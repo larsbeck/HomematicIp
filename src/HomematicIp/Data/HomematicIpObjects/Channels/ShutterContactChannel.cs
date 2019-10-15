@@ -7,5 +7,8 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
     {
         public WindowState? WindowState { get; set; }
         public int EventDelay { get; set; }
+
+        public ContactType? AlarmContactType { get; set; }
+        public ContactType? ContactType { get; set; }
     }
 }

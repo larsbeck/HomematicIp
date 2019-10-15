@@ -22,7 +22,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public dynamic SensorSpecificParameters { get; set; }
 
         [JsonProperty(PropertyName = "processing")]
-        public bool IsProcessing { get; set; }
+        public bool? IsProcessing { get; set; }
 
         public GroupVisibility? GroupVisibility { get; set; }
     }
