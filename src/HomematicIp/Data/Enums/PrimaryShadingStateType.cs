@@ -7,6 +7,7 @@ namespace HomematicIp.Data.Enums
     public enum ShadingStateType
     {
         POSITION_USED,
-        NOT_EXISTENT
+        NOT_EXISTENT,
+        TILT_USED
     }
 }
