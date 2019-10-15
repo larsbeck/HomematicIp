@@ -16,7 +16,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Rules
         public ShadingStateType SecondaryShadingStateType { get; set; }
 
         [JsonProperty(PropertyName = "processing")]
-        public bool IsProcessing { get; set; }
+        public bool? IsProcessing { get; set; }
 
         public SmokeDetectorAlarmType? SmokeDetectorAlarmType { get; set; }
         public string ProfileMode { get; set; }

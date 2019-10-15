@@ -10,7 +10,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public dynamic SlatsLevel { get; set; }
         public dynamic PreviousSlatsLevel { get; set; }
         [JsonProperty(PropertyName = "processing")]
-        public bool IsProcessing { get; set; }
+        public bool? IsProcessing { get; set; }
         [JsonProperty(PropertyName = "selfCalibrationInProgress")]
         public bool? IsSelfCalibrationInProgress { get; set; }
         public double? TopToBottomReferenceTime { get; set; }
