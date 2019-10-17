@@ -11,6 +11,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public double? PassageSensorSensitivity { get; set; }
         public double? PassageTimeout { get; set; }
         public double? PassageBlindtime { get; set; }
-        public PassageDirection PassageDirection { get; set; }
+        public PassageDirection? PassageDirection { get; set; }
     }
 }
