@@ -35,6 +35,7 @@ namespace HomematicIp.Data.Enums
         ENVIRONMENT,
         SECURITY_BACKUP_ALARM_SWITCHING,
         META,
-        SHUTTER_PROFILE
+        SHUTTER_PROFILE,
+        HEAT_DEMAND_RULE
     }
 }
