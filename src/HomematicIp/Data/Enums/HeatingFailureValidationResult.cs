@@ -2,6 +2,7 @@
 {
     public enum HeatingFailureValidationResult
     {
-        NO_HEATING_FAILURE
+        NO_HEATING_FAILURE,
+        HEATING_FAILURE_WARNING
     }
 }
