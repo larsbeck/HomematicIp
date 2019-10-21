@@ -6,6 +6,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
     public class DeviceIncorrectPositioned : AbstractDeviceBaseChannel
     {
         [JsonProperty(PropertyName = "incorrectPositioned")]
-        public bool IsIncorrectPositioned { get; set; }
+        public bool? IsIncorrectPositioned { get; set; }
     }
 }
