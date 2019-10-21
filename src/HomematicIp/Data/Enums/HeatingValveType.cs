@@ -8,6 +8,7 @@ namespace HomematicIp.Data.Enums
     {
         NORMALLY_CLOSE,
         NORMALLY_OPEN,
-        LOAD_COLLECTION
+        LOAD_COLLECTION,
+        LOAD_BALANCING
     }
 }
