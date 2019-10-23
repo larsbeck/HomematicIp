@@ -14,7 +14,8 @@ namespace HomematicIp.Data.HomematicIpObjects.Rules
         public double? ValvePositionLowerThreshold { get; set; }
         public double? EmergencyProfileOnTime { get; set; }
         public double? EmergencyProfileOffTime { get; set; }
-        public double? EmergencyProfileSupported { get; set; }
+        [JsonProperty(PropertyName = "emergencyProfileSupported")]
+        public bool? IsEmergencyProfileSupported { get; set; }
         public double? CentralChannelIndex { get; set; }
 
         [JsonProperty(PropertyName = "heatDemand")]
