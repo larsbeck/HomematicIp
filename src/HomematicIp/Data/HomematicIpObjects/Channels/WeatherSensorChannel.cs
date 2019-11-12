@@ -5,7 +5,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
     [EnumMap(Enums.FunctionalChannelType.WEATHER_SENSOR_CHANNEL)]
     public class WeatherSensorChannel : Channel
     {
-        public double ActualTemperature { get; set; }
+        public double? ActualTemperature { get; set; }
         public double Humidity { get; set; }
         public double VaporAmount { get; set; }
         public double Illumination { get; set; }
