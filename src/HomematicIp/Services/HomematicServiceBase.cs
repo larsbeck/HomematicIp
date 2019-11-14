@@ -58,9 +58,9 @@ namespace HomematicIp.Services
         }
 
         private JsonSerializerSettings JsonSerializerSettings { get; } = new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() };
-        protected StringContent GetStringContent(object obj)
+        protected StringContent GetStringContent(object obj, bool useCamelCaseProperties = true)
         {
-            var json = JsonConvert.SerializeObject(obj, JsonSerializerSettings);
+            var json = useCamelCaseProperties ? JsonConvert.SerializeObject(obj, JsonSerializerSettings) : JsonConvert.SerializeObject(obj);
             return new StringContent(json);
         }
 
@@ -246,7 +246,28 @@ namespace HomematicIp.Services
             }
             public double EcoTemperature { get; set; }
         }
-        
+
+        protected class SetExtendedZonesActivationRequestObject
+        {
+            public SetExtendedZonesActivationRequestObject(bool ignoreLowBat, bool activateExternalZone, bool activateInternalZone)
+            {
+                IgnoreLowBat = ignoreLowBat;
+                ZonesActivation = new ZonesActivation { External = activateExternalZone, Internal = activateInternalZone };
+            }
+            [JsonProperty(PropertyName = "ignoreLowBat")]
+            public bool IgnoreLowBat { get; set; }
+            [JsonProperty(PropertyName = "zonesActivation")]
+            public ZonesActivation ZonesActivation { get; set; }
+        }
+
+        protected class ZonesActivation
+        {
+            [JsonProperty(PropertyName = "EXTERNAL")]
+            public bool External { get; set; }
+            [JsonProperty(PropertyName = "INTERNAL")]
+            public bool Internal { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";

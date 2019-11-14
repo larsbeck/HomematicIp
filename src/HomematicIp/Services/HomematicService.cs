@@ -243,6 +243,19 @@ namespace HomematicIp.Services
             }
         }
 
+        public async Task<ZonesActivationResult> SetExtendedZonesActivation(bool ignoreLowBat, bool activiateExternalZone, bool activiateInternalZone, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetExtendedZonesActivationRequestObject(ignoreLowBat, activiateExternalZone, activiateInternalZone);
+            using var stringContent = GetStringContent(requestObject, false);
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/home/security/setExtendedZonesActivation", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ZonesActivationResult>(content);
+            }
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;
