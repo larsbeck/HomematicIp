@@ -16,7 +16,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public string NotificationSoundTypeHighToLow { get; set; }
         //SOUND_SHORT
         public string NotificationSoundTypeLowToHigh { get; set; }
-        public double AccelerationSensorEventFilterPeriod { get; set; }
+        public double? AccelerationSensorEventFilterPeriod { get; set; }
         //HORIZONTAL
         public string AccelerationSensorNeutralPosition { get; set; }
     }

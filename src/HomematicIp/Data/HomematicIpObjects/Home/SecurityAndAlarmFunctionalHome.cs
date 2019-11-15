@@ -29,7 +29,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Home
         public bool IntrusionAlarmActive { get; set; }
         public SecurityZones SecurityZones { get; set; }
         public SecuritySwitchingGroups SecuritySwitchingGroups { get; set; }
-        public double ZoneActivationDelay { get; set; }
+        public double? ZoneActivationDelay { get; set; }
         public bool IntrusionAlertThroughSmokeDetectors { get; set; }
         public SecurityZoneActivationMode? SecurityZoneActivationMode { get; set; }
         public bool ActivationInProgress { get; set; }

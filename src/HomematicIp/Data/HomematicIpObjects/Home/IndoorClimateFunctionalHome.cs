@@ -12,7 +12,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Home
         public string AbsenceEndTime { get; set; }
 
         public FloorHeatingSpecificGroups FloorHeatingSpecificGroups { get; set; }
-        public double EcoTemperature { get; set; }
+        public double? EcoTemperature { get; set; }
         public bool CoolingEnabled { get; set; }
         public EcoDuration EcoDuration { get; set; }
         public bool OptimumStartStopEnabled { get; set; }

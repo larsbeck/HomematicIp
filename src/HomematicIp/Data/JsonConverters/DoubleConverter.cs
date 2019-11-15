@@ -13,7 +13,17 @@ namespace HomematicIp.Data.JsonConverters
         public override double ReadJson(JsonReader reader, Type objectType, double existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
-            return double.Parse((string) reader.Value);
+            try
+            {
+                return double.Parse((string)reader.Value);
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw ex;
+#endif
+                return 0;
+            }
         }
     }
 }

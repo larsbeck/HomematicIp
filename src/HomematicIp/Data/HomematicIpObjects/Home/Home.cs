@@ -16,13 +16,13 @@ namespace HomematicIp.Data.HomematicIpObjects.Home
         public Location Location { get; set; }
         public bool PinAssigned { get; set; }
         public bool IsLiveUpdateSupported { get; set; }
-        public double DutyCycle { get; set; }
-        public double CarrierSense { get; set; }
+        public double? DutyCycle { get; set; }
+        public double? CarrierSense { get; set; }
         public HomeUpdateState UpdateState { get; set; }
-        public double PowerMeterUnitPrice { get; set; }
+        public double? PowerMeterUnitPrice { get; set; }
         public string PowerMeterCurrency { get; set; }
         public DeviceUpdateStrategy DeviceUpdateStrategy { get; set; }
-        public double LastReadyForUpdateTimestamp { get; set; }
+        public double? LastReadyForUpdateTimestamp { get; set; }
         [JsonConverter(typeof(FunctionalHomesConverter), "solution")]
         public List<FunctionalHome> FunctionalHomes { get; set; } = new List<FunctionalHome>();
         public string InboxGroup { get; set; }
