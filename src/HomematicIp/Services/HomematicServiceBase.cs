@@ -260,13 +260,7 @@ namespace HomematicIp.Services
 
             public override string ToString() => $"API: {ApiVersion} / OS Type: {OsType} / OS Version: {OsVersion} / Language: {Language} / Device Type: {DeviceType}";
         }
-        private string GetAccessPointIdWithoutDashes(string accessPointId)
-        {
-            var accessPointIdWithoutDashes = accessPointId.Replace("-", "");
-            if (accessPointIdWithoutDashes.Length != 24)
-                throw new ArgumentException($"The accesspoint id (SGTIN) {accessPointId} is invalid. It needs to have exactly 24 digits without the dashes.");
-            return accessPointIdWithoutDashes;
-        }
+
 
         public string ClientAuthToken
         {
@@ -274,13 +268,10 @@ namespace HomematicIp.Services
             {
                 if (_clientAuthToken == null)
                 {
-                    HomematicConfiguration.AccessPointId = GetAccessPointIdWithoutDashes(HomematicConfiguration.AccessPointId);
-                    using (SHA512 shaM = new SHA512Managed())
-                    {
-                        var data = Encoding.UTF8.GetBytes($"{HomematicConfiguration.AccessPointId}jiLpVitHvWnIGD1yo7MA");
-                        var hash = shaM.ComputeHash(data);
-                        _clientAuthToken = BitConverter.ToString(hash).Replace("-", "").ToUpper();
-                    }
+                    using SHA512 shaM = new SHA512Managed();
+                    var data = Encoding.UTF8.GetBytes($"{HomematicConfiguration.AccessPointId}jiLpVitHvWnIGD1yo7MA");
+                    var hash = shaM.ComputeHash(data);
+                    _clientAuthToken = BitConverter.ToString(hash).Replace("-", "").ToUpper();
                 }
                 return _clientAuthToken;
             }
