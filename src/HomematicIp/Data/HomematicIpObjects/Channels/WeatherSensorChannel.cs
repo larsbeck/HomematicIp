@@ -11,9 +11,9 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public double? Illumination { get; set; }
         public double? WindSpeed { get; set; }
         [JsonProperty(PropertyName = "sunshine")]
-        public bool IsSunshine { get; set; }
+        public bool? IsSunshine { get; set; }
         [JsonProperty(PropertyName = "storm")]
-        public bool IsStorm { get; set; }
+        public bool? IsStorm { get; set; }
         public double? TotalSunshineDuration { get; set; }
         public double? TodaySunshineDuration { get; set; }
         public double? YesterdaySunshineDuration { get; set; }
