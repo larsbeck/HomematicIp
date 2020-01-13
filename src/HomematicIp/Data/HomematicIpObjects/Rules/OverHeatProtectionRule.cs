@@ -11,9 +11,9 @@ namespace HomematicIp.Data.HomematicIpObjects.Rules
         public double? SlatsLevel { get; set; }
 
         public double? PrimaryShadingLevel { get; set; }
-        public ShadingStateType PrimaryShadingStateType { get; set; }
+        public ShadingStateType? PrimaryShadingStateType { get; set; }
         public double? SecondaryShadingLevel { get; set; }
-        public ShadingStateType SecondaryShadingStateType { get; set; }
+        public ShadingStateType? SecondaryShadingStateType { get; set; }
 
         public double? TargetShutterLevel { get; set; }
 
