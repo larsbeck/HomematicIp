@@ -65,6 +65,7 @@ namespace HomematicIp.Data.Enums
         FLOOR_TERMINAL_BLOCK_10,
         HOERMANN_DRIVES_MODULE,
         HEATING_SWITCH_2,
-        TORMATIC_MODULE
+        TORMATIC_MODULE,
+        WALL_MOUNTED_THERMOSTAT_BASIC_HUMIDITY
     }
 }
