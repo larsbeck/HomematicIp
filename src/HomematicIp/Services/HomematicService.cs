@@ -5,9 +5,11 @@ using System.Net.Http;
 using System.Net.WebSockets;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using HomematicIp.Data;
 using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects;
@@ -62,17 +64,6 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
-        public async Task SetPin(string pin, CancellationToken cancellationToken = default)
-        {
-            var requestObject = new SetPinRequestObject(pin);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/setPin", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode) return;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
-        }
-
         public async Task StartDeviceInclusionProcess(CancellationToken cancellationToken = default)
         {
             var httpResponseMessage = await HttpClient.PostAsync("hmip/home/startDeviceInclusionProcess", ClientCharacteristicsStringContent, cancellationToken);
@@ -115,13 +106,25 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task<bool> SetPin(string pin, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetPinRequestObject(pin);
+            return await Set(requestObject, "hmip/device/setPin", cancellationToken);
+        }
+
         public async Task<bool> SetDeviceLabel(string deviceId, string label, CancellationToken cancellationToken = default)
         {
             // the label is the name of the device
             var requestObject = new SetDeviceLabelRequestObject(deviceId, label);
+            return await Set(requestObject, "hmip/device/setDeviceLabel", cancellationToken);
+        }
+
+        
+        private async Task<bool> Set(IRequestObject requestObject, string url, CancellationToken cancellationToken = default)
+        {
             var stringContent = GetStringContent(requestObject);
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/setDeviceLabel", stringContent, cancellationToken);
+            var httpResponseMessage = await HttpClient.PostAsync(url, stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
@@ -131,116 +134,55 @@ namespace HomematicIp.Services
         public async Task<bool> SetSwitchState(int channelIndex, string deviceId, bool state, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetSwitchStateRequestObject(channelIndex, deviceId, state);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSwitchState", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/device/control/setSwitchState", cancellationToken);
         }
 
         public async Task<bool> SetDimLevel(int channelIndex, string deviceId, double dimLevel, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetDimLevelRequestObject(channelIndex, deviceId, dimLevel);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setDimLevel", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/device/control/setDimLevel", cancellationToken);
         }
 
         public async Task<bool> SetSlatsLevel(int channelIndex, string deviceId, double shutterLevel, double slatsLevel, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetSlatsLevelRequestObject(channelIndex, deviceId, shutterLevel, slatsLevel);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSlatsLevel", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/device/control/setSlatsLevel", cancellationToken);
         }
 
         public async Task<bool> SetShutterLevel(int channelIndex, string deviceId, double shutterLevel, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetShutterLevelRequestObject(channelIndex, deviceId, shutterLevel);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setShutterLevel", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/device/control/setShutterLevel", cancellationToken);
         }
 
         public async Task<bool> Stop(int channelIndex, string deviceId, CancellationToken cancellationToken = default)
         {
             var requestObject = new StopRequestObject(channelIndex, deviceId);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/stop", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/device/control/stop", cancellationToken);
         }
 
         public async Task<bool> EnableSimpleRule(bool enabled, string ruleId, CancellationToken cancellationToken = default)
         {
             var requestObject = new EnableSimpleRuleRequestObject(enabled, ruleId);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/rule/enableSimpleRule", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/rule/enableSimpleRule", cancellationToken);
         }
 
-        //https://srv04.homematic.com:6969/hmip/group/heating/setSetPointTemperature
-        //{"groupId":"772882ff-4026-4de1-9de8-c4fe673d8a7b","setPointTemperature":21.5}
         public async Task<bool> SetSetPointTemperature(string groupId, double setPointTemperature, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetPointTemperatureRequestObject(groupId, setPointTemperature);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/setSetPointTemperature", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/group/heating/setSetPointTemperature", cancellationToken);
         }
 
-        //https://srv04.homematic.com:6969/hmip/home/heating/setEcoTemperature
-        //{"ecoTemperature":16.0}
         public async Task<bool> SetEcoTemperature(double ecoTemperature, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetEcoTemperatureRequestObject(ecoTemperature);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/setEcoTemperature", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            return await Set(requestObject, "hmip/home/heating/setEcoTemperature", cancellationToken);
         }
 
         public async Task<bool> RegisterFCM(string token, CancellationToken cancellationToken = default)
         {
             var requestObject = new RegisterFCMRequestObject(token);
-            using (var stringContent = GetStringContent(requestObject))
-            {
-                using (var httpResponseMessage = await HttpClient.PostAsync("hmip/client/registerFCM", stringContent, cancellationToken))
-                {
-                    if (httpResponseMessage.IsSuccessStatusCode)
-                        return true;
-
-                    throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
-                }
-            }
+            return await Set(requestObject, "hmip/client/registerFCM", cancellationToken);
         }
 
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
