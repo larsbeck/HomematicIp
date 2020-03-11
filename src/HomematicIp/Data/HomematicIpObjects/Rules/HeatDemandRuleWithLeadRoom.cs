@@ -21,6 +21,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Rules
         [JsonProperty(PropertyName = "heatDemand")]
         public bool? IsHeatDemand { get; set; }
 
-        public string? LeadGroupId { get; set; }
+        public string LeadGroupId { get; set; }
     }
 }

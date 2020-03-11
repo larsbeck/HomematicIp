@@ -22,7 +22,9 @@ namespace HomematicIp.Data.JsonConverters
 #if DEBUG
                 throw ex;
 #endif
+#pragma warning disable CS0162 // Unreachable code detected
                 return 0;
+#pragma warning restore CS0162 // Unreachable code detected
             }
         }
     }
