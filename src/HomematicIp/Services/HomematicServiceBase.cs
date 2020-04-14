@@ -260,6 +260,19 @@ namespace HomematicIp.Services
             public ZonesActivation ZonesActivation { get; set; }
         }
 
+        protected class SetStringValueRequestObject
+        {
+            public SetStringValueRequestObject(int channelIndex, string deviceId, string value)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                Value = value;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            public string Value { get; set; }
+        }
+
         protected class ZonesActivation
         {
             [JsonProperty(PropertyName = "EXTERNAL")]

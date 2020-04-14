@@ -176,6 +176,18 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task<bool> SetDeviceControlStringValue(string method, int channelIndex, string deviceId, string value, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetStringValueRequestObject(channelIndex, deviceId, value);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync($"hmip/device/control/{method}", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         public async Task<bool> Stop(int channelIndex, string deviceId, CancellationToken cancellationToken = default)
         {
             var requestObject = new StopRequestObject(channelIndex, deviceId);
