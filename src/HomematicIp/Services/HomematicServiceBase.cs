@@ -260,17 +260,28 @@ namespace HomematicIp.Services
             public ZonesActivation ZonesActivation { get; set; }
         }
 
-        protected class SetStringValueRequestObject
+        protected class SetSimpleRGBColorDimLevelRequestObject
         {
-            public SetStringValueRequestObject(int channelIndex, string deviceId, string value)
+            public SetSimpleRGBColorDimLevelRequestObject(int channelIndex, string deviceId, string simpleRGBColorState, double dimLevel)
             {
                 DeviceId = deviceId;
                 ChannelIndex = channelIndex;
-                Value = value;
+                SimpleRGBColorState = simpleRGBColorState;
+                DimLevel = dimLevel;
             }
             public int ChannelIndex { get; set; }
             public string DeviceId { get; set; }
-            public string Value { get; set; }
+            /// <summary>
+            /// YELLOW, RED, GREEN etc.
+            /// </summary>
+            public string SimpleRGBColorState { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = off
+            /// 0.50 = 50%
+            /// 1 = on
+            /// </summary>
+            public double DimLevel { get; set; }
         }
 
         protected class ZonesActivation

@@ -176,18 +176,6 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
-        public async Task<bool> SetDeviceControlStringValue(string method, int channelIndex, string deviceId, string value, CancellationToken cancellationToken = default)
-        {
-            var requestObject = new SetStringValueRequestObject(channelIndex, deviceId, value);
-            var stringContent = GetStringContent(requestObject);
-
-            var httpResponseMessage = await HttpClient.PostAsync($"hmip/device/control/{method}", stringContent, cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
-                return true;
-
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
-        }
-
         public async Task<bool> Stop(int channelIndex, string deviceId, CancellationToken cancellationToken = default)
         {
             var requestObject = new StopRequestObject(channelIndex, deviceId);
@@ -265,6 +253,19 @@ namespace HomematicIp.Services
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<ZonesActivationResult>(content);
             }
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+        //https://srv08.homematic.com:6969/hmip/device/control/setSimpleRGBColorDimLevel
+        //{"channelIndex":2,"deviceId":"3014F711A0001A5A498A9238","dimLevel":1.0,"simpleRGBColorState":"GREEN"}
+        public async Task<bool> SetSimpleRGBColorDimLevel(int channelIndex, string deviceId, string simpleRGBColorState, double dimLevel = 1.0d, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetSimpleRGBColorDimLevelRequestObject(channelIndex, deviceId, simpleRGBColorState, dimLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSimpleRGBColorDimLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
