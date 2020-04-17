@@ -8,6 +8,7 @@ namespace HomematicIp.Data.Enums
     {
         OPEN,
         CLOSED,
-        TILTED
+        TILTED,
+        POSITION_UNKNOWN
     }
 }
