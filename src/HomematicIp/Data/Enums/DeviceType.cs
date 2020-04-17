@@ -70,6 +70,7 @@ namespace HomematicIp.Data.Enums
         ROOM_CONTROL_DEVICE_ANALOG,
         SHUTTER_CONTACT_OPTICAL_PLUS,
         DIN_RAIL_SWITCH_4,
-        FULL_FLUSH_INPUT_SWITCH
+        FULL_FLUSH_INPUT_SWITCH,
+        WIRED_SWITCH_8
     }
 }
