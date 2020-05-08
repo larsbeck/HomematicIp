@@ -71,6 +71,7 @@ namespace HomematicIp.Data.Enums
         SHUTTER_CONTACT_OPTICAL_PLUS,
         DIN_RAIL_SWITCH_4,
         FULL_FLUSH_INPUT_SWITCH,
-        WIRED_SWITCH_8
+        WIRED_SWITCH_8,
+        DIN_RAIL_BLIND_4
     }
 }
