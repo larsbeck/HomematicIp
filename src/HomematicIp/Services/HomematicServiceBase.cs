@@ -316,13 +316,13 @@ namespace HomematicIp.Services
 
         protected class SetBoostRequestObject
         {
-            public SetBoostRequestObject(string groupId, bool boost)
+            public SetBoostRequestObject(bool boost, string groupId)
             {
-                GroupId = groupId;
                 Boost = boost;
+                GroupId = groupId;
             }
-            public string GroupId { get; set; }
             public bool Boost { get; set; }
+            public string GroupId { get; set; }
         }
 
         protected class ActivatePartyModeRequestObject

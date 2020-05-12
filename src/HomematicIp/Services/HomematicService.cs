@@ -276,7 +276,7 @@ namespace HomematicIp.Services
             var requestObject = new SetActiveProfileRequestObject(groupId, profileIndex);
             var stringContent = GetStringContent(requestObject);
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/setActiveProfile", stringContent, cancellationToken);
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/setActiveProfile", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
@@ -290,21 +290,21 @@ namespace HomematicIp.Services
             var requestObject = new SetControlModeRequestObject(groupId, controlMode);
             var stringContent = GetStringContent(requestObject);
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/setControlMode", stringContent, cancellationToken);
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/setControlMode", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
-        
+
         //hmip/home/group/heating/setBoost
         //{"boost":true,"groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361"}
         public async Task<bool> SetBoost(string groupId, bool boost, CancellationToken cancellationToken = default)
         {
-            var requestObject = new SetBoostRequestObject(groupId, boost);
+            var requestObject = new SetBoostRequestObject(boost, groupId);
             var stringContent = GetStringContent(requestObject);
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/setBoost", stringContent, cancellationToken);
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/setBoost", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
@@ -318,7 +318,7 @@ namespace HomematicIp.Services
             var requestObject = new ActivatePartyModeRequestObject(groupId, endTimeFormatted, temperature);
             var stringContent = GetStringContent(requestObject);
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/activatePartyMode", stringContent, cancellationToken);
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/activatePartyMode", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
