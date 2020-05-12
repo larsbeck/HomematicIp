@@ -269,6 +269,78 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        //hmip/home/group/heating/setActiveProfile
+        //Setting default profile: {"groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361","profileIndex":"PROFILE_1"}
+        public async Task<bool> SetActiveProfile(string groupId, string profileIndex, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetActiveProfileRequestObject(groupId, profileIndex);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/setActiveProfile", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+        
+        //hmip/home/group/heating/setControlMode
+        //set menu mode: {"controlMode":"MANUAL","groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361"}
+        public async Task<bool> SetControlMode(string groupId, ClimateControlMode controlMode = ClimateControlMode.AUTOMATIC, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetControlModeRequestObject(groupId, controlMode);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/setControlMode", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+        
+        //hmip/home/group/heating/setBoost
+        //{"boost":true,"groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361"}
+        public async Task<bool> SetBoost(string groupId, bool boost, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetBoostRequestObject(groupId, boost);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/setBoost", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+        //hmip/home/group/heating/activatePartyMode
+        //{"endTime":"2020_05_12 10:30","groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361","temperature":17.5}
+        public async Task<bool> ActivatePartyMode(string groupId, DateTime endTime, double temperature, CancellationToken cancellationToken = default)
+        {
+            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:MM");
+            var requestObject = new ActivatePartyModeRequestObject(groupId, endTimeFormatted, temperature);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/group/heating/activatePartyMode", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        //hmip/home/group/heating/setBoostDuration
+        //public async Task<bool> SetBoostDuration(string groupId, int boostDuration, CancellationToken cancellationToken = default)
+        //{
+        //    return true;
+        //}
+
+        //hmip/home/group/heating/getProfile
+        //public async Task<bool> GetProfile(string groupId, string profileIndex, string profileName, CancellationToken cancellationToken = default)
+        //{
+        //    return true;
+        //}
+
+        // when setting profile visibility in settings
+        //https://srv08.homematic.com/hmip/group/heating/setProfileVisible
+        //{"profileVisibility":{"PROFILE_5":true,"PROFILE_3":true,"PROFILE_4":true,"PROFILE_6":true,"PROFILE_2":true,"PROFILE_1":true},"groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361"}
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

@@ -292,6 +292,52 @@ namespace HomematicIp.Services
             public bool Internal { get; set; }
         }
 
+        protected class SetActiveProfileRequestObject
+        {
+            public SetActiveProfileRequestObject(string groupId, string profileIndex)
+            {
+                GroupId = groupId;
+                ProfileIndex = profileIndex;
+            }
+            public string GroupId { get; set; }
+            public string ProfileIndex { get; set; }
+        }
+
+        protected class SetControlModeRequestObject
+        {
+            public SetControlModeRequestObject(string groupId, ClimateControlMode controlMode)
+            {
+                GroupId = groupId;
+                ControlMode = controlMode;
+            }
+            public string GroupId { get; set; }
+            public ClimateControlMode ControlMode { get; set; }
+        }
+
+        protected class SetBoostRequestObject
+        {
+            public SetBoostRequestObject(string groupId, bool boost)
+            {
+                GroupId = groupId;
+                Boost = boost;
+            }
+            public string GroupId { get; set; }
+            public bool Boost { get; set; }
+        }
+
+        protected class ActivatePartyModeRequestObject
+        {
+            public ActivatePartyModeRequestObject(string groupId, string endTime, double temperature)
+            {
+                GroupId = groupId;
+                EndTime = endTime;
+                Temperature = temperature;
+            }
+            public string GroupId { get; set; }
+            public string EndTime { get; set; }
+            public double Temperature { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
