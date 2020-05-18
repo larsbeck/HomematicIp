@@ -9,6 +9,7 @@ namespace HomematicIp.Data.Enums
         OPEN,
         CLOSED,
         TILTED,
+        VENTILATION_POSITION,
         POSITION_UNKNOWN
     }
 }
