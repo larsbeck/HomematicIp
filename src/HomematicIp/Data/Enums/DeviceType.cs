@@ -72,6 +72,7 @@ namespace HomematicIp.Data.Enums
         DIN_RAIL_SWITCH_4,
         FULL_FLUSH_INPUT_SWITCH,
         WIRED_SWITCH_8,
+        WIRED_SWITCH_4,
         DIN_RAIL_BLIND_4,
         WALL_MOUNTED_REMOTE_CONTROL_ROTARY_BUTTON
     }
