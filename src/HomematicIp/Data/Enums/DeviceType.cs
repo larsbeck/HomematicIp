@@ -75,6 +75,7 @@ namespace HomematicIp.Data.Enums
         WIRED_SWITCH_4,
         DIN_RAIL_BLIND_4,
         WALL_MOUNTED_REMOTE_CONTROL_ROTARY_BUTTON,
-        WIRED_WALL_MOUNTED_THERMOSTAT
+        WIRED_WALL_MOUNTED_THERMOSTAT,
+        WIRED_FLOOR_TERMINAL_BLOCK_6 //Wired Fußbodenheizungsaktor – 6-fach (HmIPW-FAL230-C6)
     }
 }
