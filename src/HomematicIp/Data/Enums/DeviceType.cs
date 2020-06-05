@@ -78,6 +78,7 @@ namespace HomematicIp.Data.Enums
         WIRED_WALL_MOUNTED_THERMOSTAT,
         WIRED_FLOOR_TERMINAL_BLOCK_6, //Wired Fußbodenheizungsaktor – 6-fach (HmIPW-FAL230-C6),
         WIRED_BLIND_4, //Wired Jalousieaktor – 4-fach (HmIPW-DRBL4)
-        WIRED_INPUT_32, // Wired Eingangsmodul – 32-fach (HmIPW-DRI32)
+        WIRED_INPUT_32, // Wired Eingangsmodul – 32-fach (HmIPW-DRI32),
+        WIRED_INPUT_16 // Wired Eingangsmodul – 16-fach (HmIPW-DRI16)
     }
 }
