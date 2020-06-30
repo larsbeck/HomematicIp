@@ -8,7 +8,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         //ANY_MOTION
         public string AccelerationSensorMode { get; set; }
         [JsonProperty(PropertyName = "accelerationSensorTriggered")]
-        public bool IsAccelerationSensorTriggered { get; set; }
+        public bool? IsAccelerationSensorTriggered { get; set; }
         //SENSOR_RANGE_2G
         public string AccelerationSensorSensitivity { get; set; }
         public int AccelerationSensorTriggerAngle { get; set; }
