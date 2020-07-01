@@ -37,6 +37,7 @@ namespace HomematicIp.Data.Enums
         META,
         SHUTTER_PROFILE,
         HEAT_DEMAND_RULE,
-        HEAT_DEMAND_RULE_WITH_LEAD_ROOM
+        HEAT_DEMAND_RULE_WITH_LEAD_ROOM,
+        NO_HEAT_DEMAND_RULE,
     }
 }
