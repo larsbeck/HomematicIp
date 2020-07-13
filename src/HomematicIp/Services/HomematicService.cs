@@ -341,6 +341,19 @@ namespace HomematicIp.Services
         //https://srv08.homematic.com/hmip/group/heating/setProfileVisible
         //{"profileVisibility":{"PROFILE_5":true,"PROFILE_3":true,"PROFILE_4":true,"PROFILE_6":true,"PROFILE_2":true,"PROFILE_1":true},"groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361"}
 
+        public async Task<bool> SendDoorCommand(int channelIndex, string deviceId, DoorCommandType doorCommand, CancellationToken cancellationToken = default)
+        {
+            //{"channelIndex": 0, "deviceId": self.id, "doorCommand": doorCommand}
+            var requestObject = new SendDoorCommandRequestObject(channelIndex, deviceId, doorCommand);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/sendDoorCommand", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

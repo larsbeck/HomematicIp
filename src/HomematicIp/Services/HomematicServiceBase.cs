@@ -338,6 +338,19 @@ namespace HomematicIp.Services
             public double Temperature { get; set; }
         }
 
+        protected class SendDoorCommandRequestObject
+        {
+            public SendDoorCommandRequestObject(int channelIndex, string deviceId, DoorCommandType doorCommand)
+            {
+                ChannelIndex = channelIndex;
+                DeviceId = deviceId;
+                DoorCommand = doorCommand;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            public DoorCommandType DoorCommand { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
