@@ -14,7 +14,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Homematic HomematicIP home automation</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/e/ed/Skycoin_Cloud_Logo_Blue.png</PackageIconUrl>
+    <PackageIcon>Icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>1.0.8</Version>
@@ -39,5 +39,11 @@ Making more properties nullable</PackageReleaseNotes>
 
   <ItemGroup>
     <Folder Include="Data\HomematicIpObjects\Rules\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>
