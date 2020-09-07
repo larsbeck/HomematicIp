@@ -83,6 +83,7 @@ namespace HomematicIp.Data.Enums
         WIRED_DIMMER_3, // Wired Dimmaktor – 3-fach (HmIPW-DRD3)
         DIN_RAIL_DIMMER_3, // Dimmaktor für Hutschienenmontage – 3-fach (HmIP-DRDI3)
         WALL_MOUNTED_THERMOSTAT, // Wandthermostat (HmIP-WTH)
-        HOME_CONTROL_ACCESS_POINT // HmIP-HAP
+        HOME_CONTROL_ACCESS_POINT, // HmIP-HAP
+        BLIND_MODULE // HmIP-HDM1
     }
 }
