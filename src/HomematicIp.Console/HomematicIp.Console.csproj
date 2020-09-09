@@ -16,9 +16,6 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.8" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="3.1.8" />
-    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8">
-        <AllowExplicitVersion>true</AllowExplicitVersion>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
