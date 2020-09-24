@@ -39,5 +39,6 @@ namespace HomematicIp.Data.Enums
         HEAT_DEMAND_RULE,
         HEAT_DEMAND_RULE_WITH_LEAD_ROOM,
         NO_HEAT_DEMAND_RULE,
+        LINKED_RAIN_PROTECTION
     }
 }
