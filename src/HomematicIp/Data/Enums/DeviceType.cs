@@ -85,6 +85,7 @@ namespace HomematicIp.Data.Enums
         WALL_MOUNTED_THERMOSTAT, // Wandthermostat (HmIP-WTH)
         HOME_CONTROL_ACCESS_POINT, // HmIP-HAP
         BLIND_MODULE, // HmIP-HDM1
-        TILT_VIBRATION_SENSOR, // HmIP-STV ARR-Bausatz Neigungs- und Erschütterungssensor 
+        TILT_VIBRATION_SENSOR, // HmIP-STV ARR-Bausatz Neigungs- und Erschütterungssensor
+        RAIN_SENSOR, // HmIP-SRD Homematic IP Komplettbausatz Regensensor
     }
 }
