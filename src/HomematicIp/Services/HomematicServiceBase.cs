@@ -351,6 +351,25 @@ namespace HomematicIp.Services
             public DoorCommandType DoorCommand { get; set; }
         }
 
+        protected class RegisterGCMRequestObject
+        {
+            public RegisterGCMRequestObject(string registrationId)
+            {
+                RegistrationId = registrationId;
+            }
+            public string RegistrationId { get; set; }
+        }
+
+        protected class RegisterAPNSRequestObject
+        {
+            public RegisterAPNSRequestObject(string clientToken)
+            {
+                ClientToken = clientToken;
+            }
+            public string ClientToken { get; set; }
+        }
+
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";

@@ -243,6 +243,48 @@ namespace HomematicIp.Services
             }
         }
 
+        public async Task<bool> RegisterGCM(string registrationId, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new RegisterGCMRequestObject(registrationId);
+            using var stringContent = GetStringContent(requestObject);
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/client/registerGCM", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> UnregisterGCM(CancellationToken cancellationToken = default)
+        {
+            using var stringContent = new StringContent("");
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/client/unregisterGCM", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> RegisterAPNS(string clientToken, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new RegisterAPNSRequestObject(clientToken);
+            using var stringContent = GetStringContent(requestObject);
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/client/registerAPNS", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> UnregisterAPNS(CancellationToken cancellationToken = default)
+        {
+            using var stringContent = new StringContent("");
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/client/unregisterAPNS", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         public async Task<ZonesActivationResult> SetExtendedZonesActivation(bool ignoreLowBat, bool activiateExternalZone, bool activiateInternalZone, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetExtendedZonesActivationRequestObject(ignoreLowBat, activiateExternalZone, activiateInternalZone);
