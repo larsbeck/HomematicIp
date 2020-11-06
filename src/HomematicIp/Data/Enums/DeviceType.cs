@@ -89,5 +89,6 @@ namespace HomematicIp.Data.Enums
         RAIN_SENSOR, // HmIP-SRD Homematic IP Komplettbausatz Regensensor
         PUSH_BUTTON_FLAT, // HmIP-WRCC2
         WIRED_DIN_RAIL_ACCESS_POINT, //HmIPW-DRAP
+        WIRED_INPUT_SWITCH_6 //HmIPW-FIO6
     }
 }
