@@ -88,5 +88,6 @@ namespace HomematicIp.Data.Enums
         TILT_VIBRATION_SENSOR, // HmIP-STV ARR-Bausatz Neigungs- und Erschütterungssensor
         RAIN_SENSOR, // HmIP-SRD Homematic IP Komplettbausatz Regensensor
         PUSH_BUTTON_FLAT, // HmIP-WRCC2
+        WIRED_DIN_RAIL_ACCESS_POINT, //HmIPW-DRAP
     }
 }
