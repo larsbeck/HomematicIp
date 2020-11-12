@@ -412,7 +412,69 @@ namespace HomematicIp.Services
             public string ProfileIndex { get; set; }
             public Data.HomematicIpObjects.Groups.Profile Profile { get; set; }
         }
-        
+
+        protected class SetSwitchGroupStateRequestObject
+        {
+            public SetSwitchGroupStateRequestObject(string groupId, bool state)
+            {
+                GroupId = groupId;
+                On = state;
+            }
+            public string GroupId { get; set; }
+            public bool On { get; set; }
+        }
+
+        protected class SetSwitchGroupStateWithTimeRequestObject
+        {
+            public SetSwitchGroupStateWithTimeRequestObject(string groupId, bool state, double onTime)
+            {
+                GroupId = groupId;
+                On = state;
+                OnTime = onTime;
+            }
+            public string GroupId { get; set; }
+            public bool On { get; set; }
+            public double OnTime { get; set; }
+        }
+
+        protected class SetDimGroupLevelRequestObject
+        {
+            public SetDimGroupLevelRequestObject(string groupId, double dimLevel)
+            {
+                GroupId = groupId;
+                DimLevel = dimLevel;
+            }
+            public string GroupId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = off
+            /// 0.50 = 50%
+            /// 1 = on
+            /// </summary>
+            public double DimLevel { get; set; }
+        }
+
+        protected class SetDimGroupLevelWithTimeRequestObject
+        {
+            public SetDimGroupLevelWithTimeRequestObject(string groupId, double dimLevel, double onTime, double rampTime)
+            {
+                GroupId = groupId;
+                DimLevel = dimLevel;
+                OnTime = onTime;
+                RampTime = rampTime;
+            }
+            public string GroupId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = off
+            /// 0.50 = 50%
+            /// 1 = on
+            /// </summary>
+            public double DimLevel { get; set; }
+            public double OnTime { get; set; }
+            public double RampTime { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";

@@ -495,6 +495,98 @@ namespace HomematicIp.Services
         //setProfileLabel
         //setProfileVisible
 
+        /// <summary>
+        /// Set the switch state of all devices of the applicable type of a group to the given value.
+        /// Solution = LIGHT_AND_SHADOW
+        /// Possible event bus notifications: DEVICE_CHANGED, GROUP_CHANGED
+        /// Notes: This request is valid for all types of switching groups like room based, user created or predefined alarm light.
+        /// </summary>
+        /// <param name="groupId">The id of the affected group.</param>
+        /// <param name="state">The desired switch state.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetSwitchGroupState(string groupId, bool state, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetSwitchGroupStateRequestObject(groupId, state);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/setState", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Sets the switch state of all devices of the applicable type of a group to the given value at a defined time.
+        /// Notes: This request is valid for all types of switching groups like room based, user created or predefined alarm light.
+        /// Possible event bus notifications: GROUP_CHANGED
+        /// </summary>
+        /// <param name="groupId">The id of the affected group.</param>
+        /// <param name="state">The desired switch state.</param>
+        /// <param name="onTime">Time when the switch state should be changed. Allowed values: 0.1 - 16383</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetSwitchGroupStateWithTime(string groupId, bool state, double onTime, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetSwitchGroupStateWithTimeRequestObject(groupId, state, onTime);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/setSwitchStateWithTime", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Sets the dimming level of all devices of the applicable type of a group to the given value.
+        /// Solution = LIGHT_AND_SHADOW
+        /// Possible event bus notifications: DEVICE_CHANGED, GROUP_CHANGED
+        /// Notes: If value is > 0 also the state of switching actors of this group will be set to on, i.e. 0 to off.
+        /// This request is valid for all types of switching groups like room based, user created or predefined
+        /// alarm light.
+        /// </summary>
+        /// <param name="groupId">The id of the affected group.</param>
+        /// <param name="dimLevel">The desired dimming level.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetDimGroupLevel(string groupId, double dimLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetDimGroupLevelRequestObject(groupId, dimLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/setDimLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Sets the dimming level of all devices of the applicable type of a group to the given value at a defined time.
+        /// Solution = LIGHT_AND_SHADOW
+        /// Possible event bus notifications: DEVICE_CHANGED, GROUP_CHANGED
+        /// Notes: This request is valid for all types of switching groups like room based, user created or predefined alarm light.
+        /// </summary>
+        /// <param name="groupId">The id of the affected group.</param>
+        /// <param name="dimLevel">The desired dimming level.</param>
+        /// <param name="onTime">The duration of switching on. Allowed values: 0.1 - 16383</param>
+        /// <param name="rampTime">The switch-on ramp. Allowed values: 0.1 - 16383</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetDimGroupLevelWithTime(string groupId, double dimLevel, double onTime, double rampTime, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetDimGroupLevelWithTimeRequestObject(groupId, dimLevel, onTime, rampTime);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/setDimLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;
