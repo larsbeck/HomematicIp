@@ -587,6 +587,67 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        /// <summary>
+        /// Stop all moving shutter/blind of a group
+        /// Solution = LIGHT_AND_SHADOW
+        /// Notes: This request is valid for all types of switching groups like room based, user created or predefined alarm light.
+        /// </summary>
+        /// <param name="groupId">The id of the affected group.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> StopGroup(string groupId, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new StopGroupRequestObject(groupId);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/stop", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Sets the primary shading level.
+        /// </summary>
+        /// <param name="groupId">The id of the affected group.</param>
+        /// <param name="primaryShadingLevel">The shading level. Allowed values: 0.0 - 1.0</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetPrimaryShadingLevel(string groupId, double primaryShadingLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetPrimaryShadingLevelRequestObject(groupId, primaryShadingLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/setPrimaryShadingLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Sets the secondary shading level.
+        /// </summary>
+        /// <param name="groupId">The id of the affected group.</param>
+        /// <param name="primaryShadingLevel">The primary shading level. Allowed values: 0.0 - 1.0</param>
+        /// <param name="shutterLevel">The shutter level. Allowed values: 0.0 - 1.0</param>
+        /// <param name="slatsLevel">The slats level. Allowed values: 0.0 - 1.0</param>
+        /// <param name="secondaryShadingLevel">The secondary shading level. Allowed values: 0.0 - 1.0</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetPrimaryShadingLevel(string groupId, double primaryShadingLevel, double shutterLevel, double slatsLevel, double secondaryShadingLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetSecondaryShadingLevelRequestObject(groupId, primaryShadingLevel, shutterLevel, slatsLevel, secondaryShadingLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/setSecondaryShadingLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

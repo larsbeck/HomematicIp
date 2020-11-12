@@ -475,6 +475,55 @@ namespace HomematicIp.Services
             public double RampTime { get; set; }
         }
 
+        protected class StopGroupRequestObject
+        {
+            public StopGroupRequestObject(string groupId)
+            {
+                GroupId = groupId;
+            }
+            public string GroupId { get; set; }
+        }
+
+        protected class SetPrimaryShadingLevelRequestObject
+        {
+            public SetPrimaryShadingLevelRequestObject(string groupId, double primaryShadingLevel)
+            {
+                GroupId = groupId;
+                PrimaryShadingLevel = primaryShadingLevel;
+            }
+            public string GroupId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double PrimaryShadingLevel { get; set; }
+        }
+
+        protected class SetSecondaryShadingLevelRequestObject
+        {
+            public SetSecondaryShadingLevelRequestObject(string groupId, double primaryShadingLevel, double shutterLevel, double slatsLevel, double secondaryShadingLevel)
+            {
+                GroupId = groupId;
+                PrimaryShadingLevel = primaryShadingLevel;
+                ShutterLevel = shutterLevel;
+                SlatsLevel = slatsLevel;
+                SecondaryShadingLevel = secondaryShadingLevel;
+            }
+            public string GroupId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double PrimaryShadingLevel { get; set; }
+            public double ShutterLevel { get; set; }
+            public double SlatsLevel { get; set; }
+            public double SecondaryShadingLevel { get; set; }
+        }
+
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
