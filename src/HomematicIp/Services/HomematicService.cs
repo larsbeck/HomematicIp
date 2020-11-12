@@ -311,8 +311,14 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
-        //hmip/home/group/heating/setActiveProfile
-        //Setting default profile: {"groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361","profileIndex":"PROFILE_1"}
+        /// <summary>
+        /// Activate the profile on the applicable devices in the heating group.
+        /// Possible event bus notifications: DEVICE_CHANGED, GROUP_CHANGED
+        /// </summary>
+        /// <param name="groupId">The identifier of the heating group of which the active profile should be set.</param>
+        /// <param name="profileIndex">The index of the profile that should be activated.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<bool> SetActiveProfile(string groupId, string profileIndex, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetActiveProfileRequestObject(groupId, profileIndex);
@@ -324,7 +330,7 @@ namespace HomematicIp.Services
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
-        
+
         //hmip/home/group/heating/setControlMode
         //set menu mode: {"controlMode":"MANUAL","groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361"}
         public async Task<bool> SetControlMode(string groupId, ClimateControlMode controlMode = ClimateControlMode.AUTOMATIC, CancellationToken cancellationToken = default)
@@ -352,8 +358,7 @@ namespace HomematicIp.Services
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
-        //hmip/home/group/heating/activatePartyMode
-        //{"endTime":"2020_05_12 10:30","groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361","temperature":17.5}
+
         public async Task<bool> ActivatePartyMode(string groupId, DateTime endTime, double temperature, CancellationToken cancellationToken = default)
         {
             var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:MM");
@@ -367,25 +372,8 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
-        //hmip/home/group/heating/setBoostDuration
-        //public async Task<bool> SetBoostDuration(string groupId, int boostDuration, CancellationToken cancellationToken = default)
-        //{
-        //    return true;
-        //}
-
-        //hmip/home/group/heating/getProfile
-        //public async Task<bool> GetProfile(string groupId, string profileIndex, string profileName, CancellationToken cancellationToken = default)
-        //{
-        //    return true;
-        //}
-
-        // when setting profile visibility in settings
-        //https://srv08.homematic.com/hmip/group/heating/setProfileVisible
-        //{"profileVisibility":{"PROFILE_5":true,"PROFILE_3":true,"PROFILE_4":true,"PROFILE_6":true,"PROFILE_2":true,"PROFILE_1":true},"groupId":"5ba14748-1b83-4bd6-aff0-2b11f8b5c361"}
-
         public async Task<bool> SendDoorCommand(int channelIndex, string deviceId, DoorCommandType doorCommand, CancellationToken cancellationToken = default)
         {
-            //{"channelIndex": 0, "deviceId": self.id, "doorCommand": doorCommand}
             var requestObject = new SendDoorCommandRequestObject(channelIndex, deviceId, doorCommand);
             var stringContent = GetStringContent(requestObject);
 
@@ -395,6 +383,117 @@ namespace HomematicIp.Services
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
+
+        /// <summary>
+        /// Activate the vacation mode. 
+        /// Possible event bus notifications HOME_CHANGED. 
+        /// Solution = INDOOR_CLIMATE
+        /// </summary>
+        /// <param name="endTime">The end time of the vacation mode</param>
+        /// <param name="temperature">The temperature 5-30 that should be used during vacation mode</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> ActivateVacation(DateTime endTime, double temperature, CancellationToken cancellationToken = default)
+        {
+            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:MM");
+            var requestObject = new ActivateVacationRequestObject(endTimeFormatted, temperature);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/activateVacation", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Deactivate the vacation mode. 
+        /// Possible event bus notifications HOME_CHANGED. 
+        /// Solution = INDOOR_CLIMATE
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> DeactivateVacation(CancellationToken cancellationToken = default)
+        {
+            using var stringContent = new StringContent("");
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/deactivateVacation", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Set the default duration of the economy mode if the eco push button is pressed. 
+        /// Possible event bus notifications HOME_CHANGED.
+        /// Solution = INDOOR_CLIMATE
+        /// </summary>
+        /// <param name="ecoDuration">The duration of the economy mode for activation with the eco push button</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> SetEcoDuration(EcoDuration ecoDuration, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetEcoDurationRequestObject(ecoDuration);
+            using var stringContent = GetStringContent(requestObject);
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/setEcoDuration", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Get the profile of the heating group with the given index. 
+        /// Solution = INDOOR_CLIMATE
+        /// </summary>
+        /// <param name="groupId">The identifier of the heating group of which the profileis requested.</param>
+        /// <param name="profileIndex">The index of the profile that is requested. e.g PROFILE_1</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Data.HomematicIpObjects.Groups.Profile> GetProfile(string groupId, string profileIndex, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new GetProfileRequestObject(groupId, profileIndex);
+            using var stringContent = GetStringContent(requestObject);
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/getProfile", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+            {
+                var content = await httpResponseMessage.Content.ReadAsStringAsync();
+                var profileDays = JsonConvert.DeserializeObject<Data.HomematicIpObjects.Groups.ProfileDays>(content);
+                return new Data.HomematicIpObjects.Groups.Profile
+                {
+                    ProfileDays = profileDays,
+                    GroupId = groupId,
+                    ProfileId = profileIndex,
+                    Index = profileIndex
+                };
+            }
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Update the profile of a heating group.
+        /// Possible event bus notifications: GROUP_CHANGED
+        /// Solution = INDOOR_CLIMATE
+        /// </summary>
+        /// <param name="groupId">The identifier of the heating group of which the profile should be updated.</param>
+        /// <param name="profileIndex">The index of the profile that should be updated.</param>
+        /// <param name="profile">The profile with its new values.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateProfile(string groupId, string profileIndex, Data.HomematicIpObjects.Groups.Profile profile, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new UpdateProfileRequestObject(groupId, profileIndex, profile);
+            using var stringContent = GetStringContent(requestObject);
+            using var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/updateProfile", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        //copyProfile
+        //setProfileLabel
+        //setProfileVisible
 
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;

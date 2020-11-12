@@ -20,5 +20,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public bool? IsVisible { get; set; }
         [JsonProperty(PropertyName = "enabled")]
         public bool? IsEnabled { get; set; }
+
+        public ProfileDays ProfileDays { get; set; } = new ProfileDays();
     }
 }

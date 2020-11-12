@@ -369,7 +369,50 @@ namespace HomematicIp.Services
             public string ClientToken { get; set; }
         }
 
+        protected class ActivateVacationRequestObject
+        {
+            public ActivateVacationRequestObject(string endTime, double temperature)
+            {
+                EndTime = endTime;
+                Temperature = temperature;
+            }
+            public string EndTime { get; set; }
+            public double Temperature { get; set; }
+        }
 
+        protected class SetEcoDurationRequestObject
+        {
+            public SetEcoDurationRequestObject(EcoDuration ecoDuration)
+            {
+                EcoDuration = ecoDuration;
+            }
+            public EcoDuration EcoDuration { get; set; }
+        }
+
+        protected class GetProfileRequestObject
+        {
+            public GetProfileRequestObject(string groupId, string profileIndex)
+            {
+                GroupId = groupId;
+                ProfileIndex = profileIndex;
+            }
+            public string GroupId { get; set; }
+            public string ProfileIndex { get; set; }
+        }
+
+        protected class UpdateProfileRequestObject
+        {
+            public UpdateProfileRequestObject(string groupId, string profileIndex, Data.HomematicIpObjects.Groups.Profile profile)
+            {
+                GroupId = groupId;
+                ProfileIndex = profileIndex;
+                Profile = profile;
+            }
+            public string GroupId { get; set; }
+            public string ProfileIndex { get; set; }
+            public Data.HomematicIpObjects.Groups.Profile Profile { get; set; }
+        }
+        
         protected class ClientCharacteristics
         {
             public string ApiVersion => "10";
