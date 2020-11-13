@@ -636,7 +636,7 @@ namespace HomematicIp.Services
         /// <param name="secondaryShadingLevel">The secondary shading level. Allowed values: 0.0 - 1.0</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> SetPrimaryShadingLevel(string groupId, double primaryShadingLevel, double shutterLevel, double slatsLevel, double secondaryShadingLevel, CancellationToken cancellationToken = default)
+        public async Task<bool> SetSecondaryShadingLevel(string groupId, double primaryShadingLevel, double shutterLevel, double slatsLevel, double secondaryShadingLevel, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetSecondaryShadingLevelRequestObject(groupId, primaryShadingLevel, shutterLevel, slatsLevel, secondaryShadingLevel);
             var stringContent = GetStringContent(requestObject);
