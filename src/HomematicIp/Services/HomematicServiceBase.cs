@@ -69,7 +69,7 @@ namespace HomematicIp.Services
             public string UrlREST { get; set; }
             public string UrlWebSocket { get; set; }
         }
-        protected class ClientCharacteristicsRequestObject
+        protected class ClientCharacteristicsRequestObject : IRequestObject
         {
             public ClientCharacteristicsRequestObject(string id)
             {
@@ -82,7 +82,7 @@ namespace HomematicIp.Services
             public override string ToString() => $"Access Point Id: {Id} with client characteristics: {ClientCharacteristics.ToString()}";
         }
 
-        protected class StartInclusionModeForDeviceRequestObject
+        protected class StartInclusionModeForDeviceRequestObject : IRequestObject
         {
             public StartInclusionModeForDeviceRequestObject(string deviceId)
             {
@@ -91,7 +91,7 @@ namespace HomematicIp.Services
             public string DeviceId { get; set; }
         }
 
-        protected class SetDeviceLabelRequestObject
+        protected class SetDeviceLabelRequestObject:IRequestObject
         {
             public SetDeviceLabelRequestObject(string deviceId, string label)
             {
@@ -102,7 +102,7 @@ namespace HomematicIp.Services
             public string Label { get; set; }
         }
 
-        protected class SetSwitchStateRequestObject
+        protected class SetSwitchStateRequestObject:IRequestObject
         {
             public SetSwitchStateRequestObject(int channelIndex, string deviceId, bool state)
             {
@@ -115,7 +115,7 @@ namespace HomematicIp.Services
             public bool On { get; set; }
         }
 
-        protected class SetDimLevelRequestObject
+        protected class SetDimLevelRequestObject : IRequestObject
         {
             public SetDimLevelRequestObject(int channelIndex, string deviceId, double dimLevel)
             {
@@ -133,7 +133,7 @@ namespace HomematicIp.Services
             /// </summary>
             public double DimLevel { get; set; }
         }
-        protected class SetSlatsLevelRequestObject
+        protected class SetSlatsLevelRequestObject : IRequestObject
         {
             public SetSlatsLevelRequestObject(int channelIndex, string deviceId, double shutterLevel, double slatsLevel)
             {
@@ -159,7 +159,7 @@ namespace HomematicIp.Services
             /// </summary>
             public double SlatsLevel { get; set; }
         }
-        protected class SetShutterLevelRequestObject
+        protected class SetShutterLevelRequestObject : IRequestObject
         {
             public SetShutterLevelRequestObject(int channelIndex, string deviceId, double shutterLevel)
             {
@@ -178,7 +178,7 @@ namespace HomematicIp.Services
             public double ShutterLevel { get; set; }
         }
 
-        protected class StopRequestObject
+        protected class StopRequestObject : IRequestObject
         {
             public StopRequestObject(int channelIndex, string deviceId)
             {
@@ -189,7 +189,7 @@ namespace HomematicIp.Services
             public string DeviceId { get; set; }
         }
 
-        protected class SetPinRequestObject
+        protected class SetPinRequestObject : IRequestObject
         {
             public SetPinRequestObject(string pin)
             {
@@ -198,7 +198,7 @@ namespace HomematicIp.Services
             public string Pin { get; set; }
         }
 
-        protected class ListAssignableMetaGroupsRequestObject
+        protected class ListAssignableMetaGroupsRequestObject : IRequestObject
         {
             public ListAssignableMetaGroupsRequestObject(string deviceId)
             {
@@ -207,7 +207,7 @@ namespace HomematicIp.Services
             public string DeviceId { get; set; }
         }
 
-        protected class EnableSimpleRuleRequestObject
+        protected class EnableSimpleRuleRequestObject : IRequestObject
         {
             public EnableSimpleRuleRequestObject(bool enabled, string ruleId)
             {
@@ -218,7 +218,7 @@ namespace HomematicIp.Services
             public string RuleId { get; set; }
         }
 
-        protected class RegisterFCMRequestObject
+        protected class RegisterFCMRequestObject : IRequestObject
         {
             public RegisterFCMRequestObject(string token)
             {
@@ -227,7 +227,7 @@ namespace HomematicIp.Services
             public string Token { get; set; }
         }
 
-        protected class SetPointTemperatureRequestObject
+        protected class SetPointTemperatureRequestObject : IRequestObject
         {
             public SetPointTemperatureRequestObject(string groupId, double setPointTemperature)
             {
@@ -238,7 +238,7 @@ namespace HomematicIp.Services
             public double SetPointTemperature { get; set; }
         }
 
-        protected class SetEcoTemperatureRequestObject
+        protected class SetEcoTemperatureRequestObject : IRequestObject
         {
             public SetEcoTemperatureRequestObject(double ecoTemperature)
             {
@@ -537,13 +537,7 @@ namespace HomematicIp.Services
 
             public override string ToString() => $"API: {ApiVersion} / OS Type: {OsType} / OS Version: {OsVersion} / Language: {Language} / Device Type: {DeviceType}";
         }
-        private string GetAccessPointIdWithoutDashes(string accessPointId)
-        {
-            var accessPointIdWithoutDashes = accessPointId.Replace("-", "");
-            if (accessPointIdWithoutDashes.Length != 24)
-                throw new ArgumentException($"The accesspoint id (SGTIN) {accessPointId} is invalid. It needs to have exactly 24 digits without the dashes.");
-            return accessPointIdWithoutDashes;
-        }
+
 
         public string ClientAuthToken
         {
@@ -551,13 +545,10 @@ namespace HomematicIp.Services
             {
                 if (_clientAuthToken == null)
                 {
-                    HomematicConfiguration.AccessPointId = GetAccessPointIdWithoutDashes(HomematicConfiguration.AccessPointId);
-                    using (SHA512 shaM = new SHA512Managed())
-                    {
-                        var data = Encoding.UTF8.GetBytes($"{HomematicConfiguration.AccessPointId}jiLpVitHvWnIGD1yo7MA");
-                        var hash = shaM.ComputeHash(data);
-                        _clientAuthToken = BitConverter.ToString(hash).Replace("-", "").ToUpper();
-                    }
+                    using SHA512 shaM = new SHA512Managed();
+                    var data = Encoding.UTF8.GetBytes($"{HomematicConfiguration.AccessPointId}jiLpVitHvWnIGD1yo7MA");
+                    var hash = shaM.ComputeHash(data);
+                    _clientAuthToken = BitConverter.ToString(hash).Replace("-", "").ToUpper();
                 }
                 return _clientAuthToken;
             }
