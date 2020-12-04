@@ -1,11 +1,27 @@
-﻿namespace HomematicIp.Data
+﻿using System;
+
+namespace HomematicIp.Data
 {
     public class HomematicConfiguration
     {
+        private string _accessPointId;
+
         /// <summary>
         /// Also called SGTIN on the back of your access point
         /// </summary>
-        public string AccessPointId { get; set; }
+        public string AccessPointId
+        {
+            get => _accessPointId;
+            set => _accessPointId = GetAccessPointIdWithoutDashes(value);
+        }
+
+        private string GetAccessPointIdWithoutDashes(string accessPointId)
+        {
+            var accessPointIdWithoutDashes = accessPointId.Replace("-", "");
+            if (accessPointIdWithoutDashes.Length != 24)
+                throw new ArgumentException($"The accesspoint id (SGTIN) {accessPointId} is invalid. It needs to have exactly 24 digits without the dashes.");
+            return accessPointIdWithoutDashes;
+        }
         /// <summary>
         /// Your PIN (if any)
         /// </summary>
