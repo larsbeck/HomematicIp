@@ -22,16 +22,19 @@ namespace HomematicIp.Services
         protected StringContent ClientCharacteristicsStringContent;
         protected const string CLIENTAUTH = "CLIENTAUTH";
 
-        protected HomematicServiceBase(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration)
+        private readonly ClientCharacteristics _clientCharacteristics;
+        protected HomematicServiceBase(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration, ClientCharacteristics clientCharacteristics = null)
         {
             HttpClientFactory = httpClientFactory;
             HomematicConfiguration = homematicConfiguration;
             HttpClient = httpClientFactory();
+            _clientCharacteristics = clientCharacteristics ?? new ClientCharacteristics();
         }
         protected virtual async Task Initialize(ClientCharacteristicsRequestObject clientCharacteristicsRequestObject = null, CancellationToken cancellationToken = default)
         {
             if (clientCharacteristicsRequestObject == null)
-                clientCharacteristicsRequestObject = new ClientCharacteristicsRequestObject(HomematicConfiguration.AccessPointId);
+                clientCharacteristicsRequestObject = new ClientCharacteristicsRequestObject(HomematicConfiguration.AccessPointId, _clientCharacteristics);
+
             ClientCharacteristicsStringContent = GetStringContent(clientCharacteristicsRequestObject);
             var httpResponseMessage = await HttpClient.PostAsync("https://lookup.homematic.com:48335/getHost", ClientCharacteristicsStringContent, cancellationToken);
             RestAndWebSocketUrls restAndWebSocketUrls;
@@ -44,7 +47,7 @@ namespace HomematicIp.Services
             {
                 if ((int)httpResponseMessage.StatusCode == 418) //I'm a teapot message
                     throw new ArgumentException($"It is highly likely that you accidentally mistyped your access point id.");
-                
+
                 throw new Exception($"Error looking up the host: {httpResponseMessage.StatusCode}, {httpResponseMessage.ReasonPhrase}");
             }
             HttpClient = HttpClientFactory();
@@ -71,12 +74,13 @@ namespace HomematicIp.Services
         }
         protected class ClientCharacteristicsRequestObject : IRequestObject
         {
-            public ClientCharacteristicsRequestObject(string id)
+            public ClientCharacteristicsRequestObject(string id, ClientCharacteristics clientCharacteristics)
             {
                 Id = id;
+                ClientCharacteristics = clientCharacteristics;
             }
 
-            public ClientCharacteristics ClientCharacteristics { get; set; } = new ClientCharacteristics();
+            public ClientCharacteristics ClientCharacteristics { get; set; }
             public string Id { get; set; }
 
             public override string ToString() => $"Access Point Id: {Id} with client characteristics: {ClientCharacteristics.ToString()}";
@@ -91,7 +95,7 @@ namespace HomematicIp.Services
             public string DeviceId { get; set; }
         }
 
-        protected class SetDeviceLabelRequestObject:IRequestObject
+        protected class SetDeviceLabelRequestObject : IRequestObject
         {
             public SetDeviceLabelRequestObject(string deviceId, string label)
             {
@@ -102,7 +106,7 @@ namespace HomematicIp.Services
             public string Label { get; set; }
         }
 
-        protected class SetSwitchStateRequestObject:IRequestObject
+        protected class SetSwitchStateRequestObject : IRequestObject
         {
             public SetSwitchStateRequestObject(int channelIndex, string deviceId, bool state)
             {
@@ -524,7 +528,7 @@ namespace HomematicIp.Services
             public double SecondaryShadingLevel { get; set; }
         }
 
-        protected class ClientCharacteristics
+        public class ClientCharacteristics
         {
             public string ApiVersion => "10";
             public string ApplicationIdentifier { get; set; } = "homematicip-dotnetcore";

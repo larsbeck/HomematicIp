@@ -30,7 +30,8 @@ namespace HomematicIp.Services
         private readonly ClientWebSocket _clientWebSocket;
         private readonly ILogger<HomematicService> _logger;
         protected const string AUTHTOKEN = "AUTHTOKEN";
-        public HomematicService(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration, ClientWebSocket clientWebSocket, ILogger<HomematicService> logger) : base(httpClientFactory, homematicConfiguration)
+
+        public HomematicService(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration, ClientWebSocket clientWebSocket, ILogger<HomematicService> logger, ClientCharacteristics clientCharacteristics) : base(httpClientFactory, homematicConfiguration, clientCharacteristics)
         {
             _clientWebSocket = clientWebSocket;
             _logger = logger;

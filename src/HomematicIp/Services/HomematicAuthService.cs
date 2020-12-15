@@ -15,7 +15,7 @@ namespace HomematicIp.Services
     {
         private readonly Guid _guid = Guid.NewGuid();
         private AuthData _authData;
-        public HomematicAuthService(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration) : base(httpClientFactory, homematicConfiguration)
+        public HomematicAuthService(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration, ClientCharacteristics clientCharacteristics = null) : base(httpClientFactory, homematicConfiguration, clientCharacteristics)
         {
         }
 
