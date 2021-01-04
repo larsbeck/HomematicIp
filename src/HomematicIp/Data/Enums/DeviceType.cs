@@ -91,5 +91,6 @@ namespace HomematicIp.Data.Enums
         WIRED_DIN_RAIL_ACCESS_POINT, //HmIPW-DRAP
         WIRED_INPUT_SWITCH_6, //HmIPW-FIO6
         REMOTE_CONTROL_BLIND_4_GROUP, //HmIP-HDRC
+        DIN_RAIL_SWITCH, // Schaltaktor für Hutschienenmontage – 1-fach
     }
 }
