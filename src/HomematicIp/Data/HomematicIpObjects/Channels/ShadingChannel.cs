@@ -19,15 +19,15 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
 		public string ShadingPackagePosition { get; set; }
 
 		[JsonProperty(PropertyName = "primaryOpenAdjustable")]
-		public bool IsPrimaryOpenAdjustable { get; set; }
+		public bool? IsPrimaryOpenAdjustable { get; set; }
 		[JsonProperty(PropertyName = "primaryCloseAdjustable")]
-		public bool IsPrimaryCloseAdjustable { get; set; }
+		public bool? IsPrimaryCloseAdjustable { get; set; }
 		[JsonProperty(PropertyName = "secondaryOpenAdjustable")]
-		public bool IsSecondaryOpenAdjustable { get; set; }
+		public bool? IsSecondaryOpenAdjustable { get; set; }
 		[JsonProperty(PropertyName = "secondaryCloseAdjustable")]
-		public bool IsSecondaryCloseAdjustable { get; set; }
+		public bool? IsSecondaryCloseAdjustable { get; set; }
 		[JsonProperty(PropertyName = "shadingPositionAdjustmentActive")]
-		public bool IsShadingPositionAdjustmentActive { get; set; }
+		public bool? IsShadingPositionAdjustmentActive { get; set; }
 
 		public string ShadingPositionAdjustmentClientId { get; set; }
 
