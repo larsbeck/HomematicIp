@@ -1,17 +1,13 @@
-﻿using System.Linq;
-using HomematicIp.Data.Enums;
+﻿using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects.Channels;
 using Newtonsoft.Json;
 
 namespace HomematicIp.Data.HomematicIpObjects.Devices
 {
     [EnumMap(FunctionalChannelType.MULTI_MODE_INPUT_CHANNEL)]
-    public class MultiModeInputChannel : SabotageDevice
+    public class MultiModeInputChannel : Channel
     {
-        private ShutterContactChannel ShutterContactChannel =>
-            FunctionalChannels?.OfType<ShutterContactChannel>().FirstOrDefault();
-
-        public WindowState? WindowState => ShutterContactChannel?.WindowState;
+        public WindowState? WindowState { get; set; }
         public MultiModeInputMode? MultiModeInputMode { get; set; }
         public BinaryBehaviorType? BinaryBehaviorType { get; set; }
 
