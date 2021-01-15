@@ -120,7 +120,7 @@ namespace HomematicIp.Services
             return await Set(requestObject, "hmip/device/setDeviceLabel", cancellationToken);
         }
 
-        
+
         private async Task<bool> Set(IRequestObject requestObject, string url, CancellationToken cancellationToken = default)
         {
             var stringContent = GetStringContent(requestObject);
@@ -569,22 +569,36 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
-        /// <summary>
-        /// Sets the secondary shading level.
-        /// </summary>
-        /// <param name="groupId">The id of the affected group.</param>
-        /// <param name="primaryShadingLevel">The primary shading level. Allowed values: 0.0 - 1.0</param>
-        /// <param name="shutterLevel">The shutter level. Allowed values: 0.0 - 1.0</param>
-        /// <param name="slatsLevel">The slats level. Allowed values: 0.0 - 1.0</param>
-        /// <param name="secondaryShadingLevel">The secondary shading level. Allowed values: 0.0 - 1.0</param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public async Task<bool> SetSecondaryShadingLevel(string groupId, double primaryShadingLevel, double shutterLevel, double slatsLevel, double secondaryShadingLevel, CancellationToken cancellationToken = default)
+        public async Task<bool> SetDevicePrimaryShadingLevel(string deviceId, int channelIndex, double primaryShadingLevel, CancellationToken cancellationToken = default)
         {
-            var requestObject = new SetSecondaryShadingLevelRequestObject(groupId, primaryShadingLevel, shutterLevel, slatsLevel, secondaryShadingLevel);
+            var requestObject = new SetDevicePrimaryShadingLevelRequestObject(deviceId, channelIndex, primaryShadingLevel);
             var stringContent = GetStringContent(requestObject);
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/group/switching/setSecondaryShadingLevel", stringContent, cancellationToken);
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setPrimaryShadingLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> SetDeviceSecondaryShadingLevel(string deviceId, int channelIndex, double primaryShadingLevel, double secondaryShadingLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetDeviceSecondaryShadingLevelRequestObject(deviceId, channelIndex, primaryShadingLevel, secondaryShadingLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setSecondaryShadingLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        public async Task<bool> StopDevice(string deviceId, int channelIndex, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new StopDeviceRequestObject(deviceId, channelIndex);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/stop", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 

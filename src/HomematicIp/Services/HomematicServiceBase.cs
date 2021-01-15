@@ -528,6 +528,57 @@ namespace HomematicIp.Services
             public double SecondaryShadingLevel { get; set; }
         }
 
+        protected class SetDevicePrimaryShadingLevelRequestObject
+        {
+            public SetDevicePrimaryShadingLevelRequestObject(string deviceId, int channelIndex, double primaryShadingLevel)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                PrimaryShadingLevel = primaryShadingLevel;
+            }
+            public string DeviceId { get; set; }
+            public int ChannelIndex { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double PrimaryShadingLevel { get; set; }
+        }
+
+        protected class SetDeviceSecondaryShadingLevelRequestObject
+        {
+            public SetDeviceSecondaryShadingLevelRequestObject(string deviceId, int channelIndex, double primaryShadingLevel, double secondaryShadingLevel)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                PrimaryShadingLevel = primaryShadingLevel;
+                SecondaryShadingLevel = secondaryShadingLevel;
+            }
+            public string DeviceId { get; set; }
+            public int ChannelIndex { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = closed
+            /// 0.50 = 50%
+            /// 1 = opened
+            /// </summary>
+            public double PrimaryShadingLevel { get; set; }
+            public double SecondaryShadingLevel { get; set; }
+        }
+
+        protected class StopDeviceRequestObject
+        {
+            public StopDeviceRequestObject(string deviceId, int channelIndex)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+            }
+            public string DeviceId { get; set; }
+            public int ChannelIndex { get; set; }
+        }
+
         public class ClientCharacteristics
         {
             public string ApiVersion => "10";
