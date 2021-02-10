@@ -92,5 +92,6 @@ namespace HomematicIp.Data.Enums
         WIRED_INPUT_SWITCH_6, //HmIPW-FIO6
         REMOTE_CONTROL_BLIND_4_GROUP, //HmIP-HDRC
         DIN_RAIL_SWITCH, // Schaltaktor für Hutschienenmontage – 1-fach
+        CARBON_DIOXIDE_SENSOR, // HmIP-SCTH230 - CO₂-Sensor
     }
 }
