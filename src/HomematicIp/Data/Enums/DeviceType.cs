@@ -93,5 +93,6 @@ namespace HomematicIp.Data.Enums
         REMOTE_CONTROL_BLIND_4_GROUP, //HmIP-HDRC
         DIN_RAIL_SWITCH, // Schaltaktor für Hutschienenmontage – 1-fach
         CARBON_DIOXIDE_SENSOR, // HmIP-SCTH230 - CO₂-Sensor
+        TEMPERATURE_SENSOR_2_EXTERNAL_DELTA, // HmIP-STE2-PCB - Temperatursensor mit externen Fühlern – 2-fach
     }
 }
