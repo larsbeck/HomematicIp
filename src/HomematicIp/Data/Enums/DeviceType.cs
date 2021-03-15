@@ -95,5 +95,6 @@ namespace HomematicIp.Data.Enums
         CARBON_DIOXIDE_SENSOR, // HmIP-SCTH230 - CO₂-Sensor
         TEMPERATURE_SENSOR_2_EXTERNAL_DELTA, // HmIP-STE2-PCB - Temperatursensor mit externen Fühlern – 2-fach
         PARTICULATE_MATTER_SENSOR, //HmIP-SFD - Feinstaubsensor
+        HEATING_THERMOSTAT_EVO, //HmIP-eTRV-E - Heizkörperthermostat
     }
 }
