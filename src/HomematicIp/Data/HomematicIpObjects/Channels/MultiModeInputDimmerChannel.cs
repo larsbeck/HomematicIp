@@ -11,7 +11,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         [JsonProperty(PropertyName = "on")]
         public bool? IsOn { get; set; }
        
-        public string? ProfileMode { get; set; }
+        public string ProfileMode { get; set; }
         public string UserDesiredProfileMode { get; set; }
 
         public MultiModeInputMode? MultiModeInputMode { get; set; }

@@ -27,7 +27,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public double? DelayCompensationValue { get; set; }
         [JsonProperty(PropertyName = "supportingDelayCompensation")]
         public bool? DoesSupportDelayCompensation { get; set; }
-        public string? ProfileMode { get; set; }
+        public string ProfileMode { get; set; }
         //"userDesiredProfileMode": "AUTOMATIC",
         public string UserDesiredProfileMode { get; set; }
         public double? FavoritePrimaryShadingPosition { get; set; }
