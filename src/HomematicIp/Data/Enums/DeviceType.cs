@@ -96,5 +96,6 @@ namespace HomematicIp.Data.Enums
         TEMPERATURE_SENSOR_2_EXTERNAL_DELTA, // HmIP-STE2-PCB - Temperatursensor mit externen Fühlern – 2-fach
         PARTICULATE_MATTER_SENSOR, //HmIP-SFD - Feinstaubsensor
         HEATING_THERMOSTAT_EVO, //HmIP-eTRV-E - Heizkörperthermostat
+        KEY_REMOTE_CONTROL_KEY_MATIC, // HmIP-KRCK - Fernbedienung – Zutritt
     }
 }
