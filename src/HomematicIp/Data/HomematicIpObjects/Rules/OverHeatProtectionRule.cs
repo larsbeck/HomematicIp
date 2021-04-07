@@ -21,7 +21,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Rules
         public bool? IsProcessing { get; set; }
         [JsonProperty(PropertyName = "triggered")]
         public bool? IsTriggered { get; set; }
-        
+
         public double? ActualTemperature { get; set; }
         public double? SetPointTemperature { get; set; }
         public double? TemperatureUpperThreshold { get; set; }

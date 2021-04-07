@@ -10,7 +10,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public double? DimLevel { get; set; }
         [JsonProperty(PropertyName = "on")]
         public bool? IsOn { get; set; }
-       
+
         public string ProfileMode { get; set; }
         public string UserDesiredProfileMode { get; set; }
 

@@ -1,6 +1,4 @@
 ﻿using HomematicIp.Data.Enums;
-using HomematicIp.Data.HomematicIpObjects.Channels;
-using System.Collections.Generic;
 
 namespace HomematicIp.Data.HomematicIpObjects.Groups
 {

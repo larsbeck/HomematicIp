@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using HomematicIp.Data.HomematicIpObjects.Clients;
+﻿using HomematicIp.Data.HomematicIpObjects.Clients;
 using HomematicIp.Data.HomematicIpObjects.Devices;
 using HomematicIp.Data.HomematicIpObjects.Groups;
 using HomematicIp.Data.JsonConverters;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace HomematicIp.Data.HomematicIpObjects
 {
@@ -17,6 +17,6 @@ namespace HomematicIp.Data.HomematicIpObjects
         [JsonConverter(typeof(DevicesConverter), "type")]
         public List<Device> Devices { get; set; } = new List<Device>();
         [JsonConverter(typeof(ClientsConverter), "clientType")]
-        public List<Client> Clients { get; set; }=new List<Client>();
+        public List<Client> Clients { get; set; } = new List<Client>();
     }
 }

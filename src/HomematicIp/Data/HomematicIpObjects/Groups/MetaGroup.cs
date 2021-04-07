@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using HomematicIp.Data.Enums;
+﻿using HomematicIp.Data.Enums;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace HomematicIp.Data.HomematicIpObjects.Groups
 {

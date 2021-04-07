@@ -7,7 +7,7 @@ namespace HomematicIp.Data
 {
     internal static class EnumToType
     {
-        private static Dictionary<object,Type> Map { get; } = Assembly.GetAssembly(typeof(EnumToType)).GetTypes().Where(type => type.GetCustomAttributes<EnumMapAttribute>().Any()).SelectMany(type => type.GetCustomAttribute<EnumMapAttribute>().Enums.Select(o => new Tuple<object,Type>(o,type))).ToDictionary(tuple => tuple.Item1,tuple => tuple.Item2);
+        private static Dictionary<object, Type> Map { get; } = Assembly.GetAssembly(typeof(EnumToType)).GetTypes().Where(type => type.GetCustomAttributes<EnumMapAttribute>().Any()).SelectMany(type => type.GetCustomAttribute<EnumMapAttribute>().Enums.Select(o => new Tuple<object, Type>(o, type))).ToDictionary(tuple => tuple.Item1, tuple => tuple.Item2);
 
         public static Type GetType(object o, string raw)
         {

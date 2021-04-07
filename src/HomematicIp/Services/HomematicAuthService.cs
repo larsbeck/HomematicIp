@@ -1,17 +1,14 @@
-﻿using System;
-using System.Globalization;
+﻿using HomematicIp.Data;
+using Newtonsoft.Json;
+using System;
 using System.Net.Http;
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
-using HomematicIp.Data;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 
 namespace HomematicIp.Services
 {
-    public class HomematicAuthService:HomematicServiceBase
+    public class HomematicAuthService : HomematicServiceBase
     {
         private readonly Guid _guid = Guid.NewGuid();
         private AuthData _authData;
@@ -24,13 +21,13 @@ namespace HomematicIp.Services
         /// </summary>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task ConnectionRequest(CancellationToken cancellationToken= default)
+        public async Task ConnectionRequest(CancellationToken cancellationToken = default)
         {
             await base.Initialize(cancellationToken: cancellationToken);
             var request = new HttpRequestMessage(HttpMethod.Post, "hmip/auth/connectionRequest");
-            if(HomematicConfiguration.Pin!=null)
+            if (HomematicConfiguration.Pin != null)
                 request.Headers.Add("PIN", HomematicConfiguration.Pin);
-            _authData = new AuthData {DeviceId = _guid.ToString(), Sgtin = HomematicConfiguration.AccessPointId };
+            _authData = new AuthData { DeviceId = _guid.ToString(), Sgtin = HomematicConfiguration.AccessPointId };
             if (HomematicConfiguration.ApplicationName != null)
                 _authData.DeviceName = HomematicConfiguration.ApplicationName;
             request.Content = GetStringContent(_authData);
@@ -54,7 +51,7 @@ namespace HomematicIp.Services
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
-                var authToken= JsonConvert.DeserializeObject<AuthData>(content).AuthToken;
+                var authToken = JsonConvert.DeserializeObject<AuthData>(content).AuthToken;
                 if (await ConfirmAuthToken(authToken, cancellationToken))
                     return authToken;
             }

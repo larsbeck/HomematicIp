@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using HomematicIp.Data.Enums;
+﻿using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects.Channels;
 using HomematicIp.Data.JsonConverters;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace HomematicIp.Data.HomematicIpObjects.Devices
 {
@@ -22,6 +22,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Devices
         public string Oem { get; set; }
         public bool PermanentlyReachable { get; set; }
         [JsonConverter(typeof(FunctionalChannelsConverter), "functionalChannelType")]
-        public List<Channel> FunctionalChannels { get; set; }=new List<Channel>();
+        public List<Channel> FunctionalChannels { get; set; } = new List<Channel>();
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
-using HomematicIp.Data.Enums;
+﻿using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects.Channels;
 using HomematicIp.Data.JsonConverters;
 using Newtonsoft.Json;
+using System;
 
 namespace HomematicIp.Data.HomematicIpObjects.Home
 {

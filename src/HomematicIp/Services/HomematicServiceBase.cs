@@ -1,14 +1,14 @@
-﻿using System;
+﻿using HomematicIp.Data;
+using HomematicIp.Data.Enums;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Globalization;
 using System.Net.Http;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using HomematicIp.Data;
-using HomematicIp.Data.Enums;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 
 namespace HomematicIp.Services
 {

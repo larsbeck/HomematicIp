@@ -1,16 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.WebSockets;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-using HomematicIp.Data;
+﻿using HomematicIp.Data;
 using HomematicIp.Data.Enums;
 using HomematicIp.Data.HomematicIpObjects;
 using HomematicIp.Data.HomematicIpObjects.Devices;
@@ -18,6 +6,16 @@ using HomematicIp.Data.HomematicIpObjects.Home;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net.WebSockets;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HomematicIp.Services
 {
