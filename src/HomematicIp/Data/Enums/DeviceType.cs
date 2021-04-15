@@ -98,5 +98,6 @@ namespace HomematicIp.Data.Enums
         HEATING_THERMOSTAT_EVO, //HmIP-eTRV-E - Heizkörperthermostat
         KEY_REMOTE_CONTROL_KEY_MATIC, // HmIP-KRCK - Fernbedienung – Zutritt
         DOOR_LOCK_DRIVE, // HmIP-DLD - Türschlossantrieb
+        WIRED_BRAND_PUSH_BUTTON, // HmIPW-BRC2 - WIRED_BRAND_PUSH_BUTTON
     }
 }
