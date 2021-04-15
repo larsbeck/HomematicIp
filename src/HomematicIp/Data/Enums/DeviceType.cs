@@ -97,5 +97,6 @@ namespace HomematicIp.Data.Enums
         PARTICULATE_MATTER_SENSOR, //HmIP-SFD - Feinstaubsensor
         HEATING_THERMOSTAT_EVO, //HmIP-eTRV-E - Heizkörperthermostat
         KEY_REMOTE_CONTROL_KEY_MATIC, // HmIP-KRCK - Fernbedienung – Zutritt
+        DOOR_LOCK_DRIVE, // HmIP-DLD - Türschlossantrieb
     }
 }
