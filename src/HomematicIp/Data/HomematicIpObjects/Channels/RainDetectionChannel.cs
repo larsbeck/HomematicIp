@@ -7,7 +7,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
     public class RainDetectionChannel : DeviceSabotageChannelBase
     {
         [JsonProperty(PropertyName = "raining")]
-        public bool IsRaining { get; set; }
+        public bool? IsRaining { get; set; }
         public double? RainSensorSensitivity { get; set; }
     }
 }
