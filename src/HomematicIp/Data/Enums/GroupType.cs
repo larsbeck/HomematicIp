@@ -41,6 +41,7 @@ namespace HomematicIp.Data.Enums
         NO_HEAT_DEMAND_RULE,
         LINKED_RAIN_PROTECTION,
         ACCESS_CONTROL,
-        AUTO_RELOCK_PROFILE
+        AUTO_RELOCK_PROFILE,
+        ACCESS_AUTHORIZATION_PROFILE
     }
 }
