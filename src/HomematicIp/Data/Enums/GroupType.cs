@@ -42,6 +42,7 @@ namespace HomematicIp.Data.Enums
         LINKED_RAIN_PROTECTION,
         ACCESS_CONTROL,
         AUTO_RELOCK_PROFILE,
-        ACCESS_AUTHORIZATION_PROFILE
+        ACCESS_AUTHORIZATION_PROFILE,
+        LOCK_PROFILE
     }
 }
