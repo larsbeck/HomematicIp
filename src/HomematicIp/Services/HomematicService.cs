@@ -603,6 +603,18 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        public async Task<bool> SetLockState(string deviceId, int channelIndex, string authorizationPin, LockState targetLockState,  CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetLockStateRequestObject(deviceId, channelIndex, authorizationPin, targetLockState);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setLockState", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

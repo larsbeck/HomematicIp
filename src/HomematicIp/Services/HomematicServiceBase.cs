@@ -579,6 +579,21 @@ namespace HomematicIp.Services
             public int ChannelIndex { get; set; }
         }
 
+        protected class SetLockStateRequestObject
+        {
+            public SetLockStateRequestObject(string deviceId, int channelIndex, string authorizationPin, LockState targetLockState)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                AuthorizationPin = authorizationPin;
+                TargetLockState = targetLockState;
+            }
+            public string DeviceId { get; set; }
+            public int ChannelIndex { get; set; }
+            public string AuthorizationPin { get; set; }
+            public LockState TargetLockState { get; set; }
+        }
+
         public class ClientCharacteristics
         {
             public string ApiVersion => "10";
