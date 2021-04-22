@@ -28,6 +28,7 @@ namespace HomematicIp.Services
         private readonly ClientWebSocket _clientWebSocket;
         private readonly ILogger<HomematicService> _logger;
         protected const string AUTHTOKEN = "AUTHTOKEN";
+        protected const string PIN_HEADER_KEY = "PIN";
 
         public HomematicService(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration, ClientWebSocket clientWebSocket, ILogger<HomematicService> logger, ClientCharacteristics clientCharacteristics) : base(httpClientFactory, homematicConfiguration, clientCharacteristics)
         {
@@ -603,7 +604,28 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
-        public async Task<bool> SetLockState(string deviceId, int channelIndex, string authorizationPin, LockState targetLockState,  CancellationToken cancellationToken = default)
+        public async Task<bool> CheckPin(string pin, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                if (HttpClient.DefaultRequestHeaders.Contains(PIN_HEADER_KEY))
+                    HttpClient.DefaultRequestHeaders.Remove(PIN_HEADER_KEY);
+
+                HttpClient.DefaultRequestHeaders.Add(PIN_HEADER_KEY, pin);
+                var httpResponseMessage = await HttpClient.PostAsync("hmip/home/checkPin", new StringContent(""), cancellationToken);
+                if (httpResponseMessage.IsSuccessStatusCode)
+                    return true;
+
+                throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            }
+            finally
+            {
+                if (HttpClient.DefaultRequestHeaders.Contains(PIN_HEADER_KEY))
+                    HttpClient.DefaultRequestHeaders.Remove(PIN_HEADER_KEY);
+            }
+        }
+
+        public async Task<bool> SetLockState(string deviceId, int channelIndex, string authorizationPin, LockState targetLockState, CancellationToken cancellationToken = default)
         {
             var requestObject = new SetLockStateRequestObject(deviceId, channelIndex, authorizationPin, targetLockState);
             var stringContent = GetStringContent(requestObject);
