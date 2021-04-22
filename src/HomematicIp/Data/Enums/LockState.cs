@@ -7,6 +7,7 @@ namespace HomematicIp.Data.Enums
     public enum LockState
     {
         LOCKED,
-        UNLOCKED
+        UNLOCKED,
+        OPEN
     }
 }
