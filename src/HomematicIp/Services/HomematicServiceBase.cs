@@ -594,6 +594,12 @@ namespace HomematicIp.Services
             public LockState TargetLockState { get; set; }
         }
 
+        protected class SetLockStateResponseObject
+        {
+            public string ErrorCode { get; set; }
+            public long BlockingTime { get; set; }
+        }
+
         public class ClientCharacteristics
         {
             public string ApiVersion => "10";

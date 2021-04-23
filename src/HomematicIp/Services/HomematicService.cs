@@ -634,7 +634,12 @@ namespace HomematicIp.Services
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            var responseContent = await httpResponseMessage.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(responseContent))
+                throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+
+            var response = JsonConvert.DeserializeObject<SetLockStateResponseObject>(responseContent);
+            throw new Exception($"{response.ErrorCode}");
         }
 
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
