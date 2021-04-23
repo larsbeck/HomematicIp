@@ -22,6 +22,9 @@ namespace HomematicIp.Data
                 throw new ArgumentException($"The accesspoint id (SGTIN) {accessPointId} is invalid. It needs to have exactly 24 digits without the dashes.");
             return accessPointIdWithoutDashes;
         }
+
+        public string DeviceId { get; set; } = Guid.NewGuid().ToString();
+
         /// <summary>
         /// Your PIN (if any)
         /// </summary>

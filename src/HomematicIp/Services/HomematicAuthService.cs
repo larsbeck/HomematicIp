@@ -5,12 +5,12 @@ using System.Net.Http;
 using System.Security.Authentication;
 using System.Threading;
 using System.Threading.Tasks;
+using HomematicIp.Data.HomematicIpObjects.Clients;
 
 namespace HomematicIp.Services
 {
     public class HomematicAuthService : HomematicServiceBase
     {
-        private readonly Guid _guid = Guid.NewGuid();
         private AuthData _authData;
         public HomematicAuthService(Func<HttpClient> httpClientFactory, HomematicConfiguration homematicConfiguration, ClientCharacteristics clientCharacteristics = null) : base(httpClientFactory, homematicConfiguration, clientCharacteristics)
         {
@@ -27,7 +27,7 @@ namespace HomematicIp.Services
             var request = new HttpRequestMessage(HttpMethod.Post, "hmip/auth/connectionRequest");
             if (HomematicConfiguration.Pin != null)
                 request.Headers.Add("PIN", HomematicConfiguration.Pin);
-            _authData = new AuthData { DeviceId = _guid.ToString(), Sgtin = HomematicConfiguration.AccessPointId };
+            _authData = new AuthData { DeviceId = HomematicConfiguration.DeviceId, Sgtin = HomematicConfiguration.AccessPointId };
             if (HomematicConfiguration.ApplicationName != null)
                 _authData.DeviceName = HomematicConfiguration.ApplicationName;
             request.Content = GetStringContent(_authData);
@@ -52,30 +52,52 @@ namespace HomematicIp.Services
             {
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
                 var authToken = JsonConvert.DeserializeObject<AuthData>(content).AuthToken;
-                if (await ConfirmAuthToken(authToken, cancellationToken))
-                    return authToken;
+                await ConfirmAuthToken(authToken, cancellationToken);
+                return authToken;
             }
             throw new AuthenticationException($"RequestAuthToken failed. {httpResponseMessage.ReasonPhrase}");
         }
 
-        protected async Task<bool> ConfirmAuthToken(string authToken, CancellationToken cancellationToken = default)
+        public async Task<AuthData> RequestAuthData(CancellationToken cancellationToken = default)
+        {
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/auth/requestAuthToken", GetStringContent(_authData), cancellationToken);
+            if (!httpResponseMessage.IsSuccessStatusCode)
+                throw new AuthenticationException($"RequestAuthToken failed. {httpResponseMessage.ReasonPhrase}");
+
+            var content = await httpResponseMessage.Content.ReadAsStringAsync();
+            var authData = JsonConvert.DeserializeObject<AuthData>(content);
+            var client = await ConfirmAuthToken(authData.AuthToken, cancellationToken);
+            authData.ClientId = client.ClientId;
+            return authData;
+        }
+        
+        /// <summary>
+        /// Checks the AuthToken and returns the Client (id)
+        /// </summary>
+        /// <param name="authToken">AuthToken that was received from the server and has to be confirmed</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>The Client</returns>
+        protected async Task<AppClient> ConfirmAuthToken(string authToken, CancellationToken cancellationToken = default)
         {
             _authData.AuthToken = authToken;
             var httpResponseMessage = await HttpClient.PostAsync("hmip/auth/confirmAuthToken", GetStringContent(_authData), cancellationToken);
-            if (httpResponseMessage.IsSuccessStatusCode)
+            if (!httpResponseMessage.IsSuccessStatusCode)
             {
-                return true;
+                _authData.AuthToken = null;
+                throw new AuthenticationException($"RequestAuthToken failed. {httpResponseMessage.ReasonPhrase}");
             }
-            _authData.AuthToken = null;
-            throw new AuthenticationException($"RequestAuthToken failed. {httpResponseMessage.ReasonPhrase}");
+            var content = await httpResponseMessage.Content.ReadAsStringAsync();
+            var appClient = JsonConvert.DeserializeObject<AppClient>(content);
+            return appClient;
         }
 
-        private class AuthData
+        public class AuthData
         {
             public string DeviceId { get; set; }
             public string DeviceName { get; set; } = "homematicip-dotnetcore";
             public string Sgtin { get; set; }
             public string AuthToken { get; set; }
+            public string ClientId { get; set; }
         }
     }
 }
