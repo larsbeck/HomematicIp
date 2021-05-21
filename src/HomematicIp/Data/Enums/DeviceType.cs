@@ -99,5 +99,6 @@ namespace HomematicIp.Data.Enums
         KEY_REMOTE_CONTROL_KEY_MATIC, // HmIP-KRCK - Fernbedienung – Zutritt
         DOOR_LOCK_DRIVE, // HmIP-DLD - Türschlossantrieb
         WIRED_BRAND_PUSH_BUTTON, // HmIPW-BRC2 - WIRED_BRAND_PUSH_BUTTON
+        WIRED_MOTION_DETECTOR_PUSH_BUTTON, // HmIPW-SMI55 - Wired Bewegungsmelder
     }
 }
