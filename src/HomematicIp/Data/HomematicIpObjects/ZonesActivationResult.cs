@@ -17,6 +17,9 @@ namespace HomematicIp.Data.HomematicIpObjects
         [JsonProperty("activationProblems")]
         public string[] ActivationProblems { get; set; }
 
+        [JsonProperty("channelActivationProblems")]
+        public Dictionary<string, string[]> ChannelActivationProblems { get; set; }
+
         [JsonProperty("deviceActivationProblems")]
         public Dictionary<string, string[]> DeviceActivationProblems { get; set; }
     }
