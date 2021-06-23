@@ -43,7 +43,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Rules
         public DoorState? DoorState { get; set; }
         public LockState? LockState { get; set; }
         public GroupVisibility? GroupVisibility { get; set; }
-        [JsonConverter(typeof(TimespanConverter))]
         [JsonProperty(PropertyName = "ventilationPositionSupported")]
         public bool? IsVentilationPositionSupported { get; set; }
     }
