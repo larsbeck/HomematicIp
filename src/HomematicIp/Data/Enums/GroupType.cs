@@ -43,6 +43,7 @@ namespace HomematicIp.Data.Enums
         ACCESS_CONTROL,
         AUTO_RELOCK_PROFILE,
         ACCESS_AUTHORIZATION_PROFILE,
-        LOCK_PROFILE
+        LOCK_PROFILE,
+        OPEN_DOOR_NOTIFICATION_RULE_GROUP
     }
 }
