@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using HomematicIp.Data.Enums;
+﻿using HomematicIp.Data.Enums;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace HomematicIp.Data.HomematicIpObjects.Groups
 {
@@ -13,7 +13,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         [JsonProperty(PropertyName = "silent")]
         public bool IsSilent { get; set; }
 
-        public List<string> IgnorableDevices { get; set; }=new List<string>();
+        public List<string> IgnorableDevices { get; set; } = new List<string>();
         public string ZoneAssignmentIndex { get; set; }
         public bool? ConfigPending { get; set; }
 

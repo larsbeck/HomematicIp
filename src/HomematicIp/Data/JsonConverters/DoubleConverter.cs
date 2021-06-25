@@ -1,5 +1,5 @@
-﻿using System;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace HomematicIp.Data.JsonConverters
 {
@@ -13,7 +13,19 @@ namespace HomematicIp.Data.JsonConverters
         public override double ReadJson(JsonReader reader, Type objectType, double existingValue, bool hasExistingValue,
             JsonSerializer serializer)
         {
-            return double.Parse((string) reader.Value);
+            try
+            {
+                return double.Parse((string)reader.Value);
+            }
+            catch (Exception ex)
+            {
+#if DEBUG
+                throw ex;
+#endif
+#pragma warning disable CS0162 // Unreachable code detected
+                return 0;
+#pragma warning restore CS0162 // Unreachable code detected
+            }
         }
     }
 }

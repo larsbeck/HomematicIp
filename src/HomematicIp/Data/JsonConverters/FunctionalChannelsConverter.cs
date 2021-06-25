@@ -5,7 +5,7 @@ namespace HomematicIp.Data.JsonConverters
 {
     public class FunctionalChannelsConverter : AbstractListConverter<Channel, FunctionalChannelType>
     {
-        public FunctionalChannelsConverter(string typeDefiningProperty= "functionalChannelType") : base(typeDefiningProperty)
+        public FunctionalChannelsConverter(string typeDefiningProperty = "functionalChannelType") : base(typeDefiningProperty)
         {
         }
     }
