@@ -642,6 +642,59 @@ namespace HomematicIp.Services
             throw new Exception($"{response.ErrorCode}");
         }
 
+        /// <summary>
+        /// Activate the economy mode for the given period.
+        /// Possible Eventbus Notifications: HOME_CHANGED
+        /// </summary>
+        /// <param name="endTime">The end time of the economy mode. Format: yyyy_MM_dd HH:mm</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>true if success</returns>
+        public async Task<bool> ActivateAbsenceWithPeriod(DateTime endTime, CancellationToken cancellationToken = default)
+        {
+            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:MM");
+            var requestObject = new ActivateAbsenceWithPeriodRequestObject(endTimeFormatted);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/activateAbsenceWithPeriod", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Activate the economy mode for the given amount of minutes.
+        /// Possible Eventbus Notifications: HOME_CHANGED
+        /// </summary>
+        /// <param name="duration">The amount of minutes that the economy mode should be activated.</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> ActivateAbsenceWithDuration(int duration, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new ActivateAbsenceWithDurationRequestObject(duration);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/activateAbsenceWithDuration", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// Deactivate the economy mode = Automatic Mode.
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> DeactivateAbsence(CancellationToken cancellationToken = default)
+        {
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/deactivateAbsence", ClientCharacteristicsStringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

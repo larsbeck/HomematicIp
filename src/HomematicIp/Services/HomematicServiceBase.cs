@@ -600,6 +600,26 @@ namespace HomematicIp.Services
             public long BlockingTime { get; set; }
         }
 
+        protected class ActivateAbsenceWithPeriodRequestObject
+        {
+            public ActivateAbsenceWithPeriodRequestObject(string endTime)
+            {
+                EndTime = endTime;
+            }
+
+            public string EndTime { get; set; }
+        }
+
+        protected class ActivateAbsenceWithDurationRequestObject
+        {
+            public ActivateAbsenceWithDurationRequestObject(int duration)
+            {
+                Duration = duration;
+            }
+
+            public int Duration { get; set; }
+        }
+
         public class ClientCharacteristics
         {
             public string ApiVersion => "10";
