@@ -669,12 +669,28 @@ namespace HomematicIp.Services
         /// <param name="duration">The amount of minutes that the economy mode should be activated.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> ActivateAbsenceWithDuration(int duration, CancellationToken cancellationToken = default)
+        public async Task<bool> ActivateAbsenceWithDuration(EcoDuration ecoDuration, CancellationToken cancellationToken = default)
         {
-            var requestObject = new ActivateAbsenceWithDurationRequestObject(duration);
-            var stringContent = GetStringContent(requestObject);
+            HttpResponseMessage httpResponseMessage;
 
-            var httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/activateAbsenceWithDuration", stringContent, cancellationToken);
+            if (ecoDuration != EcoDuration.PERMANENT)
+            {
+                var duration = ecoDuration switch
+                {
+                    EcoDuration.ONE => 1 * 60,
+                    EcoDuration.TWO => 2 * 60,
+                    EcoDuration.FOUR => 4 * 60,
+                    EcoDuration.SIX => 6 * 60,
+                    _ => throw new NotImplementedException()
+                };
+                var requestObject = new ActivateAbsenceWithDurationRequestObject(duration);
+                var stringContent = GetStringContent(requestObject);
+
+                httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/activateAbsenceWithDuration", stringContent, cancellationToken);
+            }
+            else
+                httpResponseMessage = await HttpClient.PostAsync("hmip/home/heating/activateAbsencePermanent", ClientCharacteristicsStringContent, cancellationToken);
+
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
 
