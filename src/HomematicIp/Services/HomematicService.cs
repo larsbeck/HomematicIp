@@ -332,7 +332,7 @@ namespace HomematicIp.Services
         /// Solution = INDOOR_CLIMATE
         /// </summary>
         /// <param name="endTime">The end time of the vacation mode</param>
-        /// <param name="temperature">The temperature 5-30 that should be used during vacation mode</param>
+        /// <param name="temperature">The temperature 5-30 that should be used during vacation mode. The default ist 17.</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> ActivateVacation(DateTime endTime, double temperature, CancellationToken cancellationToken = default)
