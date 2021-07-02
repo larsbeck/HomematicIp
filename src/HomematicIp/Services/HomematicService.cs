@@ -303,7 +303,7 @@ namespace HomematicIp.Services
 
         public async Task<bool> ActivatePartyMode(string groupId, DateTime endTime, double temperature, CancellationToken cancellationToken = default)
         {
-            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:MM");
+            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:mm");
             var requestObject = new ActivatePartyModeRequestObject(groupId, endTimeFormatted, temperature);
             var stringContent = GetStringContent(requestObject);
 
@@ -337,7 +337,7 @@ namespace HomematicIp.Services
         /// <returns></returns>
         public async Task<bool> ActivateVacation(DateTime endTime, double temperature, CancellationToken cancellationToken = default)
         {
-            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:MM");
+            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:mm");
             var requestObject = new ActivateVacationRequestObject(endTimeFormatted, temperature);
             var stringContent = GetStringContent(requestObject);
 
@@ -651,7 +651,7 @@ namespace HomematicIp.Services
         /// <returns>true if success</returns>
         public async Task<bool> ActivateAbsenceWithPeriod(DateTime endTime, CancellationToken cancellationToken = default)
         {
-            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:MM");
+            var endTimeFormatted = endTime.ToString("yyyy_MM_dd HH:mm");
             var requestObject = new ActivateAbsenceWithPeriodRequestObject(endTimeFormatted);
             var stringContent = GetStringContent(requestObject);
 
