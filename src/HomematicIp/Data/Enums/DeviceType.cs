@@ -102,5 +102,6 @@ namespace HomematicIp.Data.Enums
         WIRED_MOTION_DETECTOR_PUSH_BUTTON, // HmIPW-SMI55 - Wired Bewegungsmelder
         WALL_MOUNTED_GARAGE_DOOR_CONTROLLER, // HmIP-WGC
         WIRED_PRESENCE_DETECTOR_INDOOR, // HmIPW-SPI
+        WIRED_PUSH_BUTTON_6, // Wired Wandtaster – 6-fach - HmIPW-WRC6
     }
 }
