@@ -30,6 +30,7 @@ namespace HomematicIp.Console
                 .AddTransient<HomematicService>()
                 .AddTransient<HomematicAuthService>()
                 .AddTransient<ClientWebSocket>()
+                .AddTransient<HomematicServiceBase.ClientCharacteristics>()
                 .AddTransient<Func<HttpClient>>(provider => () => new HttpClient());
         }
         static async Task Main(string[] args)
