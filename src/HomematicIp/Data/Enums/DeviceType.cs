@@ -104,5 +104,6 @@ namespace HomematicIp.Data.Enums
         WIRED_PRESENCE_DETECTOR_INDOOR, // HmIPW-SPI
         WIRED_PUSH_BUTTON_6, // Wired Wandtaster – 6-fach - HmIPW-WRC6
         COMBINATION_SIGNALLING_DEVICE, // HmIP-MP3P"
+        DOOR_LOCK_SENSOR, // HmIP-DLS
     }
 }
