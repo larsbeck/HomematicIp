@@ -619,6 +619,27 @@ namespace HomematicIp.Services
 
             public int Duration { get; set; }
         }
+        protected class SetHotWaterProfileModeRequestObject
+        {
+            public SetHotWaterProfileModeRequestObject(string groupId, string profileMode)
+            {
+                GroupId = groupId;
+                ProfileMode = profileMode;
+            }
+            public string GroupId { get; set; }
+            public string ProfileMode { get; set; }
+        }
+
+        protected class SetHotWaterStateRequestObject : IRequestObject
+        {
+            public SetHotWaterStateRequestObject(string groupId, bool state)
+            {
+                GroupId = groupId;
+                On = state;
+            }
+            public string GroupId { get; set; }
+            public bool On { get; set; }
+        }
 
         public class ClientCharacteristics
         {

@@ -710,6 +710,51 @@ namespace HomematicIp.Services
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
+        /// <summary>
+        /// /hmip/group/heating/setHotWaterProfileMode
+        /// {
+        ///     "groupId": "1524ef3a-adfd-4b68-9014-017c1602892d",
+        ///     "profileMode": "AUTOMATIC"
+        /// }
+        /// </summary>
+        /// <param name="groupId">The HOT_WATER group id.</param>
+        /// <param name="profileMode">Can be AUTOMATIC or MANUAL.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<bool> SetHotWaterProfileMode(string groupId, string profileMode, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetHotWaterProfileModeRequestObject(groupId, profileMode);
+            using var stringContent = GetStringContent(requestObject);
+            using var httpResponseMessage = await HttpClient.PostAsync("/hmip/group/heating/setHotWaterProfileMode", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
+        /// <summary>
+        /// /hmip/group/heating/setHotWaterState
+        /// {
+        ///     "groupId": "1524ef3a-adfd-4b68-9014-017c1602892d",
+        ///     "on": false
+        /// }
+        /// </summary>
+        /// <param name="groupId">The HOT_WATER group id.</param>
+        /// <param name="state">true or false</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<bool> SetHotWaterState(string groupId, bool state, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetHotWaterStateRequestObject(groupId, state);
+            using var stringContent = GetStringContent(requestObject);
+            using var httpResponseMessage = await HttpClient.PostAsync("/hmip/group/heating/setHotWaterState", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
 
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
