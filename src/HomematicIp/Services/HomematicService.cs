@@ -755,6 +755,18 @@ namespace HomematicIp.Services
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
+        
+        public async Task<bool> StartImpulse(int channelIndex, string deviceId, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new StartImpulseRequestObject(deviceId, channelIndex);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/startImpulse", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
 
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;

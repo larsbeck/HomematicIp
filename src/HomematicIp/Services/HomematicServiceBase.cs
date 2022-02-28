@@ -641,6 +641,17 @@ namespace HomematicIp.Services
             public bool On { get; set; }
         }
 
+        protected class StartImpulseRequestObject
+        {
+            public StartImpulseRequestObject(string deviceId, int channelIndex)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+            }
+            public string DeviceId { get; set; }
+            public int ChannelIndex { get; set; }
+        }
+
         public class ClientCharacteristics
         {
             public string ApiVersion => "10";
