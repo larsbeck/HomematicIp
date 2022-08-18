@@ -107,5 +107,7 @@ namespace HomematicIp.Data.Enums
         DOOR_LOCK_SENSOR, // HmIP-DLS
         WIRED_FLOOR_TERMINAL_BLOCK_12, // HmIPW-FALMOT-C12
         WIRED_TEMPERATURE_HUMIDITY_SENSOR, // HmIPW-STH
+        DOOR_BELL_CONTACT_INTERFACE, // HmIP-DSD-PCB - Türklingelkanaldetektor
+        USB_SWITCH_MEASURING, // HmIP-USBSM
     }
 }
