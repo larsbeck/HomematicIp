@@ -768,6 +768,26 @@ namespace HomematicIp.Services
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
 
+        /// <summary>
+        /// Sets the climate control type of the device
+        /// </summary>
+        /// <param name="channelIndex">The channel index.</param>
+        /// <param name="deviceId">The id of the device to be assigned.</param>
+        /// <param name="state">Flag whether the floor heating specific groups should be activated or deactivated for the device.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns></returns>
+        public async Task SetFloorHeatingSpecificGroupActive(int channelIndex, string deviceId, bool state, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetFloorHeatingSpecificGroupActiveRequestObject(deviceId, channelIndex, state);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/configuration/setFloorHeatingSpecificGroupActive", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
+
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
         private int _receiveEventsIsEntered;

@@ -652,6 +652,19 @@ namespace HomematicIp.Services
             public int ChannelIndex { get; set; }
         }
 
+        protected class SetFloorHeatingSpecificGroupActiveRequestObject
+        {
+            public SetFloorHeatingSpecificGroupActiveRequestObject(string deviceId, int channelIndex, bool state)
+            {
+                DeviceId = deviceId;
+                ChannelIndex = channelIndex;
+                FloorHeatingspecificGroupActive = state;
+            }
+            public string DeviceId { get; set; }
+            public int ChannelIndex { get; set; }
+            public bool FloorHeatingspecificGroupActive { get; set; }
+        }
+
         public class ClientCharacteristics
         {
             public string ApiVersion => "10";
