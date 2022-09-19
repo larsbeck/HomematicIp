@@ -400,14 +400,7 @@ namespace HomematicIp.Services
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
-                var profileDays = JsonConvert.DeserializeObject<Data.HomematicIpObjects.Groups.ProfileDays>(content);
-                return new Data.HomematicIpObjects.Groups.Profile
-                {
-                    ProfileDays = profileDays,
-                    GroupId = groupId,
-                    ProfileId = profileIndex,
-                    Index = profileIndex
-                };
+                return JsonConvert.DeserializeObject<Data.HomematicIpObjects.Groups.Profile>(content);
             }
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
