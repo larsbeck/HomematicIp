@@ -1,5 +1,6 @@
 ﻿using HomematicIp.Data;
 using HomematicIp.Data.Enums;
+using HomematicIp.Data.HomematicIpObjects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -9,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace HomematicIp.Services
 {
@@ -406,15 +408,164 @@ namespace HomematicIp.Services
 
         protected class UpdateProfileRequestObject
         {
-            public UpdateProfileRequestObject(string groupId, string profileIndex, Data.HomematicIpObjects.Groups.Profile profile)
+            public UpdateProfileRequestObject(string groupId, string profileIndex, HomematicIp.Data.HomematicIpObjects.Groups.Profile profile)
             {
                 GroupId = groupId;
                 ProfileIndex = profileIndex;
-                Profile = profile;
+
+                Profile = new SendProfile
+                {
+                    GroupId = groupId,
+                    HomeId = profile.HomeId,
+                    Id = profile.Id,
+                    Index = profile.Index,
+                    Name = profile.Name,
+                    Type = profile.Type,
+
+                    ProfileDays = new SendProfileDays
+                    {
+                        Monday = new SendDay
+                        {
+                            BaseValue = profile.ProfileDays.Monday.BaseValue,
+                            DayOfWeek = profile.ProfileDays.Monday.DayOfWeek,
+                            Periods = ToSendProfile(profile.ProfileDays.Monday.Periods)
+                        },
+                        Tuesday = new SendDay
+                        {
+                            BaseValue = profile.ProfileDays.Tuesday.BaseValue,
+                            DayOfWeek = profile.ProfileDays.Tuesday.DayOfWeek,
+                            Periods = ToSendProfile(profile.ProfileDays.Tuesday.Periods)
+                        },
+                        Wednesday = new SendDay
+                        {
+                            BaseValue = profile.ProfileDays.Wednesday.BaseValue,
+                            DayOfWeek = profile.ProfileDays.Wednesday.DayOfWeek,
+                            Periods = ToSendProfile(profile.ProfileDays.Wednesday.Periods)
+                        },
+                        Thursday = new SendDay
+                        {
+                            BaseValue = profile.ProfileDays.Thursday.BaseValue,
+                            DayOfWeek = profile.ProfileDays.Thursday.DayOfWeek,
+                            Periods = ToSendProfile(profile.ProfileDays.Thursday.Periods)
+                        },
+                        Friday = new SendDay
+                        {
+                            BaseValue = profile.ProfileDays.Friday.BaseValue,
+                            DayOfWeek = profile.ProfileDays.Friday.DayOfWeek,
+                            Periods = ToSendProfile(profile.ProfileDays.Friday.Periods)
+                        },
+                        Saturday = new SendDay
+                        {
+                            BaseValue = profile.ProfileDays.Saturday.BaseValue,
+                            DayOfWeek = profile.ProfileDays.Saturday.DayOfWeek,
+                            Periods = ToSendProfile(profile.ProfileDays.Saturday.Periods)
+                        },
+                        Sunday = new SendDay
+                        {
+                            BaseValue = profile.ProfileDays.Sunday.BaseValue,
+                            DayOfWeek = profile.ProfileDays.Sunday.DayOfWeek,
+                            Periods = ToSendProfile(profile.ProfileDays.Sunday.Periods)
+                        }
+                    }
+                };
+
+                static List<SendPeriod> ToSendProfile(List<Data.HomematicIpObjects.Groups.Period> periods)
+                {
+                    var mondayPeriods = new List<SendPeriod>();
+                    foreach (var mondayPeriod in periods)
+                    {
+                        mondayPeriods.Add(new SendPeriod
+                        {
+                            EndTime = mondayPeriod.EndTime,
+                            StartTime = mondayPeriod.StartTime,
+                            Value = mondayPeriod.Value,
+                            EndTimeAsMinutesOfDay = mondayPeriod.EndTimeAsMinutesOfDay,
+                            StartTimeAsMinutesOfDay = mondayPeriod.StartTimeAsMinutesOfDay
+                        });
+                    }
+                    return mondayPeriods;
+                }
             }
+
+            [JsonProperty(PropertyName = "groupId")]
             public string GroupId { get; set; }
+            [JsonProperty(PropertyName = "profileIndex")]
             public string ProfileIndex { get; set; }
-            public Data.HomematicIpObjects.Groups.Profile Profile { get; set; }
+
+            [JsonProperty(PropertyName = "profile")]
+            public SendProfile Profile { get; set; }
+
+            public class SendProfile
+            {
+                [JsonProperty(PropertyName = "groupId")]
+                public string GroupId { get; set; }
+                [JsonProperty(PropertyName = "homeId")]
+                public string HomeId { get; set; }
+                [JsonProperty(PropertyName = "id")]
+                public string Id { get; set; }
+                [JsonProperty(PropertyName = "index")]
+                public string Index { get; set; }
+                [JsonProperty(PropertyName = "name")]
+                public string Name { get; set; }
+                [JsonProperty(PropertyName = "profileDays")]
+                public SendProfileDays ProfileDays { get; set; } = new SendProfileDays();
+                [JsonProperty(PropertyName = "type")]
+                public string Type { get; set; }
+            }
+            public class SendProfileDays
+            {
+                [JsonProperty("SATURDAY")]
+                public SendDay Saturday { get; set; } = new SendDay();
+
+                [JsonProperty("TUESDAY")]
+                public SendDay Tuesday { get; set; } = new SendDay();
+
+                [JsonProperty("FRIDAY")]
+                public SendDay Friday { get; set; } = new SendDay();
+
+                [JsonProperty("WEDNESDAY")]
+                public SendDay Wednesday { get; set; } = new SendDay();
+
+                [JsonProperty("THURSDAY")]
+                public SendDay Thursday { get; set; } = new SendDay();
+
+                [JsonProperty("MONDAY")]
+                public SendDay Monday { get; set; } = new SendDay();
+
+                [JsonProperty("SUNDAY")]
+                public SendDay Sunday { get; set; } = new SendDay();
+            }
+
+            public class SendDay
+            {
+                [JsonProperty("baseValue")]
+                public double BaseValue { get; set; }
+
+                [JsonProperty("dayOfWeek")]
+                public string DayOfWeek { get; set; }
+
+                [JsonProperty("periods")]
+                public List<SendPeriod> Periods { get; set; } = new List<SendPeriod>();
+            }
+
+            public class SendPeriod
+            {
+                //e.g 22:00
+                [JsonProperty("endtime")]
+                public string EndTime { get; set; }
+                //e.g 17:00
+                [JsonProperty("starttime")]
+                public string StartTime { get; set; }
+
+                [JsonProperty("value")]
+                public double Value { get; set; }
+
+                [JsonProperty("endtimeAsMinutesOfDay")]
+                public int EndTimeAsMinutesOfDay { get; set; }
+
+                [JsonProperty("starttimeAsMinutesOfDay")]
+                public int StartTimeAsMinutesOfDay { get; set; }
+            }
         }
 
         protected class SetSwitchGroupStateRequestObject

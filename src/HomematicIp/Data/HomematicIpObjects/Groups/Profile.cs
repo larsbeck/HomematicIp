@@ -12,7 +12,6 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
     //}
     public class Profile : HomematicIpObjectBase
     {
-        public string ProfileId { get; set; }
         public string GroupId { get; set; }
         public string Index { get; set; }
         public string Name { get; set; }
@@ -20,6 +19,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public bool? IsVisible { get; set; }
         [JsonProperty(PropertyName = "enabled")]
         public bool? IsEnabled { get; set; }
+        public string Type { get; set; }
 
         public ProfileDays ProfileDays { get; set; } = new ProfileDays();
     }

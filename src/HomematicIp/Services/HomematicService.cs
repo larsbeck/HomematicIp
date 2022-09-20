@@ -418,7 +418,7 @@ namespace HomematicIp.Services
         public async Task<bool> UpdateProfile(string groupId, string profileIndex, Data.HomematicIpObjects.Groups.Profile profile, CancellationToken cancellationToken = default)
         {
             var requestObject = new UpdateProfileRequestObject(groupId, profileIndex, profile);
-            using var stringContent = GetStringContent(requestObject);
+            using var stringContent = GetStringContent(requestObject, useCamelCaseProperties: false);
             using var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/updateProfile", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)
                 return true;
