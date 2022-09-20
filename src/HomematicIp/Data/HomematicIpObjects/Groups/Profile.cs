@@ -13,6 +13,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
     public class Profile : HomematicIpObjectBase
     {
         public string GroupId { get; set; }
+        public string ProfileId { get; set; }
         public string Index { get; set; }
         public string Name { get; set; }
         [JsonProperty(PropertyName = "visible")]
