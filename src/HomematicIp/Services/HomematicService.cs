@@ -392,9 +392,9 @@ namespace HomematicIp.Services
         /// <param name="profileIndex">The index of the profile that is requested. e.g PROFILE_1</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<Data.HomematicIpObjects.Groups.Profile> GetProfile(string groupId, string profileIndex, CancellationToken cancellationToken = default)
+        public async Task<Data.HomematicIpObjects.Groups.Profile> GetProfile(string groupId, string profileIndex, string profileName, CancellationToken cancellationToken = default)
         {
-            var requestObject = new GetProfileRequestObject(groupId, profileIndex);
+            var requestObject = new GetProfileRequestObject(groupId, profileIndex, profileName);
             using var stringContent = GetStringContent(requestObject);
             using var httpResponseMessage = await HttpClient.PostAsync("hmip/group/heating/getProfile", stringContent, cancellationToken);
             if (httpResponseMessage.IsSuccessStatusCode)

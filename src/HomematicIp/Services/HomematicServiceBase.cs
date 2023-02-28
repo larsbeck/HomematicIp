@@ -397,13 +397,15 @@ namespace HomematicIp.Services
 
         protected class GetProfileRequestObject
         {
-            public GetProfileRequestObject(string groupId, string profileIndex)
+            public GetProfileRequestObject(string groupId, string profileIndex, string profileName)
             {
                 GroupId = groupId;
                 ProfileIndex = profileIndex;
+                ProfileName = profileName;
             }
             public string GroupId { get; set; }
             public string ProfileIndex { get; set; }
+            public string ProfileName{ get; set; }
         }
 
         protected class UpdateProfileRequestObject
