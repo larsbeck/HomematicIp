@@ -10,9 +10,9 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public double? SlatsLevel { get; set; }
 
         public double? PrimaryShadingLevel { get; set; }
-        public ShadingStateType PrimaryShadingStateType { get; set; }
+        public ShadingStateType? PrimaryShadingStateType { get; set; }
         public double? SecondaryShadingLevel { get; set; }
-        public ShadingStateType SecondaryShadingStateType { get; set; }
+        public ShadingStateType? SecondaryShadingStateType { get; set; }
 
         public double? TopShutterLevel { get; set; }
         public double? BottomShutterLevel { get; set; }

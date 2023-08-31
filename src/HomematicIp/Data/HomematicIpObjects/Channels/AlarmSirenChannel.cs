@@ -1,9 +1,6 @@
-﻿using HomematicIp.Data.HomematicIpObjects.Devices;
-
-namespace HomematicIp.Data.HomematicIpObjects.Channels
+﻿namespace HomematicIp.Data.HomematicIpObjects.Channels
 {
     [EnumMap(Enums.FunctionalChannelType.ALARM_SIREN_CHANNEL)]
-
     public class AlarmSirenChannel : DeviceSabotageChannelBase
     {
     }

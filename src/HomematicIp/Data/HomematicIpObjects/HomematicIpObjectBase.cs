@@ -1,6 +1,6 @@
-﻿using System;
-using HomematicIp.Data.JsonConverters;
+﻿using HomematicIp.Data.JsonConverters;
 using Newtonsoft.Json;
+using System;
 
 namespace HomematicIp.Data.HomematicIpObjects
 {

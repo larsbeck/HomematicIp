@@ -13,7 +13,7 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
         public dynamic Cooling { get; set; }
         public bool PartMode { get; set; }
         public ClimateControlMode ControlMode { get; set; }
-        public dynamic Profiles { get; set; }
+        public Profiles Profiles { get; set; } = new Profiles();
         public string ActiveProfile { get; set; }
         public bool BoostMode { get; set; }
         public double? BoostDuration { get; set; }

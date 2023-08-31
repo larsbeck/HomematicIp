@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using HomematicIp.Data.HomematicIpObjects.Channels;
+using System.Collections.Generic;
 using System.Linq;
-using HomematicIp.Data.HomematicIpObjects.Channels;
 
 namespace HomematicIp.Data.HomematicIpObjects.Devices
 {
