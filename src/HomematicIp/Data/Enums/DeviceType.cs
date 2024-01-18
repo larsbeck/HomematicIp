@@ -112,5 +112,6 @@ namespace HomematicIp.Data.Enums
         USB_SWITCH_MEASURING, // HmIP-USBSM
         BRAND_SWITCH_2, // HmIP-BS2
         WALL_MOUNTED_UNIVERSAL_ACTUATOR, // HmIP-WUA
+        RGBW_DIMMER, // HmIP-RGBW
     }
 }

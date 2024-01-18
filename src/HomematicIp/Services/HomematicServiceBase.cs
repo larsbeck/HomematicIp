@@ -817,6 +817,29 @@ namespace HomematicIp.Services
             public int ChannelIndex { get; set; }
             public bool FloorHeatingspecificGroupActive { get; set; }
         }
+        
+        protected class SetHueSaturationDimLevelObject
+        {
+            public SetHueSaturationDimLevelObject(int channelIndex, string deviceId, double dimLevel, int hue, double saturationLevel)
+            {
+                ChannelIndex = channelIndex;
+                DeviceId = deviceId;
+                DimLevel = dimLevel;
+                Hue = hue;
+                SaturationLevel = saturationLevel;
+            }
+            public int ChannelIndex { get; set; }
+            public string DeviceId { get; set; }
+            /// <summary>
+            /// Min: 0, Max: 1
+            /// 0 = off
+            /// 0.50 = 50%
+            /// 1 = on
+            /// </summary>
+            public double DimLevel { get; set; }
+            public int Hue { get; set; }
+            public double SaturationLevel { get; set; }
+        }
 
         public class ClientCharacteristics
         {

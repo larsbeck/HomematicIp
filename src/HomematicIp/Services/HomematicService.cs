@@ -780,6 +780,18 @@ namespace HomematicIp.Services
 
             throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
         }
+        
+        public async Task<bool> SetHueSaturationDimLevel(int channelIndex, string deviceId, double dimLevel, int hue, double saturationLevel, CancellationToken cancellationToken = default)
+        {
+            var requestObject = new SetHueSaturationDimLevelObject(channelIndex, deviceId, dimLevel, hue, saturationLevel);
+            var stringContent = GetStringContent(requestObject);
+
+            var httpResponseMessage = await HttpClient.PostAsync("hmip/device/control/setHueSaturationDimLevel", stringContent, cancellationToken);
+            if (httpResponseMessage.IsSuccessStatusCode)
+                return true;
+
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+        }
 
         private readonly Subject<EventNotification> _subject = new Subject<EventNotification>();
         private Task _webSocketReceiveTask;
