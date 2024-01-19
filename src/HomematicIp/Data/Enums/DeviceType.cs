@@ -113,5 +113,6 @@ namespace HomematicIp.Data.Enums
         BRAND_SWITCH_2, // HmIP-BS2
         WALL_MOUNTED_UNIVERSAL_ACTUATOR, // HmIP-WUA
         RGBW_DIMMER, // HmIP-RGBW
+        WALL_MOUNTED_KEY_PAD, // HmIP-WKP
     }
 }
