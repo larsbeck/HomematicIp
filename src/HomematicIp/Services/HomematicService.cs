@@ -402,7 +402,7 @@ namespace HomematicIp.Services
                 var content = await httpResponseMessage.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<Data.HomematicIpObjects.Groups.Profile>(content);
             }
-            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}");
+            throw new ArgumentException($"Request failed: {httpResponseMessage.ReasonPhrase}. Content: {await httpResponseMessage.Content.ReadAsStringAsync()}");
         }
 
         /// <summary>
