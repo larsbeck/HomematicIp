@@ -114,5 +114,6 @@ namespace HomematicIp.Data.Enums
         WALL_MOUNTED_UNIVERSAL_ACTUATOR, // HmIP-WUA
         RGBW_DIMMER, // HmIP-RGBW
         WALL_MOUNTED_KEY_PAD, // HmIP-WKP
+        ENERGY_SENSORS_INTERFACE, // HmIP-ESI
     }
 }
