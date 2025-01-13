@@ -9,5 +9,9 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public double? SetPointTemperature { get; set; }
         public double? ValveActualTemperature { get; set; }
         public ValveState? ValveState { get; set; }
+        
+        public int? BoostSignalHue { get; set; }
+        public double? BoostSignalSaturation { get; set; }
+        public double? BoostSignalLevel { get; set; }
     }
 }
