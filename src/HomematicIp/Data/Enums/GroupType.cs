@@ -46,6 +46,7 @@ namespace HomematicIp.Data.Enums
         LOCK_PROFILE,
         OPEN_DOOR_NOTIFICATION_RULE_GROUP,
         EXTENDED_LINKED_GARAGE_DOOR,
-        INDOOR_CLIMATE
+        INDOOR_CLIMATE,
+        ENERGY
     }
 }

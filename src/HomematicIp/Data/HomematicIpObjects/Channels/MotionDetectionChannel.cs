@@ -11,5 +11,11 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
         public double? NumberOfBrightnessMeasurements { get; set; }
         public MotionDetectionSendInterval MotionDetectionSendInterval { get; set; }
         public bool? MotionBufferActive { get; set; }
+        // "motionSensorZones": "PYRO_1_3",
+        // "motionSensorZoneSensitivityMap": {
+        //     "PYRO_3": 70,
+        //     "PYRO_2": 70,
+        //     "PYRO_1": 70
+        // }
     }
 }
