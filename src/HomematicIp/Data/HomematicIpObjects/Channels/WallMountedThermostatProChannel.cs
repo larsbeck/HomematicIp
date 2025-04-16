@@ -2,7 +2,7 @@
 
 namespace HomematicIp.Data.HomematicIpObjects.Channels
 {
-    [EnumMap(Enums.FunctionalChannelType.WALL_MOUNTED_THERMOSTAT_PRO_CHANNEL)]
+    [EnumMap(FunctionalChannelType.WALL_MOUNTED_THERMOSTAT_PRO_CHANNEL)]
     public class WallMountedThermostatProChannel : ThermostatChannelBase
     {
         public double? ActualTemperature { get; set; }

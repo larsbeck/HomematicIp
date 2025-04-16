@@ -7,6 +7,8 @@ namespace HomematicIp.Data.Enums
     public enum HeatingValveType
     {
         NORMALLY_CLOSE,
-        NORMALLY_OPEN
+        NORMALLY_OPEN,
+        LOAD_COLLECTION,
+        LOAD_BALANCING
     }
 }

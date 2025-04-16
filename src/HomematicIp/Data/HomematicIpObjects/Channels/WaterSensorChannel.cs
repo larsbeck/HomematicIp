@@ -6,9 +6,9 @@ namespace HomematicIp.Data.HomematicIpObjects.Channels
     public class WaterSensorChannel : Channel
     {
         [JsonProperty(PropertyName = "waterlevelDetected")]
-        public bool IsWaterLevelDetected { get; set; }
+        public bool? IsWaterLevelDetected { get; set; }
         [JsonProperty(PropertyName = "moistureDetected")]
-        public bool IsMoistureDetected { get; set; }
+        public bool? IsMoistureDetected { get; set; }
         //WATER_MOISTURE_DETECTION
         public string AcousticWaterAlarmTrigger { get; set; }
         //WATER_MOISTURE_DETECTION

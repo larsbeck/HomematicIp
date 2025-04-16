@@ -14,7 +14,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Homematic HomematicIP home automation</PackageTags>
     <NeutralLanguage>en</NeutralLanguage>
-    <PackageIconUrl>https://upload.wikimedia.org/wikipedia/commons/e/ed/Skycoin_Cloud_Logo_Blue.png</PackageIconUrl>
+    <PackageIcon>Icon.png</PackageIcon>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>1.0.8</Version>
@@ -23,19 +23,23 @@ Making more properties nullable</PackageReleaseNotes>
   </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <LangVersion>8.0</LangVersion>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="2.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="System.Net.WebSockets.Client" Version="4.3.2" />
-    <PackageReference Include="System.Reactive" Version="4.0.0" />
+    <PackageReference Include="System.Reactive" Version="6.0.1" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Data\HomematicIpObjects\Rules\" />
+    <None Remove="Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icon.png" Pack="true" PackagePath="" />
   </ItemGroup>
 </Project>

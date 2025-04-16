@@ -6,10 +6,10 @@ namespace HomematicIp.Data.HomematicIpObjects.Groups
 
     public class HeatingCoolingDemandSwitchingPumpGroup : HeatingChangeOverGroup
     {
-        public double PumpLeadTime { get; set; }
-        public double PumpFollowUpTime { get; set; }
-        public double PumpProtectionDuration { get; set; }
-        public double PumpProtectionSwitchingInterval { get; set; }
+        public double? PumpLeadTime { get; set; }
+        public double? PumpFollowUpTime { get; set; }
+        public double? PumpProtectionDuration { get; set; }
+        public double? PumpProtectionSwitchingInterval { get; set; }
         public dynamic HeatDemand { get; set; }
     }
 }

@@ -18,6 +18,7 @@ The following code should be self-explanatory. If it is not, there are explanato
                 .Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug)
                 .AddTransient<HomematicService>()
                 .AddTransient<HomematicAuthService>()
+                .AddTransient<HomematicServiceBase.ClientCharacteristics>()
                 .AddTransient<ClientWebSocket>()
                 .AddTransient<Func<HttpClient>>(provider => () => new HttpClient());
         }

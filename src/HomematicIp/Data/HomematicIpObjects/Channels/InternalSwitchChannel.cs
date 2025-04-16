@@ -5,8 +5,8 @@
     {
         public bool InternalSwitchOutputEnabled { get; set; }
         public string HeatingValveType { get; set; }
-        public double ValveProtectionDuration { get; set; }
-        public double ValveProtectionSwitchingInterval { get; set; }
-        public double FrostProtectionTemperature { get; set; }
+        public double? ValveProtectionDuration { get; set; }
+        public double? ValveProtectionSwitchingInterval { get; set; }
+        public double? FrostProtectionTemperature { get; set; }
     }
 }
